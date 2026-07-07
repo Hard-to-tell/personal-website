@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#6155a6"/>
+      <stop offset=".55" stop-color="#a27fc1"/>
+      <stop offset="1" stop-color="#f49bbb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="32" fill="url(#g)"/>
+  <circle cx="930" cy="170" r="95" fill="#fff9d9" opacity=".9"/>
+  <path d="M0 480 210 310l185 144 180-245 207 230 170-147 248 188v150H0Z" fill="#28234f" opacity=".7"/>
+  <g fill="#fff" opacity=".85"><circle cx="150" cy="130" r="5"/><circle cx="330" cy="210" r="4"/><circle cx="570" cy="110" r="5"/><circle cx="730" cy="170" r="3"/></g>
+  <text x="90" y="545" fill="#fff" font-family="sans-serif" font-size="44" font-weight="700" letter-spacing="8">PERSONAL NOTE</text>
+</svg>
+

@@ -1,0 +1,146 @@
+# Reimu theme overrides. Theme defaults remain in node_modules.
+
+menu:
+  home: /
+  archives: /archives
+  about: /about
+
+subtitle:
+  typing:
+    enable: false
+    strings:
+      - 欢迎来到我的互联网存档点
+      - 偶尔写字，偶尔发呆
+      - 今天也有好好连接到世界
+    typeSpeed: 90
+    backSpeed: 45
+    backDelay: 2200
+    startDelay: 300
+    loop: true
+    shuffle: false
+    showCursor: true
+    cursorChar: "|"
+    smartBackspace: true
+
+# Use the theme's bundled Touhou artwork for now.
+banner: /images/site-banner.jpg
+favicon: /images/favicon.ico
+avatar: avatar.svg
+cover: /images/site-banner.jpg
+
+toc: true
+toc_options:
+  list_number: true
+  min_depth: 1
+  max_depth: 4
+
+excerpt_link: 继续阅读
+rss: false
+
+footer:
+  since: 2026
+  powered: true
+  count: true
+  busuanzi: false
+  icon:
+    url: ../images/taichi.png
+    rotate: true
+    mask: true
+
+sidebar:
+  position: right
+  menu: true
+  article:
+    show_common: true
+
+social:
+
+widgets:
+  - recent_posts
+  - category
+  - tag
+  - archive
+
+archive_type: monthly
+show_count: true
+recent_posts_limits: 5
+show_update_time: false
+
+layout:
+  max_width: 1280px
+
+reimu_cursor:
+  enable: true
+  cursor:
+    default: ../images/cursor/reimu-cursor-default.png
+    pointer: ../images/cursor/reimu-cursor-pointer.png
+    text: ../images/cursor/reimu-cursor-text.png
+
+# Avoid Google Fonts for more reliable loading in mainland China.
+font:
+  enable: false
+
+local_font:
+  article:
+    - -apple-system
+    - PingFang SC
+    - Microsoft YaHei
+    - sans-serif
+  code:
+    - Consolas
+    - Microsoft YaHei
+    - monospace
+
+dark_mode:
+  enable: auto
+
+# Theme accent palette. Despite Reimu's variable names using "red",
+# these values control the global accent color throughout the theme.
+internal_theme:
+  light:
+    --red-0: "#203e60"
+    --red-1: "#365f8d"
+    --red-2: "#527ba8"
+    --red-3: "#89a5c4"
+    --red-4: "#bdcde0"
+    --red-5: "#e1e8f1"
+    --red-5-5: "#edf2f7"
+    --red-6: "#f5f7fa"
+    --color-red-6-shadow: "rgba(54, 95, 141, 0.45)"
+    --color-red-3-shadow: "rgba(54, 95, 141, 0.24)"
+  dark:
+    --red-4: "rgba(137, 165, 196, 0.5)"
+    --red-5: "rgba(82, 123, 168, 0.18)"
+    --red-5-5: "rgba(82, 123, 168, 0.08)"
+    --red-6: "rgba(32, 62, 96, 0.24)"
+
+generator_search:
+  enable: true
+  field: post
+  content: true
+
+preloader:
+  enable: true
+  text:
+    zh-CN: 少女祈祷中...
+  icon:
+  rotate: true
+
+animation:
+  enable: true
+
+firework:
+  enable: true
+  disable_on_mobile: true
+
+home_categories:
+  enable: false
+
+pjax:
+  enable: false
+
+live2d:
+  enable: false
+
+live2d_widgets:
+  enable: false

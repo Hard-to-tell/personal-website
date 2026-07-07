@@ -1,0 +1,89 @@
+media:
+  - name: images
+    label: 图片
+    input: source/images
+    output: /images
+    rename: safe
+    extensions: [png, jpg, jpeg, webp, gif, svg]
+
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: source/_posts
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    subfolders: false
+    view:
+      primary: title
+      fields: [title, date, categories, tags]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+        options:
+          maxlength: 120
+      - name: date
+        label: 发布时间
+        type: date
+        required: true
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss
+      - name: categories
+        label: 分类
+        type: string
+        list: true
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: description
+        label: 摘要
+        type: text
+      - name: cover
+        label: 封面
+        type: image
+        options:
+          media: images
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: images
+          switcher: true
+
+  - name: about
+    label: 关于页面
+    type: file
+    path: source/about/index.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 更新时间
+        type: date
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss
+      - name: comments
+        label: 开启评论
+        type: boolean
+        default: false
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: images
+          switcher: true
+

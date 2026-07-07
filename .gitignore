@@ -1,0 +1,12 @@
+node_modules/
+public/
+.deploy_git/
+.cache/
+.temp/
+db.json
+_multiconfig.yml
+.*-dev.log
+.*-dev-error.log
+.env
+.env.*
+!.env.example
