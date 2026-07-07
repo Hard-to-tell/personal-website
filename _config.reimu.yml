@@ -84,9 +84,9 @@ layout:
 reimu_cursor:
   enable: true
   cursor:
-    default: ../images/cursor/nemo-default.svg
-    pointer: ../images/cursor/nemo-pointer.svg
-    text: ../images/cursor/nemo-text.svg
+    default: ../images/cursor/miku-normal.cur
+    pointer: ../images/cursor/miku-link.cur
+    text: ../images/cursor/miku-text.cur
 
 # The guestbook will become active after the Twikoo backend URL is added.
 comment:

@@ -58,9 +58,11 @@ avatar: avatar.svg
 
 鼠标指针位于 `source/images/cursor`：
 
-- `nemo-default.svg`：普通指针
-- `nemo-pointer.svg`：链接和按钮
-- `nemo-text.svg`：文本输入
+- `miku-normal.cur`：普通区域
+- `miku-link.cur`：链接和按钮
+- `miku-text.cur`：文本输入
+
+当前使用《HATSUNE MIKU: COLORFUL STAGE!》官网提供的 Virtual Singer Static Cursor 素材。
 
 对应路径在 `_config.reimu.yml` 的 `reimu_cursor` 中。将 `enable` 改为 `false` 可以恢复系统默认指针。
 
