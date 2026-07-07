@@ -13,6 +13,9 @@ menu:
   - name: friend
     url: /friend
     icon: /images/icons/friend.svg
+  - name: comment
+    url: /message
+    icon: /images/icons/message.svg
 
 subtitle:
   typing:
@@ -84,6 +87,15 @@ reimu_cursor:
     default: ../images/cursor/nemo-default.svg
     pointer: ../images/cursor/nemo-pointer.svg
     text: ../images/cursor/nemo-text.svg
+
+# The guestbook will become active after the Twikoo backend URL is added.
+comment:
+  default: twikoo
+
+twikoo:
+  enable: true
+  envId:
+  region:
 
 # Avoid Google Fonts for more reliable loading in mainland China.
 font:

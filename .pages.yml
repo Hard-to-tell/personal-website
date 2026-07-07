@@ -6,6 +6,17 @@ media:
     rename: safe
     extensions: [png, jpg, jpeg, webp, gif, svg]
 
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "新增内容：{path}"
+      update: "更新内容：{path}"
+      delete: "删除内容：{path}"
+      rename: "重命名内容：{oldPath} -> {newPath}"
+
 content:
   - name: posts
     label: 文章
@@ -63,6 +74,8 @@ content:
     type: file
     path: source/about/index.md
     format: yaml-frontmatter
+    operations:
+      delete: false
     fields:
       - name: title
         label: 标题
@@ -87,3 +100,64 @@ content:
           media: images
           switcher: true
 
+  - name: friend
+    label: 友链页面
+    type: file
+    path: source/friend/index.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 更新时间
+        type: date
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss
+      - name: comments
+        label: 开启评论
+        type: boolean
+        default: false
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: images
+          switcher: true
+
+  - name: message
+    label: 留言页面
+    type: file
+    path: source/message/index.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 更新时间
+        type: date
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss
+      - name: comments
+        label: 开启留言
+        type: boolean
+        default: true
+      - name: body
+        label: 说明文字
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: images
+          switcher: true

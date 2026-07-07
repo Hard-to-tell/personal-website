@@ -68,6 +68,14 @@ avatar: avatar.svg
 
 本地文章位于 `source/_posts`。部署到 GitHub 后，可以使用根目录的 `.pages.yml` 接入 Pages CMS，在浏览器中编辑文章。
 
+网页编辑入口：`https://app.pagescms.org/`
+
+第一次使用需要登录 GitHub、安装 Pages CMS GitHub App，并选择 `Hard-to-tell/personal-website`。保存文章后会直接提交到 GitHub，随后自动部署网站。
+
+## 留言板
+
+留言页面位于 `source/message/index.md`。评论使用 Twikoo；后端部署完成后，把 Netlify 地址填到 `_config.reimu.yml` 的 `twikoo.envId` 即可启用。
+
 ## 本地预览
 
 ```powershell
