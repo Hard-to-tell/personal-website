@@ -34,11 +34,11 @@ subtitle:
     cursorChar: "|"
     smartBackspace: true
 
-# Use the theme's bundled Touhou artwork for now.
-banner: /images/site-banner.jpg
+# The first image shown before the wallpaper rotator starts.
+banner: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.jpg
 favicon: /images/favicon.ico
-avatar: avatar.svg
-cover: /images/site-banner.jpg
+avatar: avatar.jpg
+cover: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.jpg
 
 toc: true
 toc_options:
@@ -153,6 +153,21 @@ animation:
 firework:
   enable: true
   disable_on_mobile: true
+
+# Reimu concatenates arrays in firework.options with its defaults. The build
+# hook in scripts/custom-style.js replaces the defaults with this object.
+quiet_firework_options:
+  excludeElements: ["a", "button", "input", "textarea", "select", "label"]
+  particles:
+    - shape: circle
+      move: ["emit"]
+      easing: easeOutExpo
+      colors: ["var(--red-1)", "var(--red-2)", "var(--red-3)"]
+      number: 6
+      duration: [400, 650]
+      shapeOptions:
+        radius: [2, 5]
+        alpha: [0.18, 0.38]
 
 home_categories:
   enable: false

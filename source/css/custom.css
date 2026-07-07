@@ -1,4 +1,14 @@
 /* Quiet decorative motion layered over Reimu's existing layout. */
+#header > img.wallpaper-rotator-layer {
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+#header > img.wallpaper-rotator-layer.is-visible {
+  opacity: 1;
+}
+
 #wrap::before,
 #wrap::after {
   content: "";
