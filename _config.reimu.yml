@@ -94,7 +94,7 @@ comment:
 
 twikoo:
   enable: true
-  envId:
+  envId: https://keen-sopapillas-38639e.netlify.app/.netlify/functions/twikoo
   region:
 
 # Avoid Google Fonts for more reliable loading in mainland China.
