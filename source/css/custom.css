@@ -1,0 +1,153 @@
+/* Quiet decorative motion layered over Reimu's existing layout. */
+#wrap::before,
+#wrap::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(225, 232, 241, 0.85);
+  filter: drop-shadow(-7px 3px 5px rgba(82, 123, 168, 0.35));
+}
+
+#wrap::before {
+  box-shadow:
+    -96vw 82vh 0 0 rgba(225, 232, 241, 0.6),
+    -83vw 35vh 0 1px rgba(137, 165, 196, 0.42),
+    -69vw 68vh 0 0 rgba(245, 247, 250, 0.5),
+    -55vw 91vh 0 1px rgba(82, 123, 168, 0.4),
+    -42vw 46vh 0 0 rgba(225, 232, 241, 0.65),
+    -28vw 73vh 0 1px rgba(137, 165, 196, 0.48),
+    -14vw 22vh 0 0 rgba(245, 247, 250, 0.52),
+    0 58vh 0 1px rgba(82, 123, 168, 0.38);
+  animation: nemo-stardust-near 38s linear infinite;
+}
+
+#wrap::after {
+  width: 3px;
+  height: 3px;
+  background: rgba(137, 165, 196, 0.6);
+  box-shadow:
+    -92vw 54vh 0 0 rgba(137, 165, 196, 0.4),
+    -71vw 88vh 0 0 rgba(225, 232, 241, 0.38),
+    -49vw 28vh 0 1px rgba(82, 123, 168, 0.32),
+    -25vw 65vh 0 0 rgba(245, 247, 250, 0.4),
+    -3vw 94vh 0 1px rgba(137, 165, 196, 0.3);
+  animation: nemo-stardust-far 56s linear -19s infinite;
+}
+
+#wrap {
+  background: transparent;
+}
+
+#header-title,
+#content,
+#footer {
+  z-index: 3;
+}
+
+#footer {
+  position: relative;
+}
+
+.footer-line {
+  position: relative;
+  width: 100%;
+  height: 84px;
+  margin: 2px 0 22px;
+  opacity: 0.48;
+  overflow: hidden;
+  background: url("../images/decor/asteroid-belt.svg") repeat-x 0 50% / 520px 70px;
+  filter: drop-shadow(0 0 3px rgba(54, 95, 141, 0.35));
+  animation: nemo-asteroids 30s linear infinite;
+  transform: rotate(-0.6deg);
+  transition: opacity 0.4s;
+  -webkit-mask-image: radial-gradient(ellipse 55% 78% at center, #000 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 55% 78% at center, #000 68%, transparent 100%);
+}
+
+.footer-line::before,
+.footer-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  opacity: 0.45;
+}
+
+.footer-line::before {
+  background-size: 390px 54px;
+  animation: nemo-asteroids-near 22s linear infinite;
+}
+
+.footer-line::after {
+  background-size: 680px 76px;
+  opacity: 0.22;
+  animation: nemo-asteroids-far 44s linear infinite reverse;
+}
+
+#footer:hover .footer-line {
+  opacity: 0.62;
+}
+
+@keyframes nemo-asteroids {
+  to { background-position-x: -520px; }
+}
+
+@keyframes nemo-asteroids-near {
+  to { background-position-x: -390px; }
+}
+
+@keyframes nemo-asteroids-far {
+  to { background-position-x: -680px; }
+}
+
+@keyframes nemo-stardust-near {
+  0% { transform: translate3d(-8vw, 12vh, 0); opacity: 0; }
+  8%, 90% { opacity: 0.72; }
+  100% { transform: translate3d(116vw, -26vh, 0); opacity: 0; }
+}
+
+@keyframes nemo-stardust-far {
+  0% { transform: translate3d(-6vw, 8vh, 0); opacity: 0; }
+  10%, 88% { opacity: 0.46; }
+  100% { transform: translate3d(112vw, -18vh, 0); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .footer-line {
+    height: 62px;
+    background-size: 420px 54px;
+  }
+
+  .footer-line::before {
+    background-size: 330px 44px;
+  }
+
+  .footer-line::after {
+    background-size: 540px 58px;
+  }
+
+  #wrap::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #wrap::before,
+  #wrap::after,
+  .footer-line,
+  .footer-line::before,
+  .footer-line::after {
+    animation: none;
+  }
+
+  #wrap::before,
+  #wrap::after {
+    display: none;
+  }
+}
