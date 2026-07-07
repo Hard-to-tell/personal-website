@@ -50,6 +50,20 @@ cover: /images/site-banner.jpg
 avatar: avatar.svg
 ```
 
+## 菜单图标
+
+首页、归档、关于和友链页的图标位于 `source/images/icons`，对应关系在 `_config.reimu.yml` 的 `menu` 中。可以直接替换同名 SVG，也可以改成其他图片路径。
+
+## 鼠标指针
+
+鼠标指针位于 `source/images/cursor`：
+
+- `nemo-default.svg`：普通指针
+- `nemo-pointer.svg`：链接和按钮
+- `nemo-text.svg`：文本输入
+
+对应路径在 `_config.reimu.yml` 的 `reimu_cursor` 中。将 `enable` 改为 `false` 可以恢复系统默认指针。
+
 ## 写文章
 
 本地文章位于 `source/_posts`。部署到 GitHub 后，可以使用根目录的 `.pages.yml` 接入 Pages CMS，在浏览器中编辑文章。

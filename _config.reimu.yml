@@ -1,9 +1,18 @@
 # Reimu theme overrides. Theme defaults remain in node_modules.
 
 menu:
-  home: /
-  archives: /archives
-  about: /about
+  - name: home
+    url: /
+    icon: /images/icons/home.svg
+  - name: archives
+    url: /archives
+    icon: /images/icons/archive.svg
+  - name: about
+    url: /about
+    icon: /images/icons/about.svg
+  - name: friend
+    url: /friend
+    icon: /images/icons/friend.svg
 
 subtitle:
   typing:
@@ -72,9 +81,9 @@ layout:
 reimu_cursor:
   enable: true
   cursor:
-    default: ../images/cursor/reimu-cursor-default.png
-    pointer: ../images/cursor/reimu-cursor-pointer.png
-    text: ../images/cursor/reimu-cursor-text.png
+    default: ../images/cursor/nemo-default.svg
+    pointer: ../images/cursor/nemo-pointer.svg
+    text: ../images/cursor/nemo-text.svg
 
 # Avoid Google Fonts for more reliable loading in mainland China.
 font:
