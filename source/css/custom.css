@@ -9,6 +9,144 @@
   opacity: 1;
 }
 
+/* A wallpaper-first home page, while inner pages retain compact banners. */
+html.nemo-home {
+  --home-overlap: 120px;
+  --home-overlap-negative: -120px;
+}
+
+html.nemo-home #header {
+  height: calc(100svh + var(--home-overlap));
+  min-height: 740px;
+  isolation: isolate;
+}
+
+html.nemo-home #header > img {
+  height: 100%;
+  object-position: center;
+  -webkit-mask: none;
+  mask: none;
+}
+
+html.nemo-home #header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 14, 24, 0.34), transparent 32%),
+    linear-gradient(0deg, rgba(8, 14, 24, 0.72), transparent 42%);
+}
+
+html.nemo-home #header-outer::after {
+  content: "SCROLL  ↓";
+  position: absolute;
+  bottom: calc(var(--home-overlap) + 28px);
+  left: 50%;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  transform: translateX(-50%);
+  animation: nemo-scroll-cue 2.2s ease-in-out infinite;
+}
+
+html.nemo-home #content {
+  z-index: 3;
+  margin-top: var(--home-overlap-negative);
+  padding-top: 0;
+  isolation: isolate;
+}
+
+html.nemo-home #content::before {
+  content: "";
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  z-index: -1;
+  width: 100vw;
+  height: 300px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--color-background));
+  transform: translateX(-50%);
+}
+
+/* Text-first navigation replaces the theme's mixed icon set. */
+#main-nav .main-nav-icon {
+  display: none;
+}
+
+#main-nav .main-nav-link-wrap {
+  position: relative;
+  padding: 0 17px;
+}
+
+#main-nav .main-nav-link {
+  padding: 20px 1px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+#main-nav .main-nav-link-wrap::after {
+  content: "";
+  position: absolute;
+  right: 17px;
+  bottom: 13px;
+  left: 17px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+#main-nav .main-nav-link-wrap:hover::after {
+  transform: scaleX(1);
+}
+
+html.nemo-home:not(.nemo-scrolled) #header-nav,
+html.nemo-home:not(.nemo-scrolled) #header-nav:hover {
+  background: linear-gradient(180deg, rgba(5, 10, 18, 0.5), transparent);
+  box-shadow: none;
+}
+
+html.nemo-home:not(.nemo-scrolled) #header-nav .main-nav-link,
+html.nemo-home:not(.nemo-scrolled) #header-nav .main-nav-link-wrap,
+html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
+  color: #fff;
+}
+
+#sidebar .sidebar-wrap {
+  border: 1px solid rgba(137, 165, 196, 0.16);
+  border-radius: 22px;
+  box-shadow: 0 18px 45px rgba(16, 32, 52, 0.1);
+}
+
+/* Article pages keep a single-purpose table of contents on small screens. */
+#mobile-nav .sidebar-common-sidebar,
+#mobile-nav .sidebar-btn-wrapper {
+  display: none;
+}
+
+/* The custom preloader remains compact and locally hosted. */
+#loader .loading-taichi img {
+  width: 112px;
+  height: 112px;
+}
+
+#loader .spinner-box .loading-word {
+  top: calc(50% + 88px);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+
+@keyframes nemo-scroll-cue {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.58; }
+  50% { transform: translate(-50%, 7px); opacity: 1; }
+}
+
 #wrap::before,
 #wrap::after {
   content: "";
@@ -129,6 +267,20 @@
 }
 
 @media (max-width: 600px) {
+  html.nemo-home {
+    --home-overlap: 72px;
+    --home-overlap-negative: -72px;
+  }
+
+  html.nemo-home #header {
+    height: calc(88svh + var(--home-overlap));
+    min-height: 592px;
+  }
+
+  html.nemo-home #content {
+    padding-top: 0;
+  }
+
   .footer-line {
     height: 62px;
     background-size: 420px 54px;
@@ -148,6 +300,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.nemo-home #header-outer::after {
+    animation: none;
+  }
+
   #wrap::before,
   #wrap::after,
   .footer-line,

@@ -17,6 +17,11 @@
 
     let index = wallpapers.findIndex((url) => base.src.endsWith(url));
     if (index < 0) index = 0;
+    const storedIndex = Number.parseInt(
+      window.localStorage.getItem("nemo-wallpaper-index"),
+      10
+    );
+    if (Number.isInteger(storedIndex)) index = storedIndex;
     let changing = false;
 
     const change = () => {
@@ -32,6 +37,7 @@
         window.setTimeout(() => {
           base.src = nextUrl;
           index = nextIndex;
+          window.localStorage.setItem("nemo-wallpaper-index", String(index));
           layer.classList.remove("is-visible");
           changing = false;
         }, 1300);
@@ -43,7 +49,8 @@
       preload.src = nextUrl;
     };
 
-    window.setInterval(change, 30000);
+    change();
+    window.setInterval(change, 300000);
   };
 
   if (document.readyState === "loading") {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" role="img" aria-labelledby="title">
+  <title id="title">衔尾蛇</title>
+  <g fill="none" stroke="#527ba8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 48A52 52 0 1 0 126 79" stroke-width="10"/>
+    <path d="M117 48c-8-9-7-20 2-28 11 7 18 17 18 29-1 11-7 20-17 26-8-5-12-12-12-21z" fill="#527ba8" stroke-width="3"/>
+    <path d="M111 52l20-3" stroke="#edf2f7" stroke-width="3"/>
+    <circle cx="124" cy="37" r="2.5" fill="#edf2f7" stroke="none"/>
+    <path d="M65 22l5 10m-22-3 8 9m-24 7 11 7m-19 11 12 3m-14 16 12-1m-5 19 11-5m0 19 9-8m8 16 6-10m11 14 3-12" stroke-width="3" opacity=".8"/>
+  </g>
+</svg>

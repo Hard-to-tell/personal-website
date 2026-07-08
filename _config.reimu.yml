@@ -35,10 +35,10 @@ subtitle:
     smartBackspace: true
 
 # The first image shown before the wallpaper rotator starts.
-banner: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.jpg
+banner: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.webp
 favicon: /images/favicon.ico
 avatar: avatar.jpg
-cover: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.jpg
+cover: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.webp
 
 toc: true
 toc_options:
@@ -61,9 +61,9 @@ footer:
 
 sidebar:
   position: right
-  menu: true
+  menu: false
   article:
-    show_common: true
+    show_common: false
 
 social:
 
@@ -143,8 +143,8 @@ generator_search:
 preloader:
   enable: true
   text:
-    zh-CN: 少女祈祷中...
-  icon:
+    zh-CN: 正在前往流放地…
+  icon: /images/icons/ouroboros.svg
   rotate: true
 
 animation:
