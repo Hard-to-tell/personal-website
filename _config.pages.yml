@@ -1,4 +1,3 @@
 # GitHub Pages deployment overrides. Local development keeps root: /.
-url: https://hard-to-tell.github.io/personal-website
-root: /personal-website/
-
+url: https://exileland.online
+root: /
