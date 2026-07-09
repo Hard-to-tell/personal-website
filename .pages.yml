@@ -23,7 +23,9 @@ content:
     type: collection
     path: source/_posts
     format: yaml-frontmatter
-    filename: "{primary}.md"
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+      field: false
     subfolders: false
     view:
       primary: title
@@ -35,12 +37,14 @@ content:
         label: 标题
         type: string
         required: true
+        description: 文章显示出来的标题，可以直接写中文。文件名会自动生成，不需要在标题里写英文网址名。
         options:
           maxlength: 120
       - name: date
         label: 发布时间
         type: date
         required: true
+        description: 文章按这个时间排序。新文章通常保持默认时间即可；想让旧文章排前面或后面时再改。
         options:
           time: true
           format: yyyy-MM-dd HH:mm:ss
@@ -48,22 +52,27 @@ content:
         label: 分类
         type: string
         list: true
+        description: 大分类，建议 1 个就够，例如 日常、读书、建站。留空也可以。
       - name: tags
         label: 标签
         type: string
         list: true
+        description: 更细的关键词，可以写多个，例如 Hexo、动画、摘录。留空也可以。
       - name: description
         label: 摘要
         type: text
+        description: 首页或搜索里可能显示的短介绍。不会写就留空，正文开头也能承担摘要作用。
       - name: cover
         label: 封面
         type: image
+        description: 可选。选择已上传的图片，或上传到 source/images。没有合适图片就留空。
         options:
           media: images
       - name: body
         label: 正文
         type: rich-text
         required: true
+        description: 文章正文。可以直接写文字，也可以用 Markdown；需要摘要截断时插入 <!-- more -->。
         options:
           format: markdown
           media: images
