@@ -1,0 +1,42 @@
+---
+title: 校准仪
+layout: page
+comments: false
+sidebar: false
+banner: /images/photos/47a635dd3e2909865fa54a67bbdf0b08.webp
+---
+
+<section class="nemo-game-shell" aria-labelledby="nemo-calibration-title">
+  <div class="nemo-game-hero">
+    <p class="nemo-kicker">attention test</p>
+    <h2 id="nemo-calibration-title">流放地校准仪</h2>
+    <p>按顺序点完所有格子。它不是审判，只是一次很轻的注意力校准。</p>
+  </div>
+  <div class="nemo-calibration" data-nemo-calibration>
+    <div class="nemo-calibration-panel">
+      <div>
+        <span class="nemo-label">当前目标</span>
+        <strong data-nemo-target>1</strong>
+      </div>
+      <div>
+        <span class="nemo-label">用时</span>
+        <strong data-nemo-time>0.0s</strong>
+      </div>
+      <div>
+        <span class="nemo-label">误触</span>
+        <strong data-nemo-mistakes>0</strong>
+      </div>
+    </div>
+    <div class="nemo-game-controls" aria-label="难度选择">
+      <button type="button" data-nemo-size="4">访客 4×4</button>
+      <button type="button" data-nemo-size="5" class="is-active">书记员 5×5</button>
+      <button type="button" data-nemo-size="6">观测者 6×6</button>
+    </div>
+    <div class="nemo-grid" data-nemo-grid aria-label="校准方格"></div>
+    <div class="nemo-game-result" data-nemo-result aria-live="polite">
+      选择一个难度，然后从 1 开始。
+    </div>
+  </div>
+</section>
+
+<script defer src="/js/calibration-game.js"></script>

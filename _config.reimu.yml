@@ -7,6 +7,9 @@ menu:
   - name: archives
     url: /archives
     icon: /images/icons/archive.svg
+  - name: 校准
+    url: /games/calibration/
+    icon: false
   - name: about
     url: /about
     icon: /images/icons/about.svg

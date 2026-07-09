@@ -19,7 +19,8 @@ hexo.extend.injector.register(
 
 hexo.extend.injector.register(
   "body_end",
-  () => `<script defer src="${hexo.config.root}js/home-hero.js"></script>`,
+  () =>
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script>`,
   "default"
 );
 
