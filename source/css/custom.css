@@ -131,16 +131,41 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
 }
 
 /* The custom preloader remains compact and locally hosted. */
+#loader .spinner-box .loading-taichi {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 238px;
+  height: 238px;
+  opacity: 0.82;
+  transform: translate(-50%, -50%);
+}
+
+#loader .spinner-box .loading-taichi.rotate {
+  animation: nemo-loader-rotate 2.8s linear infinite reverse;
+}
+
 #loader .loading-taichi img {
-  width: 112px;
-  height: 112px;
+  width: 238px;
+  height: 238px;
   object-fit: contain;
 }
 
 #loader .spinner-box .loading-word {
-  top: calc(50% + 88px);
+  top: 50%;
+  z-index: 1;
   font-size: 1rem;
   letter-spacing: 0.12em;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+[data-theme='dark'] #loader .spinner-box .loading-word {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.72);
+}
+
+@keyframes nemo-loader-rotate {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @keyframes nemo-scroll-cue {
