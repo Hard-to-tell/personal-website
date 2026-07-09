@@ -10,3 +10,4 @@ _multiconfig.yml
 .env
 .env.*
 !.env.example
+design-assets/originals/

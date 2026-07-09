@@ -134,6 +134,7 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
 #loader .loading-taichi img {
   width: 112px;
   height: 112px;
+  object-fit: contain;
 }
 
 #loader .spinner-box .loading-word {

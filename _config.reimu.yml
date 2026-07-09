@@ -36,7 +36,7 @@ subtitle:
 
 # The first image shown before the wallpaper rotator starts.
 banner: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.webp
-favicon: /images/favicon.ico
+favicon: /images/favicon.png
 avatar: avatar.jpg
 cover: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.webp
 
@@ -55,9 +55,9 @@ footer:
   count: true
   busuanzi: false
   icon:
-    url: ../images/taichi.png
+    url: ../images/icons/ouroboros-loader.webp
     rotate: true
-    mask: true
+    mask: false
 
 sidebar:
   position: right
@@ -144,7 +144,7 @@ preloader:
   enable: true
   text:
     zh-CN: 正在前往流放地…
-  icon: /images/icons/ouroboros.svg
+  icon: /images/icons/ouroboros-loader.webp
   rotate: true
 
 animation:
