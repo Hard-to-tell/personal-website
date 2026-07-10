@@ -13,25 +13,13 @@
     return `${year}年${Number(value)}月`;
   };
 
-  function createFilter(month, label) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "nemo-gallery-filter";
-    button.textContent = label;
-    button.setAttribute("aria-pressed", String(activeMonth === month));
-    button.addEventListener("click", () => {
-      activeMonth = month;
-      mount();
-    });
-    return button;
-  }
-
   function image(source, className, alt) {
     const element = document.createElement("img");
     element.className = className;
     element.src = source;
     element.alt = alt;
     element.decoding = "async";
+    element.loading = "lazy";
     return element;
   }
 
@@ -40,21 +28,30 @@
     const item = document.createElement("article");
     item.className = "nemo-gallery-item";
     item.tabIndex = 0;
+    item.setAttribute("role", "button");
     item.setAttribute("aria-label", label);
+    item.setAttribute("aria-expanded", "false");
 
     const card = document.createElement("figure");
     card.className = "nemo-gallery-card";
     const frame = document.createElement("div");
     frame.className = "nemo-gallery-image";
     const thumbnail = image(entry.thumbnail, "nemo-gallery-thumb", label);
-    const full = image(entry.full, "nemo-gallery-full", "");
-    full.addEventListener("load", () => {
-      item.style.setProperty(
-        "--nemo-gallery-ratio",
-        `${full.naturalWidth} / ${full.naturalHeight}`
-      );
-    });
-    frame.append(thumbnail, full);
+    frame.append(thumbnail);
+
+    let full;
+    function ensureFull() {
+      if (full) return;
+      full = image(entry.full, "nemo-gallery-full", "");
+      full.fetchPriority = "low";
+      full.addEventListener("load", () => {
+        item.style.setProperty(
+          "--nemo-gallery-ratio",
+          `${full.naturalWidth} / ${full.naturalHeight}`
+        );
+      });
+      frame.append(full);
+    }
 
     const caption = document.createElement("figcaption");
     caption.className = "nemo-gallery-caption";
@@ -70,7 +67,14 @@
     card.append(frame, caption);
     item.append(card);
 
-    const toggle = () => item.classList.toggle("is-open");
+    const toggle = () => {
+      const opening = !item.classList.contains("is-open");
+      if (opening) ensureFull();
+      item.classList.toggle("is-open", opening);
+      item.setAttribute("aria-expanded", String(opening));
+    };
+    item.addEventListener("mouseenter", ensureFull, { once: true });
+    item.addEventListener("focus", ensureFull, { once: true });
     item.addEventListener("click", toggle);
     item.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -99,11 +103,20 @@
     toolbar.className = "nemo-gallery-toolbar";
     const label = document.createElement("span");
     label.textContent = "photo fragments";
-    const filters = document.createElement("div");
-    filters.className = "nemo-gallery-filters";
-    filters.append(createFilter("all", "全部"));
-    months.forEach((month) => filters.append(createFilter(month, formatMonth(month))));
-    toolbar.append(label, filters);
+    const selector = document.createElement("label");
+    selector.className = "nemo-gallery-selector";
+    selector.textContent = "查看：";
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "按年月筛选照片");
+    [["all", "全部照片"], ...months.map((month) => [month, formatMonth(month)])].forEach(
+      ([value, text]) => select.add(new Option(text, value, false, value === activeMonth))
+    );
+    select.addEventListener("change", () => {
+      activeMonth = select.value;
+      mount();
+    });
+    selector.append(select);
+    toolbar.append(label, selector);
 
     const wall = document.createElement("div");
     wall.className = "nemo-gallery-wall";

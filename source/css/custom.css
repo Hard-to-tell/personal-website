@@ -616,31 +616,68 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   text-transform: lowercase;
 }
 
-.nemo-gallery-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+.nemo-gallery-selector {
+  display: inline-flex;
+  align-items: center;
   gap: 7px;
-  max-width: 100%;
+  color: rgba(82, 123, 168, 0.8);
+  font-size: 0.8rem;
 }
 
-.nemo-gallery-filter {
+.nemo-gallery-selector select {
+  min-width: 132px;
   border: 1px solid rgba(137, 165, 196, 0.28);
   border-radius: 999px;
-  padding: 5px 11px;
+  padding: 6px 30px 6px 12px;
   color: var(--color-text);
-  background: rgba(255, 255, 255, 0.45);
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.56);
   font: inherit;
-  font-size: 0.78rem;
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
 
-.nemo-gallery-filter:hover,
-.nemo-gallery-filter[aria-pressed="true"] {
-  background: rgba(217, 229, 240, 0.82);
-  box-shadow: 0 5px 14px rgba(16, 32, 52, 0.1);
-  transform: translateY(-1px);
+[data-theme='dark'] .nemo-gallery-selector select {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nemo-ambient-player {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: 12;
+}
+
+.nemo-ambient-player button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(137, 165, 196, 0.28);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--color-text);
+  background: rgba(250, 252, 255, 0.86);
+  box-shadow: 0 10px 28px rgba(16, 32, 52, 0.16);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  font: 600 0.78rem/1 var(--font-family, inherit);
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nemo-ambient-player button:hover,
+.nemo-ambient-player button:focus-visible {
+  background: rgba(225, 232, 241, 0.96);
+  box-shadow: 0 14px 32px rgba(16, 32, 52, 0.2);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.nemo-ambient-player button.is-playing > span:first-child {
+  animation: nemo-note-pulse 1.6s ease-in-out infinite;
+}
+
+[data-theme='dark'] .nemo-ambient-player button {
+  color: #edf2f7;
+  background: rgba(18, 27, 42, 0.84);
 }
 
 .nemo-gallery-wall {
@@ -799,8 +836,7 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   opacity: 1;
 }
 
-[data-theme='dark'] .nemo-gallery-card,
-[data-theme='dark'] .nemo-gallery-filter {
+[data-theme='dark'] .nemo-gallery-card {
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -818,6 +854,11 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
+}
+
+@keyframes nemo-note-pulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px) rotate(-8deg); }
 }
 
 @keyframes nemo-asteroids {
@@ -913,10 +954,6 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
-  }
-
-  .nemo-gallery-filters {
-    justify-content: flex-start;
   }
 
   .nemo-gallery-wall {

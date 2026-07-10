@@ -69,6 +69,7 @@ sidebar:
     show_common: false
 
 social:
+  github: https://github.com/Hard-to-tell
 
 widgets:
   - recent_posts

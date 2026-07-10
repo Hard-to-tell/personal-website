@@ -21,7 +21,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script defer src="${hexo.config.root}js/ambient-player.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
   "default"
 );
 
