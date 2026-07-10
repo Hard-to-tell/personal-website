@@ -1,4 +1,6 @@
 (() => {
+  if (!document.documentElement.classList.contains("nemo-home")) return;
+
   const wallpapers = window.__NEMO_WALLPAPERS__;
   if (!Array.isArray(wallpapers) || wallpapers.length < 2) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

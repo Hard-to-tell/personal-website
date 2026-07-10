@@ -30,7 +30,7 @@
   let next = 1;
   let mistakes = 0;
   let startTime = 0;
-  let timer = 0;
+  let timer = null;
   let finished = false;
 
   function shuffle(values) {
@@ -45,17 +45,24 @@
   function updateTime() {
     if (!startTime || finished) return;
     timeEl.textContent = `${((Date.now() - startTime) / 1000).toFixed(1)}s`;
-    timer = window.requestAnimationFrame(updateTime);
   }
 
   function startClock() {
     if (startTime) return;
     startTime = Date.now();
     updateTime();
+    timer = window.setInterval(updateTime, 100);
+  }
+
+  function stopClock() {
+    if (timer !== null) {
+      window.clearInterval(timer);
+      timer = null;
+    }
   }
 
   function render() {
-    window.cancelAnimationFrame(timer);
+    stopClock();
     next = 1;
     mistakes = 0;
     startTime = 0;
@@ -103,7 +110,7 @@
 
     if (next > size * size) {
       finished = true;
-      window.cancelAnimationFrame(timer);
+      stopClock();
       const seconds = ((Date.now() - startTime) / 1000).toFixed(1);
       const verdict = verdicts[Math.floor(Math.random() * verdicts.length)];
       resultEl.textContent = `${verdict} 用时 ${seconds}s，误触 ${mistakes} 次。`;
