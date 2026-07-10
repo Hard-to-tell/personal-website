@@ -1,22 +1,26 @@
 (() => {
-  let activeYear = "all";
+  let activeMonth = "all";
 
   const entries = () =>
     (Array.isArray(window.__NEMO_GALLERY__) ? window.__NEMO_GALLERY__ : [])
       .filter((entry) => entry && entry.thumbnail && entry.full && entry.date)
       .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
-  const getYear = (date) => String(date).slice(0, 4);
+  const getMonth = (date) => String(date).slice(0, 7);
   const formatDate = (date) => String(date).slice(0, 10).replaceAll("-", ".");
+  const formatMonth = (month) => {
+    const [year, value] = month.split("-");
+    return `${year}年${Number(value)}月`;
+  };
 
-  function createFilter(year, label) {
+  function createFilter(month, label) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "nemo-gallery-filter";
     button.textContent = label;
-    button.setAttribute("aria-pressed", String(activeYear === year));
+    button.setAttribute("aria-pressed", String(activeMonth === month));
     button.addEventListener("click", () => {
-      activeYear = year;
+      activeMonth = month;
       mount();
     });
     return button;
@@ -81,14 +85,14 @@
     const root = document.querySelector("[data-nemo-gallery]");
     if (!root) return;
     const allEntries = entries();
-    const years = [...new Set(allEntries.map((entry) => getYear(entry.date)))].sort(
+    const months = [...new Set(allEntries.map((entry) => getMonth(entry.date)))].sort(
       (a, b) => b.localeCompare(a)
     );
-    if (activeYear !== "all" && !years.includes(activeYear)) activeYear = "all";
+    if (activeMonth !== "all" && !months.includes(activeMonth)) activeMonth = "all";
     const visible =
-      activeYear === "all"
+      activeMonth === "all"
         ? allEntries
-        : allEntries.filter((entry) => getYear(entry.date) === activeYear);
+        : allEntries.filter((entry) => getMonth(entry.date) === activeMonth);
 
     root.replaceChildren();
     const toolbar = document.createElement("div");
@@ -98,7 +102,7 @@
     const filters = document.createElement("div");
     filters.className = "nemo-gallery-filters";
     filters.append(createFilter("all", "全部"));
-    years.forEach((year) => filters.append(createFilter(year, year)));
+    months.forEach((month) => filters.append(createFilter(month, formatMonth(month))));
     toolbar.append(label, filters);
 
     const wall = document.createElement("div");

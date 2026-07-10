@@ -515,7 +515,7 @@ git status
 source/_data/gallery.yml
 ```
 
-平时只需要打开 Pages CMS，选择“照片墙”：新建一项后直接上传 JPG、PNG 或 WebP 原图，填写日期；“一句话”可留空。保存后 GitHub Pages 会自动完成两步：
+平时只需要打开 Pages CMS，选择“照片墙”：新建一项后直接上传 JPG、PNG 或 WebP 原图，填写日期；“一句话”可留空。页面按月份筛选，保存后 GitHub Pages 会自动完成两步：
 
 - 生成方形 WebP 缩略图，用在散乱叠放的照片墙；
 - 生成压缩的原比例 WebP，鼠标移到照片上或手机点一下时显示，并同时出现文字和日期。

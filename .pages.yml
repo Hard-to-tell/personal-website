@@ -137,7 +137,7 @@ content:
         label: 记录日期
         type: date
         required: true
-        description: 照片墙会按此日期排列，并自动生成年份筛选。
+        description: 照片墙会按此日期排列，并自动生成月份筛选。
         options:
           time: false
           format: yyyy-MM-dd
