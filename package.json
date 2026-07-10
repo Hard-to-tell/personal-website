@@ -3,10 +3,10 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "dev": "hexo server",
+    "dev": "npm run gallery:build && hexo server",
     "clean": "hexo clean",
-    "build": "hexo generate",
-    "gallery:prepare": "python tools/prepare-gallery-images.py"
+    "build": "npm run gallery:build && hexo generate",
+    "gallery:build": "python tools/build-gallery-images.py"
   },
   "hexo": {
     "version": "8.1.2"

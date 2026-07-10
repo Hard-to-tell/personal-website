@@ -6,11 +6,11 @@ media:
     rename: safe
     extensions: [png, jpg, jpeg, webp, gif, svg]
   - name: gallery_images
-    label: 照片墙图片
-    input: source/images/gallery
-    output: /images/gallery
+    label: 照片墙原图
+    input: source/images/gallery/originals
+    output: /images/gallery/originals
     rename: safe
-    extensions: [webp]
+    extensions: [jpg, jpeg, png, webp]
 
 settings:
   content:
@@ -128,10 +128,10 @@ content:
         label: 照片
         type: image
         required: true
-        description: 先用本地脚本压成 WebP，再在这里选择或上传到照片墙目录。
+        description: 直接上传原图即可；部署时会自动生成方形缩略图和原比例 WebP。
         options:
           media: gallery_images
-          extensions: [webp]
+          extensions: [jpg, jpeg, png, webp]
           rename: safe
       - name: date
         label: 记录日期
@@ -147,18 +147,6 @@ content:
         description: 可留空；填写后会在鼠标移到照片上时出现。
         options:
           maxlength: 180
-      - name: layout
-        label: 照片比例
-        type: select
-        default: portrait
-        options:
-          values:
-            - name: portrait
-              label: 竖图
-            - name: square
-              label: 方图
-            - name: landscape
-              label: 横图
 
   - name: friend
     label: 友链页面

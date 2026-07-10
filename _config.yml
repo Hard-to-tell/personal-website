@@ -22,6 +22,8 @@ ignore:
   # Keep these large originals in Git, but do not copy them into the live site.
   - "**/images/photos/bg2.jpg"
   - "**/images/photos/f2b0edec908bd4010d47e3d5df6fc4613816626.jpg"
+  # Gallery originals are converted during every build; only the WebP variants go live.
+  - "**/images/gallery/originals/**"
 tag_dir: tags
 archive_dir: archives
 category_dir: categories

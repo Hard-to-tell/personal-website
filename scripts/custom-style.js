@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const assetVersion = Date.now().toString(36);
 
 hexo.extend.filter.register("before_generate", () => {
   const quietOptions = hexo.theme.config.quiet_firework_options;
@@ -12,7 +13,7 @@ hexo.extend.injector.register(
   "head_end",
   () => {
     const root = JSON.stringify(hexo.config.root);
-    return `<script>document.documentElement.classList.toggle("nemo-home",location.pathname.replace(/index\\.html$/,"")===${root});</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css">`;
+    return `<script>document.documentElement.classList.toggle("nemo-home",location.pathname.replace(/index\\.html$/,"")===${root});</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
   },
   "default"
 );
@@ -20,23 +21,30 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-gallery-data.js"></script><script defer src="${hexo.config.root}js/gallery-wall.js"></script>`,
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
   "default"
 );
 
 hexo.extend.generator.register("nemo_gallery_data", () => {
   const data = hexo.locals.get("data") || {};
   const gallery = Array.isArray(data.gallery) ? data.gallery : [];
+  const originalsPrefix = "/images/gallery/originals/";
   const entries = gallery
     .filter((entry) => entry && entry.image && entry.date)
-    .map((entry) => ({
-      image: String(entry.image),
-      date: entry.date,
-      note: entry.note ? String(entry.note) : "",
-      layout: ["portrait", "square", "landscape"].includes(entry.layout)
-        ? entry.layout
-        : "portrait",
-    }));
+    .map((entry) => {
+      const image = String(entry.image);
+      const filename = path.posix.basename(image);
+      const extension = path.posix.extname(filename);
+      const stem = filename.slice(0, -extension.length);
+      const isOriginal = image.startsWith(originalsPrefix);
+
+      return {
+        thumbnail: isOriginal ? `/images/gallery/thumbs/${stem}.webp` : image,
+        full: isOriginal ? `/images/gallery/full/${stem}.webp` : image,
+        date: entry.date,
+        note: entry.note ? String(entry.note) : "",
+      };
+    });
   const payload = JSON.stringify(entries).replace(/</g, "\\u003c");
 
   return {

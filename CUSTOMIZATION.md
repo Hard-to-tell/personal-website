@@ -515,27 +515,12 @@ git status
 source/_data/gallery.yml
 ```
 
-平时最方便的方式是打开 Pages CMS，选择“照片墙”：新建一项后选照片、填写日期；“一句话”可留空。鼠标移到照片上才会显示文字和日期，页面会自动生成“全部 / 年份”的筛选按钮。
+平时只需要打开 Pages CMS，选择“照片墙”：新建一项后直接上传 JPG、PNG 或 WebP 原图，填写日期；“一句话”可留空。保存后 GitHub Pages 会自动完成两步：
 
-图片只使用 WebP，避免照片墙把页面拖慢。先在本机把原图处理好：
+- 生成方形 WebP 缩略图，用在散乱叠放的照片墙；
+- 生成压缩的原比例 WebP，鼠标移到照片上或手机点一下时显示，并同时出现文字和日期。
 
-```powershell
-npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\new-photo.jpg"
-```
-
-它会把 WebP 输出到 `source/images/gallery/`，默认最长边不超过 1600px、质量 82，不裁剪。要做统一卡片比例时可以选一种居中裁剪：
-
-```powershell
-npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\portrait.jpg" --crop portrait
-npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\square.jpg" --crop square
-npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\landscape.jpg" --crop landscape
-```
-
-处理后回到 Pages CMS 的“照片墙”选择生成的 WebP；原图可以自行保存到电脑或 `design-assets/gallery-originals/`，后者不会被发布到网站。脚本依赖本机已有的 Pillow；如终端提示缺少它，运行：
-
-```powershell
-python -m pip install Pillow
-```
+原图仅保存于仓库，不会直接发布到网站；无需在电脑上运行图片处理脚本。部署通常需要几十秒到几分钟，完成后刷新“记录”页即可。
 
 ### 留言精选 / 提问箱
 

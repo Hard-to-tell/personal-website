@@ -28,8 +28,16 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Prepare gallery images
+        run: python -m pip install --disable-pip-version-check Pillow && python tools/build-gallery-images.py
 
       - name: Build
         run: npx hexo generate --config _config.yml,_config.pages.yml
@@ -52,4 +60,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

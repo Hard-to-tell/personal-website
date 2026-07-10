@@ -12,3 +12,5 @@ _multiconfig.yml
 !.env.example
 design-assets/originals/
 design-assets/gallery-originals/
+source/images/gallery/thumbs/
+source/images/gallery/full/
