@@ -5,6 +5,12 @@ media:
     output: /images
     rename: safe
     extensions: [png, jpg, jpeg, webp, gif, svg]
+  - name: gallery_images
+    label: 照片墙图片
+    input: source/images/gallery
+    output: /images/gallery
+    rename: safe
+    extensions: [webp]
 
 settings:
   content:
@@ -79,7 +85,7 @@ content:
           switcher: true
 
   - name: about
-    label: 关于页面
+    label: 记录页面
     type: file
     path: source/about/index.md
     format: yaml-frontmatter
@@ -108,6 +114,51 @@ content:
           format: markdown
           media: images
           switcher: true
+
+  - name: gallery
+    label: 照片墙
+    type: file
+    path: source/_data/gallery.yml
+    format: yaml
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: image
+        label: 照片
+        type: image
+        required: true
+        description: 先用本地脚本压成 WebP，再在这里选择或上传到照片墙目录。
+        options:
+          media: gallery_images
+          extensions: [webp]
+          rename: safe
+      - name: date
+        label: 记录日期
+        type: date
+        required: true
+        description: 照片墙会按此日期排列，并自动生成年份筛选。
+        options:
+          time: false
+          format: yyyy-MM-dd
+      - name: note
+        label: 一句话
+        type: text
+        description: 可留空；填写后会在鼠标移到照片上时出现。
+        options:
+          maxlength: 180
+      - name: layout
+        label: 照片比例
+        type: select
+        default: portrait
+        options:
+          values:
+            - name: portrait
+              label: 竖图
+            - name: square
+              label: 方图
+            - name: landscape
+              label: 横图
 
   - name: friend
     label: 友链页面

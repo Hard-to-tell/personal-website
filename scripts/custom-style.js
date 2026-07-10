@@ -20,9 +20,30 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script>`,
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-gallery-data.js"></script><script defer src="${hexo.config.root}js/gallery-wall.js"></script>`,
   "default"
 );
+
+hexo.extend.generator.register("nemo_gallery_data", () => {
+  const data = hexo.locals.get("data") || {};
+  const gallery = Array.isArray(data.gallery) ? data.gallery : [];
+  const entries = gallery
+    .filter((entry) => entry && entry.image && entry.date)
+    .map((entry) => ({
+      image: String(entry.image),
+      date: entry.date,
+      note: entry.note ? String(entry.note) : "",
+      layout: ["portrait", "square", "landscape"].includes(entry.layout)
+        ? entry.layout
+        : "portrait",
+    }));
+  const payload = JSON.stringify(entries).replace(/</g, "\\u003c");
+
+  return {
+    path: "js/nemo-gallery-data.js",
+    data: `window.__NEMO_GALLERY__=${payload};`,
+  };
+});
 
 hexo.extend.injector.register(
   "body_end",

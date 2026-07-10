@@ -10,7 +10,7 @@ menu:
   - name: 校准
     url: /games/calibration/
     icon: false
-  - name: about
+  - name: 记录
     url: /about
     icon: /images/icons/about.svg
   - name: friend

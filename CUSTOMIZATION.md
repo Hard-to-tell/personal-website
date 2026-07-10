@@ -507,15 +507,38 @@ git status
 - [Hexo](https://hexo.io/)：当前博客生成器。
 ```
 
-### 照片墙 / 壁纸记录
+### 照片墙（记录页）
 
-可以复用 `source/images/photos/` 里的图片，记录每张图的来源、使用理由、日期。
+照片墙在 `/about/`，导航上显示为“记录”。照片、日期和一句话存放在：
 
-这个板块视觉效果会更强，但需要整理图片版权和压缩尺寸。建议等文章和固定页面稳定后再做。
+```text
+source/_data/gallery.yml
+```
+
+平时最方便的方式是打开 Pages CMS，选择“照片墙”：新建一项后选照片、填写日期；“一句话”可留空。鼠标移到照片上才会显示文字和日期，页面会自动生成“全部 / 年份”的筛选按钮。
+
+图片只使用 WebP，避免照片墙把页面拖慢。先在本机把原图处理好：
+
+```powershell
+npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\new-photo.jpg"
+```
+
+它会把 WebP 输出到 `source/images/gallery/`，默认最长边不超过 1600px、质量 82，不裁剪。要做统一卡片比例时可以选一种居中裁剪：
+
+```powershell
+npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\portrait.jpg" --crop portrait
+npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\square.jpg" --crop square
+npm.cmd run gallery:prepare -- "C:\Users\nemos\Pictures\landscape.jpg" --crop landscape
+```
+
+处理后回到 Pages CMS 的“照片墙”选择生成的 WebP；原图可以自行保存到电脑或 `design-assets/gallery-originals/`，后者不会被发布到网站。脚本依赖本机已有的 Pillow；如终端提示缺少它，运行：
+
+```powershell
+python -m pip install Pillow
+```
 
 ### 留言精选 / 提问箱
 
 等留言板真正有人用之后，可以整理一些有意思的留言或问题。
 
 这个属于互动增强，维护成本比前几个高。建议后置，不要一开始就做复杂功能。
-

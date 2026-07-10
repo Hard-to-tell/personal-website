@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "hexo server",
     "clean": "hexo clean",
-    "build": "hexo generate"
+    "build": "hexo generate",
+    "gallery:prepare": "python tools/prepare-gallery-images.py"
   },
   "hexo": {
     "version": "8.1.2"
