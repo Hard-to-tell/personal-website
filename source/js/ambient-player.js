@@ -1,71 +1,58 @@
 (() => {
-  const storageKey = "nemo-ambient-enabled";
-  let context;
-  let master;
-  let timer;
-  let playing = false;
+  const indexKey = "nemo-music-index";
 
-  function createEngine() {
-    if (context) return;
-    context = new (window.AudioContext || window.webkitAudioContext)();
-    master = context.createGain();
-    master.gain.value = 0.055;
-    master.connect(context.destination);
-  }
+  const tracks = () =>
+    Array.isArray(window.__NEMO_MUSIC__) ? window.__NEMO_MUSIC__ : [];
 
-  function playTone(frequency, start, duration) {
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(0.17, start + 0.06);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    oscillator.connect(gain).connect(master);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.08);
-  }
-
-  function schedule() {
-    if (!playing) return;
-    const start = context.currentTime + 0.05;
-    [220, 329.63, 440, 293.66, 392].forEach((frequency, index) => {
-      playTone(frequency, start + index * 1.5, 1.9);
-    });
-    timer = window.setTimeout(schedule, 8500);
-  }
-
-  function setState(button, label) {
-    button.setAttribute("aria-pressed", String(playing));
-    label.textContent = playing ? "暂停氛围" : "播放氛围";
-    button.classList.toggle("is-playing", playing);
+  function savedIndex(length) {
+    const value = Number.parseInt(localStorage.getItem(indexKey), 10);
+    return Number.isInteger(value) && value >= 0 && value < length ? value : 0;
   }
 
   function mount() {
-    if (document.querySelector(".nemo-ambient-player")) return;
+    if (document.querySelector(".nemo-ambient-player") || !tracks().length) return;
     const player = document.createElement("div");
     player.className = "nemo-ambient-player";
     player.innerHTML =
-      '<button type="button" aria-label="控制背景音乐" aria-pressed="false"><span aria-hidden="true">♫</span><span>播放氛围</span></button>';
-    const button = player.querySelector("button");
-    const label = button.lastElementChild;
-    button.addEventListener("click", async () => {
-      createEngine();
-      if (playing) {
-        playing = false;
-        window.clearTimeout(timer);
-        localStorage.removeItem(storageKey);
-      } else {
-        await context.resume();
-        playing = true;
-        localStorage.setItem(storageKey, "true");
-        schedule();
-      }
-      setState(button, label);
-    });
-    if (localStorage.getItem(storageKey) === "true") {
-      button.title = "浏览器需要点击后才能恢复背景音乐";
+      '<button type="button" data-nemo-toggle aria-label="播放">▶</button><button type="button" data-nemo-next aria-label="下一首">⏭</button>';
+    const audio = document.createElement("audio");
+    audio.hidden = true;
+    audio.preload = "metadata";
+    audio.volume = 0.23;
+    const toggle = player.querySelector("[data-nemo-toggle]");
+    const next = player.querySelector("[data-nemo-next]");
+    let index = savedIndex(tracks().length);
+    player.prepend(audio);
+
+    function sync() {
+      const track = tracks()[index];
+      toggle.textContent = audio.paused ? "▶" : "⏸";
+      toggle.setAttribute("aria-label", `${audio.paused ? "播放" : "暂停"}：${track.title}`);
+      toggle.setAttribute("aria-pressed", String(!audio.paused));
     }
+
+    async function play() {
+      try {
+        await audio.play();
+      } catch {
+        toggle.textContent = "播放";
+      }
+    }
+
+    function select(nextIndex, autoplay) {
+      index = nextIndex % tracks().length;
+      localStorage.setItem(indexKey, String(index));
+      audio.src = tracks()[index].src;
+      sync();
+      if (autoplay) play();
+    }
+
+    toggle.addEventListener("click", () => (audio.paused ? play() : audio.pause()));
+    next.addEventListener("click", () => select(index + 1, true));
+    audio.addEventListener("play", sync);
+    audio.addEventListener("pause", sync);
+    audio.addEventListener("ended", () => select(index + 1, true));
+    select(index, false);
     document.body.append(player);
   }
 

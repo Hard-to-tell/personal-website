@@ -641,26 +641,33 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
 
 .nemo-ambient-player {
   position: fixed;
-  right: max(18px, env(safe-area-inset-right));
+  left: max(18px, env(safe-area-inset-left));
   bottom: max(22px, env(safe-area-inset-bottom));
   z-index: 12;
-}
-
-.nemo-ambient-player button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   border: 1px solid rgba(137, 165, 196, 0.28);
-  border-radius: 999px;
-  padding: 10px 14px;
-  color: var(--color-text);
+  border-radius: 14px;
+  padding: 7px;
   background: rgba(250, 252, 255, 0.86);
   box-shadow: 0 10px 28px rgba(16, 32, 52, 0.16);
   backdrop-filter: blur(12px);
+}
+
+.nemo-ambient-player button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(137, 165, 196, 0.28);
+  border-radius: 9px;
+  padding: 0;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.64);
   cursor: pointer;
   font: 600 0.78rem/1 var(--font-family, inherit);
-  letter-spacing: 0.04em;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .nemo-ambient-player button:hover,
@@ -671,13 +678,14 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   transform: translateY(-2px);
 }
 
-.nemo-ambient-player button.is-playing > span:first-child {
-  animation: nemo-note-pulse 1.6s ease-in-out infinite;
+[data-theme='dark'] .nemo-ambient-player {
+  color: #edf2f7;
+  background: rgba(18, 27, 42, 0.84);
 }
 
 [data-theme='dark'] .nemo-ambient-player button {
   color: #edf2f7;
-  background: rgba(18, 27, 42, 0.84);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .nemo-gallery-wall {
@@ -856,11 +864,6 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   75% { transform: translateX(4px); }
 }
 
-@keyframes nemo-note-pulse {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px) rotate(-8deg); }
-}
-
 @keyframes nemo-asteroids {
   to { background-position-x: -520px; }
 }
@@ -960,6 +963,23 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px 10px;
     padding: 12px 4px 36px;
+  }
+
+  #mobile-nav .sidebar-social {
+    width: auto;
+    margin: 0 0 16px !important;
+  }
+
+  #mobile-nav .sidebar-social-icon {
+    width: 44px;
+    height: 40px;
+    border: 1px solid rgba(137, 165, 196, 0.26);
+    border-radius: 12px;
+  }
+
+  .nemo-ambient-player {
+    bottom: max(14px, env(safe-area-inset-bottom));
+    left: max(12px, env(safe-area-inset-left));
   }
 
   .nemo-gallery-item:nth-child(6n + 1) { transform: translateY(5px) rotate(-3deg); }

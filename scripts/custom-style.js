@@ -21,9 +21,31 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script defer src="${hexo.config.root}js/ambient-player.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-music-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/ambient-player.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
   "default"
 );
+
+hexo.extend.generator.register("nemo_music_data", () => {
+  const musicDir = path.join(hexo.source_dir, "music");
+  const supported = new Set([".flac", ".m4a", ".mp3", ".ogg", ".wav"]);
+  const tracks = fs.existsSync(musicDir)
+    ? fs
+        .readdirSync(musicDir, { withFileTypes: true })
+        .filter((entry) => entry.isFile())
+        .filter((entry) => supported.has(path.extname(entry.name).toLowerCase()))
+        .map((entry) => ({
+          title: path.basename(entry.name, path.extname(entry.name)),
+          src: `${hexo.config.root}music/${encodeURIComponent(entry.name)}`,
+        }))
+        .sort((left, right) => left.title.localeCompare(right.title, "zh-CN"))
+    : [];
+  const payload = JSON.stringify(tracks).replace(/</g, "\\u003c");
+
+  return {
+    path: "js/nemo-music-data.js",
+    data: `window.__NEMO_MUSIC__=${payload};`,
+  };
+});
 
 hexo.extend.generator.register("nemo_gallery_data", () => {
   const data = hexo.locals.get("data") || {};
