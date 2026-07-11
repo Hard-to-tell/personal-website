@@ -10,7 +10,13 @@
   }
 
   function mount() {
-    if (document.querySelector(".nemo-ambient-player") || !tracks().length) return;
+    if (
+      window.matchMedia("(max-width: 600px)").matches ||
+      document.querySelector(".nemo-ambient-player") ||
+      !tracks().length
+    ) {
+      return;
+    }
     const player = document.createElement("div");
     player.className = "nemo-ambient-player";
     player.innerHTML =
