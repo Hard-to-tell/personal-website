@@ -124,6 +124,21 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   box-shadow: 0 18px 45px rgba(16, 32, 52, 0.1);
 }
 
+html.nemo-message #content {
+  max-width: 980px;
+}
+
+html.nemo-message #header {
+  min-height: 300px;
+  height: 300px;
+}
+
+html.nemo-message #main > article .article-meta,
+html.nemo-message #main > article .article-inner > .hr-line,
+html.nemo-message #main > article .article-footer {
+  display: none;
+}
+
 /* Compact the theme's desktop-style sidebar into a clear mobile drawer. */
 @media (max-width: 1024px) {
   #mobile-nav {
@@ -413,6 +428,39 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   overflow: hidden;
 }
 
+.nemo-fun-panel--sidebar {
+  flex: 0 0 auto;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 17px;
+  border-radius: 22px;
+}
+
+.nemo-fun-panel--sidebar .nemo-fun-orb {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background-size: 29px 29px;
+}
+
+.nemo-fun-panel--sidebar .nemo-fun-copy p {
+  margin-top: 3px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.nemo-fun-panel--sidebar .nemo-fun-actions {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+}
+
+.nemo-fun-panel--sidebar .nemo-fun-actions a,
+.nemo-fun-panel--sidebar .nemo-fun-actions button {
+  padding: 7px 12px;
+  font-size: 0.82rem;
+}
+
 .nemo-fun-panel::after {
   content: "";
   position: absolute;
@@ -487,6 +535,25 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   background: rgba(225, 232, 241, 0.82);
   box-shadow: 0 12px 26px rgba(16, 32, 52, 0.13);
   transform: translateY(-1px);
+}
+
+.nemo-fun-actions a:focus-visible,
+.nemo-fun-actions button:focus-visible {
+  outline: 2px solid var(--red-2);
+  outline-offset: 3px;
+}
+
+.nemo-comment-status {
+  margin: 0;
+  padding: 26px 18px;
+  border: 1px dashed rgba(137, 165, 196, 0.34);
+  border-radius: 16px;
+  color: var(--red-2);
+  text-align: center;
+}
+
+.nemo-comment-status.is-stalled {
+  color: var(--color-text);
 }
 
 .nemo-game-shell {
@@ -988,6 +1055,12 @@ html.nemo-home:not(.nemo-scrolled) #header-nav .nav-icon {
   .nemo-gallery-item:nth-child(6n + 4) { transform: translateY(2px) rotate(2.2deg); }
   .nemo-gallery-item:nth-child(6n + 5) { transform: translateY(7px) rotate(-1.8deg); }
   .nemo-gallery-item:nth-child(6n) { transform: translateY(-4px) rotate(1.2deg); }
+}
+
+@media (max-width: 1024px) {
+  .nemo-fun-panel--sidebar {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

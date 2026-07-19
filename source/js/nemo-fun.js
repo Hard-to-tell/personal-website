@@ -2,15 +2,6 @@
   const isHome =
     document.documentElement.classList.contains("nemo-home") ||
     location.pathname.replace(/index\.html$/, "") === "/";
-  if (!isHome || document.querySelector(".nemo-fun-panel")) return;
-
-  const target =
-    document.querySelector("#main > .archives-outer-wrap") ||
-    document.querySelector("#main > .post-wrapper") ||
-    document.querySelector("#main > article") ||
-    document.querySelector("#main");
-  if (!target || !target.parentNode) return;
-
   const lines = [
     "今日宜把网页打开，等风从缓存里经过。",
     "你被允许拖延十分钟，但要记得回来。",
@@ -40,29 +31,64 @@
     "今日判决：无罪，但需要多喝水。"
   ];
 
-  const panel = document.createElement("section");
-  panel.className = "nemo-fun-panel";
-  panel.setAttribute("aria-label", "随机审判与小游戏入口");
-  panel.innerHTML = `
+  function createPanel(sidebar) {
+    const panel = document.createElement("section");
+    panel.className = `nemo-fun-panel${sidebar ? " nemo-fun-panel--sidebar" : ""}`;
+    panel.setAttribute(
+      "aria-label",
+      sidebar ? "文章阅读间歇的随机短句" : "随机审判与小游戏入口"
+    );
+    panel.innerHTML = `
     <div class="nemo-fun-orb" aria-hidden="true"></div>
     <div class="nemo-fun-copy">
-      <span>random note</span>
-      <p data-nemo-verdict></p>
+      <span>${sidebar ? "reading break" : "random note"}</span>
+      <p data-nemo-verdict aria-live="polite"></p>
     </div>
     <div class="nemo-fun-actions">
       <button type="button" data-nemo-reroll>换一句</button>
-      <a href="/games/calibration/">进入校准仪</a>
+      <a href="/games/calibration/">${sidebar ? "去校准" : "进入校准仪"}</a>
     </div>
   `;
 
-  const verdict = panel.querySelector("[data-nemo-verdict]");
-  const reroll = panel.querySelector("[data-nemo-reroll]");
+    const verdict = panel.querySelector("[data-nemo-verdict]");
+    const reroll = panel.querySelector("[data-nemo-reroll]");
+    let previousIndex = -1;
 
-  function choose() {
-    verdict.textContent = lines[Math.floor(Math.random() * lines.length)];
+    function choose() {
+      let nextIndex = Math.floor(Math.random() * lines.length);
+      if (lines.length > 1 && nextIndex === previousIndex) {
+        nextIndex = (nextIndex + 1) % lines.length;
+      }
+      previousIndex = nextIndex;
+      verdict.textContent = lines[nextIndex];
+    }
+
+    reroll.addEventListener("click", choose);
+    choose();
+    return panel;
   }
 
-  reroll.addEventListener("click", choose);
-  choose();
-  target.parentNode.insertBefore(panel, target);
+  if (isHome && !document.querySelector(".nemo-fun-panel")) {
+    const target =
+      document.querySelector("#main > .archives-outer-wrap") ||
+      document.querySelector("#main > .post-wrapper") ||
+      document.querySelector("#main > article") ||
+      document.querySelector("#main");
+    if (target && target.parentNode) {
+      target.parentNode.insertBefore(createPanel(false), target);
+    }
+  }
+
+  const article = document.querySelector("#main > article.h-entry");
+  const articleBody = article && article.querySelector(".article-entry");
+  const isLongArticle =
+    articleBody && articleBody.textContent.replace(/\s+/g, "").length >= 1000;
+  const sidebar = document.querySelector("#sidebar .sidebar-wrapper-container.sticky");
+  if (
+    isLongArticle &&
+    sidebar &&
+    !sidebar.querySelector(".nemo-fun-panel--sidebar")
+  ) {
+    sidebar.appendChild(createPanel(true));
+  }
 })();

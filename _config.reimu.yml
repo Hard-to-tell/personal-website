@@ -94,6 +94,8 @@ reimu_cursor:
 
 # The guestbook will become active after the Twikoo backend URL is added.
 comment:
+  title:
+    zh-CN: 讨论与留言
   default: twikoo
 
 twikoo:

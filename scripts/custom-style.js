@@ -13,7 +13,7 @@ hexo.extend.injector.register(
   "head_end",
   () => {
     const root = JSON.stringify(hexo.config.root);
-    return `<script>document.documentElement.classList.toggle("nemo-home",location.pathname.replace(/index\\.html$/,"")===${root});</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
+    return `<script>(()=>{const root=${root};const path=location.pathname.replace(/index\\.html$/,"");const base=root.endsWith("/")?root:root+"/";document.documentElement.classList.toggle("nemo-home",path===root);document.documentElement.classList.toggle("nemo-message",path===base+"message/");})();</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
   },
   "default"
 );
@@ -21,7 +21,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js"></script><script src="${hexo.config.root}js/nemo-music-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/ambient-player.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
+    `<script defer src="${hexo.config.root}js/home-hero.js"></script><script defer src="${hexo.config.root}js/nemo-fun.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/comment-ux.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-music-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/ambient-player.js?v=${assetVersion}"></script><script src="${hexo.config.root}js/nemo-gallery-data.js?v=${assetVersion}"></script><script defer src="${hexo.config.root}js/gallery-wall.js?v=${assetVersion}"></script>`,
   "default"
 );
 
