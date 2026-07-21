@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "npm run gallery:build && hexo server",
     "clean": "hexo clean",
-    "build": "npm run gallery:build && hexo generate",
-    "gallery:build": "python tools/build-gallery-images.py"
+    "build": "npm run gallery:build && hexo clean && hexo generate",
+    "gallery:build": "python tools/build-gallery-images.py",
+    "verify": "npm run build && node tools/verify-site.js"
   },
   "hexo": {
     "version": "8.1.2"

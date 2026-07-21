@@ -43,6 +43,13 @@ favicon: /images/favicon.png
 avatar: avatar.jpg
 cover: /images/photos/2a98a3a47c6f1f59a31aad5cda6104f1.webp
 
+open_graph:
+  enable: true
+  options:
+    twitter_card: summary_large_image
+    twitter_image: https://exileland.online/images/og.png
+    default_og_image: https://exileland.online/images/og.png
+
 toc: true
 toc_options:
   list_number: true
@@ -155,6 +162,11 @@ preloader:
 
 animation:
   enable: true
+
+# The custom loader already communicates page changes; avoid a second blocking
+# progress library in the document head.
+pace:
+  enable: false
 
 firework:
   enable: true

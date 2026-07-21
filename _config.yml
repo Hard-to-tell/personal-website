@@ -1,8 +1,12 @@
 # Site
 title: 在流放地
 subtitle: ""
-description: ""
+description: 一个安静的个人存档点，收纳文章、照片、阅读与仍在形成的小实验。
 keywords:
+  - 个人博客
+  - 阅读
+  - 人工智能
+  - 机器人
 author: Nemo
 language: zh-CN
 timezone: Asia/Shanghai
@@ -19,9 +23,8 @@ pretty_urls:
 source_dir: source
 public_dir: public
 ignore:
-  # Keep these large originals in Git, but do not copy them into the live site.
-  - "**/images/photos/bg2.jpg"
-  - "**/images/photos/f2b0edec908bd4010d47e3d5df6fc4613816626.jpg"
+  # Keep wallpaper originals in Git, but publish only their optimized WebP copies.
+  - "**/images/photos/*.jpg"
   # Gallery originals are converted during every build; only the WebP variants go live.
   - "**/images/gallery/originals/**"
 tag_dir: tags

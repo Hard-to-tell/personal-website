@@ -4,7 +4,7 @@ Nemo 的个人网站。它是一个以文章为主、带公开留言板的静态
 
 ## 当前状态
 
-- 线上网站：<https://hard-to-tell.github.io/personal-website/>
+- 线上网站：<https://exileland.online/>
 - GitHub 仓库：<https://github.com/Hard-to-tell/personal-website>
 - 在线文章编辑：<https://app.pagescms.org/>
 - 前端：Hexo 8 + Reimu 1.12
@@ -41,6 +41,9 @@ npm.cmd run dev
 # 清理缓存后完整构建
 npm.cmd run clean
 npm.cmd run build
+
+# 构建并检查关键页面与站内链接
+npm.cmd run verify
 
 # 查看改动
 git status

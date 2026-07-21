@@ -69,7 +69,17 @@
 
     const toggle = () => {
       const opening = !item.classList.contains("is-open");
-      if (opening) ensureFull();
+      if (opening) {
+        ensureFull();
+        item
+          .closest("[data-nemo-gallery]")
+          ?.querySelectorAll(".nemo-gallery-item.is-open")
+          .forEach((openItem) => {
+            if (openItem === item) return;
+            openItem.classList.remove("is-open");
+            openItem.setAttribute("aria-expanded", "false");
+          });
+      }
       item.classList.toggle("is-open", opening);
       item.setAttribute("aria-expanded", String(opening));
     };
@@ -80,12 +90,15 @@
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         toggle();
+      } else if (event.key === "Escape" && item.classList.contains("is-open")) {
+        item.classList.remove("is-open");
+        item.setAttribute("aria-expanded", "false");
       }
     });
     return item;
   }
 
-  function mount() {
+  function mount(restoreFocus = false) {
     const root = document.querySelector("[data-nemo-gallery]");
     if (!root) return;
     const allEntries = entries();
@@ -99,10 +112,17 @@
         : allEntries.filter((entry) => getMonth(entry.date) === activeMonth);
 
     root.replaceChildren();
+    if (!allEntries.length) {
+      const empty = document.createElement("p");
+      empty.className = "nemo-gallery-empty";
+      empty.textContent = "这里还没有照片。等下一段时间被留下来。";
+      root.append(empty);
+      return;
+    }
     const toolbar = document.createElement("div");
     toolbar.className = "nemo-gallery-toolbar";
     const label = document.createElement("span");
-    label.textContent = "photo fragments";
+    label.textContent = `photo fragments · ${visible.length}`;
     const selector = document.createElement("label");
     selector.className = "nemo-gallery-selector";
     selector.textContent = "查看：";
@@ -113,7 +133,7 @@
     );
     select.addEventListener("change", () => {
       activeMonth = select.value;
-      mount();
+      mount(true);
     });
     selector.append(select);
     toolbar.append(label, selector);
@@ -122,6 +142,7 @@
     wall.className = "nemo-gallery-wall";
     visible.forEach((entry) => wall.append(createCard(entry)));
     root.append(toolbar, wall);
+    if (restoreFocus) select.focus();
   }
 
   document.addEventListener("DOMContentLoaded", mount);

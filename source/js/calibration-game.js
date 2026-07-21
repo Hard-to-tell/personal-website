@@ -6,8 +6,11 @@
   const targetEl = root.querySelector("[data-nemo-target]");
   const timeEl = root.querySelector("[data-nemo-time]");
   const mistakesEl = root.querySelector("[data-nemo-mistakes]");
+  const bestEl = root.querySelector("[data-nemo-best]");
   const resultEl = root.querySelector("[data-nemo-result]");
   const sizeButtons = Array.from(root.querySelectorAll("[data-nemo-size]"));
+  const restartButton = root.querySelector("[data-nemo-restart]");
+  const recordKey = "nemo-calibration-best-v1";
 
   const verdicts = [
     "校准完成。今天的注意力被温柔地归档。",
@@ -32,6 +35,35 @@
   let startTime = 0;
   let timer = null;
   let finished = false;
+
+  function records() {
+    try {
+      const value = JSON.parse(window.localStorage.getItem(recordKey) || "{}");
+      return value && typeof value === "object" ? value : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function updateBest() {
+    const best = records()[size];
+    bestEl.textContent = best ? `${Number(best.seconds).toFixed(1)}s` : "—";
+  }
+
+  function saveResult(seconds) {
+    const allRecords = records();
+    const previous = allRecords[size];
+    const isBest = !previous || seconds < Number(previous.seconds);
+    if (isBest) {
+      allRecords[size] = { seconds, mistakes };
+      try {
+        window.localStorage.setItem(recordKey, JSON.stringify(allRecords));
+      } catch {
+        return false;
+      }
+    }
+    return isBest;
+  }
 
   function shuffle(values) {
     const items = values.slice();
@@ -70,6 +102,7 @@
     targetEl.textContent = "1";
     timeEl.textContent = "0.0s";
     mistakesEl.textContent = "0";
+    updateBest();
     resultEl.textContent = "从 1 开始。不要急，先看见。";
     grid.style.setProperty("--nemo-grid-size", size);
     grid.innerHTML = "";
@@ -113,16 +146,28 @@
       stopClock();
       const seconds = ((Date.now() - startTime) / 1000).toFixed(1);
       const verdict = verdicts[Math.floor(Math.random() * verdicts.length)];
-      resultEl.textContent = `${verdict} 用时 ${seconds}s，误触 ${mistakes} 次。`;
+      const isBest = saveResult(Number(seconds));
+      updateBest();
+      resultEl.textContent = `${verdict} 用时 ${seconds}s，误触 ${mistakes} 次。${isBest ? " 新纪录。" : ""}`;
     }
   });
 
   sizeButtons.forEach((button) => {
     button.addEventListener("click", () => {
       size = Number(button.dataset.nemoSize);
-      sizeButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+      sizeButtons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
       render();
     });
+  });
+
+  restartButton.addEventListener("click", render);
+
+  sizeButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(Number(button.dataset.nemoSize) === size));
   });
 
   render();

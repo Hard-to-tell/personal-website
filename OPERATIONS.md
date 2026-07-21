@@ -1,13 +1,13 @@
 # 部署、额度与维护手册
 
-更新时间：2026-07-08。平台规则可能变化，额度以各平台控制台和官方文档为准。
+更新时间：2026-07-22。平台规则可能变化，额度以各平台控制台和官方文档为准。
 
 ## 架构
 
 | 部分 | 服务 | 保存什么 | 当前地址或标识 |
 |---|---|---|---|
 | 源代码和文章 | GitHub | Git 仓库、Markdown、图片和配置 | `Hard-to-tell/personal-website` |
-| 网站前端 | GitHub Pages | Hexo 生成的静态 HTML/CSS/JS | <https://hard-to-tell.github.io/personal-website/> |
+| 网站前端 | GitHub Pages | Hexo 生成的静态 HTML/CSS/JS | <https://exileland.online/> |
 | 在线写作 | Pages CMS | 通过 GitHub 修改文章 | <https://app.pagescms.org/> |
 | 留言后端 | Netlify Functions | Twikoo 云函数 | `keen-sopapillas-38639e.netlify.app` |
 | 留言数据 | MongoDB Atlas | 评论和 Twikoo 配置 | `Cluster0`，默认数据库 `test` |
@@ -66,13 +66,13 @@
 
 本地构建成功不等于线上一定成功，最终以 GitHub Actions 绿色完成和线上页面实际响应为准。
 
-## 购买并绑定域名
+## 域名与 DNS
 
-推荐看续费价格，不只看第一年促销价。`.com` 通用性最好；国内注册商支付和实名认证更方便。
+当前独立域名是 `exileland.online`，由 GitHub Pages 提供网站内容。续费时要看续费价格，不只看第一年促销价。
 
 当前托管在境外 GitHub Pages，域名仍需要实名认证，但不使用中国大陆服务器时通常不需要 ICP 备案。参考：<https://cloud.tencent.com/document/product/242/18621/>
 
-买好后按以下流程：
+域名迁移、DNS 被重置或需要重新绑定时，按以下流程恢复：
 
 1. 在 GitHub 仓库 `Settings → Pages → Custom domain` 填写域名；
 2. 在域名 DNS 控制台添加 `www` 的 `CNAME`，指向 `hard-to-tell.github.io`；
@@ -81,7 +81,7 @@
    - `185.199.109.153`
    - `185.199.110.153`
    - `185.199.111.153`
-4. 修改 `_config.pages.yml`：把 `url` 换成新域名，把 `root` 改为 `/`；
+4. 确认 `_config.pages.yml` 中的 `url` 是 `https://exileland.online`，`root` 是 `/`；
 5. DNS 生效后开启 `Enforce HTTPS`；
 6. 完整检查首页、文章、图片、留言和 Pages CMS。
 
@@ -104,7 +104,7 @@ GitHub 官方步骤：<https://docs.github.com/en/pages/configuring-a-custom-dom
 
 GitHub 仓库是主要备份。本地目录也保留一份。重要改动完成后及时提交和推送。
 
-`source/images/photos/` 中两张超过 9MB 的原图由 `_config.yml` 的 `ignore` 排除，不会进入线上构建，但仍会随 Git 仓库保存。
+`source/images/photos/` 中的 JPG 原图由 `_config.yml` 的 `ignore` 排除，线上只发布对应的 WebP 版本；原图仍保存在 Git 仓库里。
 
 ### 留言
 

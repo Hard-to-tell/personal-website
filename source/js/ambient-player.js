@@ -23,7 +23,7 @@
       '<button type="button" data-nemo-toggle aria-label="播放">▶</button><button type="button" data-nemo-next aria-label="下一首">⏭</button>';
     const audio = document.createElement("audio");
     audio.hidden = true;
-    audio.preload = "metadata";
+    audio.preload = "none";
     audio.volume = 0.23;
     const toggle = player.querySelector("[data-nemo-toggle]");
     const next = player.querySelector("[data-nemo-next]");

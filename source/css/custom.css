@@ -1,4 +1,60 @@
 /* Quiet decorative motion layered over Reimu's existing layout. */
+.nemo-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  z-index: 10002;
+  border-radius: 999px;
+  padding: 9px 15px;
+  color: #fff;
+  background: #203e60;
+  box-shadow: 0 10px 28px rgba(16, 32, 52, 0.26);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-150%);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.nemo-skip-link:focus {
+  opacity: 1;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nemo-reading-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10001;
+  height: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.nemo-reading-progress.is-active {
+  opacity: 1;
+}
+
+.nemo-reading-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--red-3), var(--red-1));
+  box-shadow: 0 0 10px rgba(82, 123, 168, 0.48);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.article-entry h2,
+.article-entry h3,
+.article-entry h4 {
+  scroll-margin-top: 84px;
+}
+
 #header > img.wallpaper-rotator-layer {
   z-index: -1;
   opacity: 0;
@@ -103,6 +159,10 @@ html.nemo-home #content::before {
 }
 
 #main-nav .main-nav-link-wrap:hover::after {
+  transform: scaleX(1);
+}
+
+#main-nav .main-nav-link-wrap[aria-current='page']::after {
   transform: scaleX(1);
 }
 
@@ -261,6 +321,14 @@ html.nemo-message #main > article .article-footer {
 }
 
 /* The custom preloader remains compact and locally hosted. */
+#loader .loading-bg {
+  transition-duration: 0.38s;
+}
+
+#loader .spinner-box {
+  transition-duration: 0.22s;
+}
+
 #loader .spinner-box .loading-taichi {
   position: absolute;
   top: 50%;
@@ -409,12 +477,130 @@ html.nemo-message #main > article .article-footer {
   backdrop-filter: blur(14px);
 }
 
+.nemo-home-guide {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+  gap: 28px;
+  align-items: center;
+  margin: 0 0 18px;
+  border: 1px solid rgba(137, 165, 196, 0.24);
+  border-radius: 28px;
+  padding: 28px 30px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(225, 232, 241, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(237, 242, 247, 0.72));
+  box-shadow: 0 18px 48px rgba(16, 32, 52, 0.11);
+  backdrop-filter: blur(14px);
+}
+
+.nemo-home-guide::after {
+  content: "";
+  position: absolute;
+  top: -62px;
+  right: 34%;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(137, 165, 196, 0.18);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.nemo-home-guide-copy,
+.nemo-home-guide-links {
+  position: relative;
+  z-index: 1;
+}
+
+.nemo-home-guide-copy h2 {
+  margin: 8px 0 10px;
+  color: var(--color-text);
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.35;
+}
+
+.nemo-home-guide-copy p {
+  max-width: 38em;
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+.nemo-home-guide-links {
+  display: grid;
+  gap: 9px;
+}
+
+.nemo-home-guide-links a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  border: 1px solid rgba(137, 165, 196, 0.22);
+  border-radius: 16px;
+  padding: 11px 13px;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.nemo-home-guide-links a:hover,
+.nemo-home-guide-links a:focus-visible {
+  border-color: rgba(82, 123, 168, 0.5);
+  background: rgba(255, 255, 255, 0.82);
+  outline: none;
+  transform: translateX(3px);
+}
+
+.nemo-home-guide-links strong {
+  color: var(--red-1);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.nemo-home-guide-links span {
+  overflow: hidden;
+  color: rgba(63, 83, 106, 0.78);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 [data-theme='dark'] .nemo-fun-panel,
-[data-theme='dark'] .nemo-game-shell {
+[data-theme='dark'] .nemo-game-shell,
+[data-theme='dark'] .nemo-home-guide {
   background:
     radial-gradient(circle at 18% 12%, rgba(82, 123, 168, 0.18), transparent 30%),
     linear-gradient(135deg, rgba(18, 27, 42, 0.86), rgba(24, 35, 54, 0.72));
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme='dark'] .nemo-home-guide-links a,
+[data-theme='dark'] .nemo-fun-actions a,
+[data-theme='dark'] .nemo-fun-actions button,
+[data-theme='dark'] .nemo-game-controls button {
+  border-color: rgba(189, 205, 224, 0.22);
+  color: #dce8f4;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .nemo-home-guide-links a:hover,
+[data-theme='dark'] .nemo-home-guide-links a:focus-visible,
+[data-theme='dark'] .nemo-fun-actions a:hover,
+[data-theme='dark'] .nemo-fun-actions button:hover,
+[data-theme='dark'] .nemo-game-controls button:hover,
+[data-theme='dark'] .nemo-game-controls button.is-active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='dark'] .nemo-home-guide-links strong {
+  color: #c8d8ea;
+}
+
+[data-theme='dark'] .nemo-home-guide-links span {
+  color: rgba(225, 232, 241, 0.7);
 }
 
 .nemo-fun-panel {
@@ -538,7 +724,8 @@ html.nemo-message #main > article .article-footer {
 }
 
 .nemo-fun-actions a:focus-visible,
-.nemo-fun-actions button:focus-visible {
+.nemo-fun-actions button:focus-visible,
+.nemo-game-controls button:focus-visible {
   outline: 2px solid var(--red-2);
   outline-offset: 3px;
 }
@@ -582,7 +769,7 @@ html.nemo-message #main > article .article-footer {
 
 .nemo-calibration-panel {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-bottom: 16px;
 }
@@ -661,6 +848,15 @@ html.nemo-message #main > article .article-footer {
 .nemo-gallery {
   margin: 40px auto 12px;
   max-width: 960px;
+}
+
+.nemo-gallery-empty {
+  margin: 32px 0;
+  border: 1px dashed rgba(137, 165, 196, 0.34);
+  border-radius: 18px;
+  padding: 28px 18px;
+  color: var(--red-2);
+  text-align: center;
 }
 
 .nemo-gallery-toolbar {
@@ -992,6 +1188,16 @@ html.nemo-message #main > article .article-footer {
     padding: 20px;
   }
 
+  .nemo-home-guide {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 22px 20px;
+  }
+
+  .nemo-home-guide-links a {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
   .nemo-fun-orb {
     display: none;
   }
@@ -1007,7 +1213,7 @@ html.nemo-message #main > article .article-footer {
   }
 
   .nemo-calibration-panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .nemo-grid {
@@ -1064,6 +1270,11 @@ html.nemo-message #main > article .article-footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #loader .loading-bg,
+  #loader .spinner-box {
+    transition: none;
+  }
+
   html.nemo-home #header-outer::after {
     animation: none;
   }
