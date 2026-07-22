@@ -9,7 +9,7 @@ menu:
     icon: /images/icons/archive.svg
   - name: 校准
     url: /games/calibration/
-    icon: false
+    icon: /images/icons/calibration.svg
   - name: 记录
     url: /about
     icon: /images/icons/about.svg

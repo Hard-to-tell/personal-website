@@ -37,14 +37,25 @@
     guide.setAttribute("aria-labelledby", "nemo-home-guide-title");
     guide.innerHTML = `
       <div class="nemo-home-guide-copy">
-        <span class="nemo-kicker">a small index</span>
         <h2 id="nemo-home-guide-title">这里收纳正在形成的东西。</h2>
         <p>文章放长一点的想法，记录留住没必要写成文章的瞬间。你不必从头读起，选一条顺眼的路就好。</p>
       </div>
       <nav class="nemo-home-guide-links" aria-label="浏览本站">
-        <a href="/archives/"><strong>读文章</strong><span>长文、随笔与建站记录</span></a>
-        <a href="/about/"><strong>看记录</strong><span>照片和当时留下的一句话</span></a>
-        <a href="/message/"><strong>留句话</strong><span>无需注册，也可以只打招呼</span></a>
+        <a class="is-reading" href="/archives/">
+          <span class="nemo-home-guide-symbol" aria-hidden="true">文</span>
+          <span class="nemo-home-guide-detail"><strong>读文章</strong><small>长文、随笔与建站记录</small></span>
+          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="is-records" href="/about/">
+          <span class="nemo-home-guide-symbol" aria-hidden="true">片</span>
+          <span class="nemo-home-guide-detail"><strong>看记录</strong><small>照片和当时留下的一句话</small></span>
+          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="is-message" href="/message/">
+          <span class="nemo-home-guide-symbol" aria-hidden="true">言</span>
+          <span class="nemo-home-guide-detail"><strong>留句话</strong><small>无需注册，也可以只打招呼</small></span>
+          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
+        </a>
       </nav>
     `;
     return guide;

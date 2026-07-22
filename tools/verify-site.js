@@ -37,6 +37,7 @@ const requiredRoutes = [
   "friend/index.html",
   "games/calibration/index.html",
   "message/index.html",
+  "images/icons/calibration.svg",
   "images/og.png",
 ];
 
