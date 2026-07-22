@@ -1,11 +1,9 @@
 /* Quiet decorative motion layered over Reimu's existing layout. */
 :root {
+  --nemo-ink: #17283e;
+  --nemo-paper: #eef2f6;
   --nemo-coral: #d88d78;
   --nemo-coral-soft: rgba(216, 141, 120, 0.16);
-  --nemo-lilac: #8f86b4;
-  --nemo-lilac-soft: rgba(143, 134, 180, 0.15);
-  --nemo-mint: #6fa89a;
-  --nemo-mint-soft: rgba(111, 168, 154, 0.15);
   --nemo-sky: #6e9fc4;
   --nemo-sky-soft: rgba(110, 159, 196, 0.17);
   --nemo-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -117,57 +115,52 @@ html.nemo-home #header-title {
 }
 
 html.nemo-home #header-title h1 {
-  letter-spacing: 0.12em;
+  font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif;
+  letter-spacing: 0.16em;
   text-shadow: 0 3px 24px rgba(4, 10, 20, 0.52);
 }
 
 html.nemo-home #subtitle-wrap {
-  margin-top: 16px;
+  display: none;
 }
 
-html.nemo-home #subtitle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
-  padding: 8px 14px 8px 36px;
-  color: rgba(255, 255, 255, 0.94);
-  background: rgba(11, 23, 39, 0.28);
-  box-shadow: 0 10px 32px rgba(5, 13, 24, 0.15);
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
-  backdrop-filter: blur(10px);
-}
+@media (min-width: 1025px) {
+  html.nemo-home #header-title {
+    top: 50%;
+    left: max(48px, 8vw);
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    align-items: flex-start;
+    text-align: left;
+    transform: translateY(-50%);
+  }
 
-html.nemo-home #subtitle::before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 35deg,
-    var(--nemo-coral),
-    var(--nemo-lilac),
-    var(--nemo-mint),
-    var(--nemo-sky),
-    var(--nemo-coral)
-  );
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
-}
+  html.nemo-home #logo {
+    position: relative;
+    padding: 4px 0;
+    transform: none;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
 
-html.nemo-home #wrap {
-  background:
-    radial-gradient(circle at 7% 46%, rgba(216, 141, 120, 0.08), transparent 24%),
-    radial-gradient(circle at 94% 62%, rgba(143, 134, 180, 0.09), transparent 24%);
-}
+  html.nemo-home #logo::after {
+    content: "";
+    position: absolute;
+    top: calc(100% + 18px);
+    right: 50%;
+    width: 2px;
+    height: 72px;
+    background: linear-gradient(180deg, var(--nemo-coral), transparent);
+  }
 
-[data-theme='dark'].nemo-home #wrap {
-  background:
-    radial-gradient(circle at 7% 46%, rgba(216, 141, 120, 0.06), transparent 24%),
-    radial-gradient(circle at 94% 62%, rgba(143, 134, 180, 0.07), transparent 24%);
+  html.nemo-home #header-title h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 4.4vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+  }
 }
 
 html.nemo-home #header-outer::after {
@@ -293,7 +286,7 @@ html.nemo-message #main > article .article-footer {
     border-radius: 0 22px 22px 0;
     background:
       radial-gradient(circle at 9% 7%, var(--nemo-sky-soft), transparent 25%),
-      radial-gradient(circle at 92% 42%, var(--nemo-lilac-soft), transparent 30%),
+      radial-gradient(circle at 92% 42%, var(--nemo-coral-soft), transparent 30%),
       var(--color-mobile-nav-background);
     box-shadow: none;
   }
@@ -358,29 +351,9 @@ html.nemo-message #main > article .article-footer {
       transform 140ms var(--nemo-ease-out);
   }
 
-  #mobile-nav .sidebar-menu-link-wrap:nth-child(2) {
-    --menu-accent: var(--nemo-lilac);
-    --menu-tint: var(--nemo-lilac-soft);
-  }
-
   #mobile-nav .sidebar-menu-link-wrap:nth-child(3) {
     --menu-accent: var(--nemo-coral);
     --menu-tint: var(--nemo-coral-soft);
-  }
-
-  #mobile-nav .sidebar-menu-link-wrap:nth-child(4) {
-    --menu-accent: var(--nemo-mint);
-    --menu-tint: var(--nemo-mint-soft);
-  }
-
-  #mobile-nav .sidebar-menu-link-wrap:nth-child(5) {
-    --menu-accent: #8095bb;
-    --menu-tint: rgba(128, 149, 187, 0.15);
-  }
-
-  #mobile-nav .sidebar-menu-link-wrap:nth-child(6) {
-    --menu-accent: #c18a78;
-    --menu-tint: rgba(193, 138, 120, 0.15);
   }
 
   #mobile-nav .sidebar-menu-link-wrap::after {
@@ -645,206 +618,14 @@ html.nemo-message #main > article .article-footer {
   backdrop-filter: blur(14px);
 }
 
-.nemo-home-guide {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
-  gap: 28px;
-  align-items: center;
-  margin: 0 0 18px;
-  border: 1px solid rgba(137, 165, 196, 0.24);
-  border-radius: 28px;
-  padding: 28px 30px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 8% 18%, var(--nemo-sky-soft), transparent 34%),
-    radial-gradient(circle at 88% 92%, var(--nemo-coral-soft), transparent 30%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(237, 242, 247, 0.72));
-  box-shadow: 0 18px 48px rgba(16, 32, 52, 0.11);
-  backdrop-filter: blur(14px);
-}
-
-.nemo-home-guide::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 30px;
-  width: 104px;
-  height: 4px;
-  border-radius: 0 0 999px 999px;
-  background: linear-gradient(90deg, var(--nemo-sky), var(--nemo-lilac), var(--nemo-coral), var(--nemo-mint));
-  pointer-events: none;
-}
-
-.nemo-home-guide::after {
-  content: "";
-  position: absolute;
-  top: -62px;
-  right: 34%;
-  width: 150px;
-  height: 150px;
-  border: 1px solid rgba(137, 165, 196, 0.18);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.nemo-home-guide-copy,
-.nemo-home-guide-links {
-  position: relative;
-  z-index: 1;
-}
-
-.nemo-home-guide-copy h2 {
-  margin: 0 0 10px;
-  color: var(--color-text);
-  font-size: clamp(1.35rem, 2.6vw, 2rem);
-  line-height: 1.35;
-}
-
-.nemo-home-guide-copy p {
-  max-width: 38em;
-  margin: 0;
-  color: var(--color-text);
-  line-height: 1.8;
-}
-
-.nemo-home-guide-links {
-  display: grid;
-  gap: 9px;
-}
-
-.nemo-home-guide-links a {
-  --guide-accent: var(--nemo-sky);
-  --guide-tint: var(--nemo-sky-soft);
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
-  gap: 11px;
-  align-items: center;
-  border: 1px solid rgba(137, 165, 196, 0.22);
-  border-radius: 16px;
-  padding: 8px 11px 8px 8px;
-  color: var(--color-text);
-  background: linear-gradient(90deg, var(--guide-tint), rgba(255, 255, 255, 0.55) 54%);
-  text-decoration: none;
-  transition:
-    border-color 180ms var(--nemo-ease-out),
-    background 180ms var(--nemo-ease-out),
-    box-shadow 180ms var(--nemo-ease-out),
-    transform 160ms var(--nemo-ease-out);
-}
-
-.nemo-home-guide-links a.is-records {
-  --guide-accent: var(--nemo-lilac);
-  --guide-tint: var(--nemo-lilac-soft);
-}
-
-.nemo-home-guide-links a.is-message {
-  --guide-accent: var(--nemo-coral);
-  --guide-tint: var(--nemo-coral-soft);
-}
-
-.nemo-home-guide-links a:focus-visible {
-  border-color: var(--guide-accent);
-  outline: none;
-  box-shadow: 0 0 0 3px var(--guide-tint);
-}
-
-.nemo-home-guide-links a:active {
-  transform: scale(0.985);
-}
-
-.nemo-home-guide-symbol {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.52);
-  border-radius: 13px;
-  place-items: center;
-  color: var(--guide-accent);
-  background: var(--guide-tint);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-  font-family: serif;
-  font-size: 1.02rem;
-  font-weight: 700;
-}
-
-.nemo-home-guide-detail {
-  display: grid;
-  min-width: 0;
-  gap: 2px;
-}
-
-.nemo-home-guide-links strong {
-  color: var(--guide-accent);
-  font-size: 0.92rem;
-}
-
-.nemo-home-guide-links small {
-  overflow: hidden;
-  color: rgba(63, 83, 106, 0.78);
-  font-size: 0.8rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nemo-home-guide-arrow {
-  color: var(--guide-accent);
-  font-size: 0.9rem;
-  opacity: 0.62;
-  transition: opacity 160ms var(--nemo-ease-out), transform 160ms var(--nemo-ease-out);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .nemo-home-guide-links a:hover {
-    border-color: var(--guide-accent);
-    background: linear-gradient(90deg, var(--guide-tint), rgba(255, 255, 255, 0.82) 62%);
-    box-shadow: 0 9px 24px var(--guide-tint);
-    transform: translateX(4px);
-  }
-
-  .nemo-home-guide-links a:hover .nemo-home-guide-arrow {
-    opacity: 1;
-    transform: translate(2px, -2px);
-  }
-}
-
-html.nemo-home .post-wrap {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(137, 165, 196, 0.18);
-  box-shadow: 0 14px 38px rgba(16, 32, 52, 0.09);
-}
-
-html.nemo-home .post-wrap::before {
-  content: "";
-  position: absolute;
-  top: 18px;
-  bottom: 18px;
-  left: 0;
-  z-index: 2;
-  width: 4px;
-  border-radius: 0 999px 999px 0;
-  background: linear-gradient(180deg, var(--nemo-sky), var(--nemo-lilac));
-  pointer-events: none;
-}
-
-html.nemo-home .post-wrap.right::before {
-  right: 0;
-  left: auto;
-  border-radius: 999px 0 0 999px;
-  background: linear-gradient(180deg, var(--nemo-coral), var(--nemo-mint));
-}
-
 [data-theme='dark'] .nemo-fun-panel,
-[data-theme='dark'] .nemo-game-shell,
-[data-theme='dark'] .nemo-home-guide {
+[data-theme='dark'] .nemo-game-shell {
   background:
     radial-gradient(circle at 18% 12%, rgba(82, 123, 168, 0.18), transparent 30%),
     linear-gradient(135deg, rgba(18, 27, 42, 0.86), rgba(24, 35, 54, 0.72));
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
 }
 
-[data-theme='dark'] .nemo-home-guide-links a,
 [data-theme='dark'] .nemo-fun-actions a,
 [data-theme='dark'] .nemo-fun-actions button,
 [data-theme='dark'] .nemo-game-controls button {
@@ -853,33 +634,11 @@ html.nemo-home .post-wrap.right::before {
   background: rgba(255, 255, 255, 0.08);
 }
 
-[data-theme='dark'] .nemo-home-guide-links a:focus-visible,
 [data-theme='dark'] .nemo-game-controls button.is-active {
   background: rgba(255, 255, 255, 0.15);
 }
 
-[data-theme='dark'] .nemo-home-guide-links strong {
-  color: var(--guide-accent);
-}
-
-[data-theme='dark'] .nemo-home-guide-links small {
-  color: rgba(225, 232, 241, 0.7);
-}
-
-html[data-theme='dark'].nemo-home .post-wrap,
-[data-theme='dark'] .nemo-home-guide-links a {
-  border-color: rgba(189, 205, 224, 0.18);
-}
-
-[data-theme='dark'] .nemo-home-guide-links a {
-  background: linear-gradient(90deg, var(--guide-tint), rgba(255, 255, 255, 0.06) 64%);
-}
-
 @media (hover: hover) and (pointer: fine) {
-  [data-theme='dark'] .nemo-home-guide-links a:hover {
-    background: linear-gradient(90deg, var(--guide-tint), rgba(255, 255, 255, 0.13) 68%);
-  }
-
   [data-theme='dark'] .nemo-fun-actions a:hover,
   [data-theme='dark'] .nemo-fun-actions button:hover,
   [data-theme='dark'] .nemo-game-controls button:hover {
@@ -951,6 +710,48 @@ html[data-theme='dark'].nemo-home .post-wrap,
     url("../images/icons/ouroboros-art.webp") center / 36px 36px no-repeat,
     rgba(255, 255, 255, 0.62);
   box-shadow: inset 0 0 0 1px rgba(137, 165, 196, 0.24);
+}
+
+html.nemo-home #main > .nemo-fun-panel {
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 2px 18px 30px;
+  border-width: 1px 0;
+  border-radius: 0;
+  padding: 18px 4px;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html.nemo-home #main > .nemo-fun-panel::after {
+  display: none;
+}
+
+html.nemo-home #main > .nemo-fun-panel .nemo-fun-orb {
+  display: none;
+}
+
+html.nemo-home #main > .nemo-fun-panel .nemo-fun-copy > span {
+  color: var(--nemo-coral);
+}
+
+html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions a,
+html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
+  border: 0;
+  border-bottom: 1px solid rgba(137, 165, 196, 0.42);
+  border-radius: 0;
+  padding: 6px 2px;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions a:hover,
+  html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button:hover {
+    border-color: var(--nemo-coral);
+    background: transparent;
+    box-shadow: none;
+  }
 }
 
 .nemo-fun-copy {
@@ -1092,6 +893,90 @@ html[data-theme='dark'].nemo-home .post-wrap,
 .nemo-game-controls {
   justify-content: center;
   margin-bottom: 18px;
+}
+
+.nemo-calibration-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 220px);
+  gap: 20px;
+  align-items: start;
+}
+
+.nemo-leaderboard {
+  border-top: 2px solid var(--nemo-coral);
+  padding: 15px 2px 0;
+}
+
+.nemo-leaderboard-heading {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.nemo-leaderboard-heading h3 {
+  margin: 3px 0 0;
+  color: var(--color-text);
+  font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.nemo-leaderboard-heading > span {
+  color: var(--red-2);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.nemo-leaderboard ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nemo-leaderboard li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid rgba(137, 165, 196, 0.2);
+  padding: 10px 0;
+}
+
+.nemo-leaderboard li > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.nemo-leaderboard-rank {
+  color: var(--red-3);
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nemo-leaderboard li:first-child .nemo-leaderboard-rank,
+.nemo-leaderboard li:first-child strong {
+  color: var(--nemo-coral);
+}
+
+.nemo-leaderboard strong {
+  color: var(--red-1);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nemo-leaderboard small {
+  color: var(--red-2);
+  font-size: 0.7rem;
+}
+
+.nemo-leaderboard-empty {
+  margin: 18px 0 0;
+  color: var(--red-2);
+  font-size: 0.8rem;
+  line-height: 1.7;
 }
 
 .nemo-grid {
@@ -1421,6 +1306,10 @@ html[data-theme='dark'].nemo-home .post-wrap,
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+[data-theme='dark'] .nemo-leaderboard li {
+  border-color: rgba(189, 205, 224, 0.16);
+}
+
 @keyframes nemo-cell-wrong {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
@@ -1489,14 +1378,10 @@ html[data-theme='dark'].nemo-home .post-wrap,
     padding: 20px;
   }
 
-  .nemo-home-guide {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 22px 20px;
-  }
-
-  .nemo-home-guide-links a {
-    grid-template-columns: 40px minmax(0, 1fr) auto;
+  html.nemo-home #main > .nemo-fun-panel {
+    margin-right: 10px;
+    margin-left: 10px;
+    padding: 16px 4px;
   }
 
   .nemo-fun-orb {
@@ -1520,6 +1405,16 @@ html[data-theme='dark'].nemo-home .post-wrap,
 
   .nemo-calibration-panel {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nemo-calibration-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .nemo-leaderboard {
+    box-sizing: border-box;
+    width: min(100%, 360px);
+    margin: 4px auto 0;
   }
 
   .nemo-grid {
@@ -1598,8 +1493,6 @@ html[data-theme='dark'].nemo-home .post-wrap,
     display: none;
   }
 
-  .nemo-home-guide-links a,
-  .nemo-home-guide-arrow,
   .nemo-fun-actions a,
   .nemo-fun-actions button,
   .nemo-game-controls button,

@@ -37,7 +37,22 @@ banner: /images/photos/47a635dd3e2909865fa54a67bbdf0b08.webp
       <button type="button" data-nemo-size="6">观测者 6×6</button>
       <button type="button" data-nemo-restart>重新排列</button>
     </div>
-    <div class="nemo-grid" data-nemo-grid aria-label="校准方格"></div>
+    <div class="nemo-calibration-stage">
+      <div class="nemo-grid" data-nemo-grid aria-label="校准方格"></div>
+      <aside class="nemo-leaderboard" aria-labelledby="nemo-leaderboard-title">
+        <div class="nemo-leaderboard-heading">
+          <div>
+            <span class="nemo-label">本机记录</span>
+            <h3 id="nemo-leaderboard-title">前 5 名</h3>
+          </div>
+          <span data-nemo-leaderboard-mode>书记员 5×5</span>
+        </div>
+        <ol data-nemo-leaderboard-list></ol>
+        <p class="nemo-leaderboard-empty" data-nemo-leaderboard-empty>
+          完成一次校准后，成绩会留在这里。
+        </p>
+      </aside>
+    </div>
     <div class="nemo-game-result" data-nemo-result aria-live="polite">
       选择一个难度，然后从 1 开始。
     </div>

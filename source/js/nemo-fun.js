@@ -31,36 +31,6 @@
     "今日判决：无罪，但需要多喝水。"
   ];
 
-  function createGuide() {
-    const guide = document.createElement("section");
-    guide.className = "nemo-home-guide";
-    guide.setAttribute("aria-labelledby", "nemo-home-guide-title");
-    guide.innerHTML = `
-      <div class="nemo-home-guide-copy">
-        <h2 id="nemo-home-guide-title">这里收纳正在形成的东西。</h2>
-        <p>文章放长一点的想法，记录留住没必要写成文章的瞬间。你不必从头读起，选一条顺眼的路就好。</p>
-      </div>
-      <nav class="nemo-home-guide-links" aria-label="浏览本站">
-        <a class="is-reading" href="/archives/">
-          <span class="nemo-home-guide-symbol" aria-hidden="true">文</span>
-          <span class="nemo-home-guide-detail"><strong>读文章</strong><small>长文、随笔与建站记录</small></span>
-          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
-        </a>
-        <a class="is-records" href="/about/">
-          <span class="nemo-home-guide-symbol" aria-hidden="true">片</span>
-          <span class="nemo-home-guide-detail"><strong>看记录</strong><small>照片和当时留下的一句话</small></span>
-          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
-        </a>
-        <a class="is-message" href="/message/">
-          <span class="nemo-home-guide-symbol" aria-hidden="true">言</span>
-          <span class="nemo-home-guide-detail"><strong>留句话</strong><small>无需注册，也可以只打招呼</small></span>
-          <span class="nemo-home-guide-arrow" aria-hidden="true">↗</span>
-        </a>
-      </nav>
-    `;
-    return guide;
-  }
-
   function createPanel(sidebar) {
     const panel = document.createElement("section");
     panel.className = `nemo-fun-panel${sidebar ? " nemo-fun-panel--sidebar" : ""}`;
@@ -98,16 +68,10 @@
     return panel;
   }
 
-  if (isHome && !document.querySelector(".nemo-home-guide")) {
-    const target =
-      document.querySelector("#main > .archives-outer-wrap") ||
-      document.querySelector("#main > .post-wrapper") ||
-      document.querySelector("#main > article") ||
-      document.querySelector("#main");
-    if (target && target.parentNode) {
-      const fragment = document.createDocumentFragment();
-      fragment.append(createGuide(), createPanel(false));
-      target.parentNode.insertBefore(fragment, target);
+  if (isHome && !document.querySelector("#main > .nemo-fun-panel")) {
+    const firstPost = document.querySelector("#main > .post-wrapper");
+    if (firstPost) {
+      firstPost.insertAdjacentElement("afterend", createPanel(false));
     }
   }
 

@@ -8,6 +8,7 @@ function createAssetVersion() {
     "scripts/custom-style.js",
     "source/css/custom.css",
     "source/js/ambient-player.js",
+    "source/js/calibration-game.js",
     "source/js/comment-ux.js",
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
@@ -206,6 +207,11 @@ hexo.extend.filter.register("after_render:html", (html) => {
   labels.forEach(([source, replacement]) => {
     html = html.replaceAll(source, replacement);
   });
+
+  html = html.replace(
+    `src="${hexo.config.root}js/calibration-game.js"`,
+    `src="${hexo.config.root}js/calibration-game.js?v=${assetVersion}"`
+  );
 
   return html.replace(
     /<img class="reimu-bg"(?![^>]*\balt=)([^>]*)>/g,

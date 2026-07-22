@@ -90,6 +90,28 @@ htmlFiles.forEach((filename) => {
 });
 
 const homepage = fs.readFileSync(path.join(publicDir, "index.html"), "utf8");
+const homeFun = fs.readFileSync(path.join(publicDir, "js", "nemo-fun.js"), "utf8");
+const calibrationPage = fs.readFileSync(
+  path.join(publicDir, "games", "calibration", "index.html"),
+  "utf8"
+);
+const calibrationGame = fs.readFileSync(
+  path.join(publicDir, "js", "calibration-game.js"),
+  "utf8"
+);
+
+if (/nemo-home-guide|这里收纳正在形成的东西/.test(homeFun)) {
+  errors.push("首页仍包含已移除的导览板块");
+}
+if (homepage.includes("文章、照片，以及仍在形成的想法")) {
+  errors.push("首页仍包含已移除的副标题");
+}
+if (!/data-nemo-leaderboard-list/.test(calibrationPage)) {
+  errors.push("校准页缺少排行榜容器");
+}
+if (!/const leaderboardLimit = 5;/.test(calibrationGame)) {
+  errors.push("校准排行榜没有限制为前 5 名");
+}
 if (!/<meta name="description" content="[^"]+">/i.test(homepage)) {
   errors.push("首页缺少 description 元数据");
 }
