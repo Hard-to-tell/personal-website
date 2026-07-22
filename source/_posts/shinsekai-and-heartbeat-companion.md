@@ -17,7 +17,7 @@ cover: /images/image-2.png
 
 ![image.png](/images/image-2.png)
 
-*Chat Stage 的界面预览，截图来自 Shinsekai 项目仓库。*
+*Chat Stage 的界面预览，截图来自 Shinsekai -heartbeat项目仓库。*
 
 ## Shinsekai 是什么
 
