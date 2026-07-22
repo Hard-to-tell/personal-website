@@ -115,51 +115,12 @@ html.nemo-home #header-title {
 }
 
 html.nemo-home #header-title h1 {
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-shadow: 0 3px 24px rgba(4, 10, 20, 0.52);
 }
 
 html.nemo-home #subtitle-wrap {
   display: none;
-}
-
-@media (min-width: 1025px) {
-  html.nemo-home #header-title {
-    top: 50%;
-    left: max(48px, 8vw);
-    width: auto;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    align-items: flex-start;
-    text-align: left;
-    transform: translateY(-50%);
-  }
-
-  html.nemo-home #logo {
-    position: relative;
-    padding: 4px 0;
-    transform: none;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-
-  html.nemo-home #logo::after {
-    content: "";
-    position: absolute;
-    top: calc(100% + 18px);
-    right: 50%;
-    width: 2px;
-    height: 72px;
-    background: linear-gradient(180deg, var(--nemo-coral), transparent);
-  }
-
-  html.nemo-home #header-title h1 {
-    margin: 0;
-    font-size: clamp(2.8rem, 4.4vw, 4.5rem);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-  }
 }
 
 html.nemo-home #header-outer::after {
