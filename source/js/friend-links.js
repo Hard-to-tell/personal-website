@@ -75,8 +75,30 @@
     return details;
   }
 
+  function findRoot() {
+    const existing = document.querySelector("[data-nemo-friend-links]");
+    if (existing) return existing;
+
+    const heading = [...document.querySelectorAll("#main h2")].find((element) =>
+      element.textContent.includes("书签收藏")
+    );
+    if (!heading) return null;
+
+    const root = document.createElement("div");
+    root.className = "nemo-friend-directory";
+    root.dataset.nemoFriendLinks = "";
+    root.setAttribute("aria-label", "分类书签收藏");
+    const placeholder = heading.nextElementSibling;
+    if (placeholder?.textContent.trim() === "正在整理收藏入口……") {
+      placeholder.replaceWith(root);
+    } else {
+      heading.insertAdjacentElement("afterend", root);
+    }
+    return root;
+  }
+
   function mount() {
-    const root = document.querySelector("[data-nemo-friend-links]");
+    const root = findRoot();
     if (!root) return;
     const allEntries = entries();
     root.replaceChildren();
