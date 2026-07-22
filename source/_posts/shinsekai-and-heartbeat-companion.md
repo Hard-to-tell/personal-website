@@ -9,13 +9,13 @@ tags:
   - Galgame
   - 插件开发
 description: 简单认识 AI 角色桌面助手 Shinsekai，以及我为它补上的沉浸模式和 Heartbeat Companion 心跳插件。
-cover: https://raw.githubusercontent.com/RachelForster/Shinsekai/main/frontend/e2e/visual.spec.ts-snapshots/chat-stage-chromium-desktop-linux.png
+cover: /images/image-2.png
 ---
 最近接触了一个很有意思的项目：[Shinsekai（新世界）](https://github.com/RachelForster/Shinsekai)。它想做的并不只是一个套着角色立绘的聊天框，而是把大语言模型、角色设定、Galgame 式演出、语音与插件系统放进同一个桌面应用里。
 
 我也在里面做了一点很小的合并，并另外写了一个让角色在空闲时主动开口的心跳插件。这篇就简单记一下它们。
 
-![image.png](blob:https:/app.pagescms.org/310132c9-d2f0-4602-9e9a-2956be0fb09c)
+![image.png](/images/image-2.png)
 
 *Chat Stage 的界面预览，截图来自 Shinsekai 项目仓库。*
 
