@@ -328,21 +328,25 @@ html.nemo-message #main > article .article-footer {
     display: grid;
     width: 100%;
     margin: 0;
-    gap: 8px;
+    gap: 10px;
   }
 
   #mobile-nav .sidebar-menu-link-wrap {
     --menu-accent: var(--nemo-sky);
     --menu-tint: var(--nemo-sky-soft);
+    display: flex;
+    box-sizing: border-box;
     width: 100%;
     max-width: none;
-    min-height: 52px;
+    min-height: 56px;
     margin: 0;
+    padding: 7px 0;
     border: 1px solid rgba(137, 165, 196, 0.26);
     border-radius: 15px;
     overflow: hidden;
     background: linear-gradient(90deg, var(--menu-tint), rgba(255, 255, 255, 0.48) 46%);
     box-shadow: 0 6px 18px rgba(16, 32, 52, 0.045);
+    align-items: center;
     justify-content: flex-start;
     transition:
       border-color 160ms var(--nemo-ease-out),
@@ -372,9 +376,11 @@ html.nemo-message #main > article .article-footer {
   }
 
   #mobile-nav .sidebar-menu-icon {
+    display: flex;
+    box-sizing: border-box;
     width: 38px;
     height: 38px;
-    margin-left: 7px;
+    margin: 0 0 0 8px;
     padding: 0;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
@@ -382,11 +388,14 @@ html.nemo-message #main > article .article-footer {
     background: var(--menu-tint);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
     font-size: 1rem;
+    line-height: 1;
+    align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
   #mobile-nav .sidebar-menu-icon img {
+    display: block;
     width: 21px !important;
     height: 21px;
     filter: none;
@@ -399,10 +408,12 @@ html.nemo-message #main > article .article-footer {
   #mobile-nav .sidebar-menu-link {
     display: flex;
     min-width: 0;
+    min-height: 38px;
     flex: 1;
     align-items: center;
-    padding: 0 13px;
+    padding: 0 12px;
     font-size: 0.94rem;
+    line-height: 1.35;
   }
 
   #mobile-nav .sidebar-menu-link-wrap.link-active {
@@ -1149,6 +1160,7 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
   z-index: 1;
   min-width: 0;
   outline: none;
+  cursor: zoom-in;
   transition: transform 0.34s cubic-bezier(0.22, 0.8, 0.24, 1), z-index 0s linear 0.34s;
 }
 
@@ -1208,13 +1220,6 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
   transition: filter 0.35s ease, transform 0.45s ease;
 }
 
-#main .nemo-gallery-image .nemo-gallery-full {
-  opacity: 0;
-  object-fit: contain !important;
-  background: rgba(18, 31, 49, 0.55);
-  transition: opacity 0.2s ease;
-}
-
 .nemo-gallery-caption {
   position: absolute;
   inset: 7px;
@@ -1246,54 +1251,302 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
 }
 
 .nemo-gallery-item:hover .nemo-gallery-card,
-.nemo-gallery-item:focus .nemo-gallery-card,
-.nemo-gallery-item.is-open .nemo-gallery-card {
+.nemo-gallery-item:focus .nemo-gallery-card {
   box-shadow: 0 20px 38px rgba(16, 32, 52, 0.22);
 }
 
 .nemo-gallery-item:hover,
-.nemo-gallery-item:focus,
-.nemo-gallery-item.is-open {
+.nemo-gallery-item:focus {
   z-index: 8;
   transform: translateY(-12px) rotate(0deg) scale(1.055);
   transition-delay: 0s;
 }
 
-.nemo-gallery-item:hover .nemo-gallery-image,
-.nemo-gallery-item:focus .nemo-gallery-image,
-.nemo-gallery-item.is-open .nemo-gallery-image {
-  aspect-ratio: var(--nemo-gallery-ratio, 1);
-}
-
 #main .nemo-gallery-item:hover .nemo-gallery-thumb,
-#main .nemo-gallery-item:focus .nemo-gallery-thumb,
-#main .nemo-gallery-item.is-open .nemo-gallery-thumb {
-  filter: saturate(1.04) contrast(1.02);
-  opacity: 0;
-  transform: scale(1.04);
-}
-
-#main .nemo-gallery-item:hover .nemo-gallery-full,
-#main .nemo-gallery-item:focus .nemo-gallery-full,
-#main .nemo-gallery-item.is-open .nemo-gallery-full {
-  opacity: 1;
-}
-
-.nemo-gallery-item:hover .nemo-gallery-full,
-.nemo-gallery-item:focus .nemo-gallery-full,
-.nemo-gallery-item.is-open .nemo-gallery-full {
+#main .nemo-gallery-item:focus .nemo-gallery-thumb {
   filter: saturate(1.04) contrast(1.02);
   transform: scale(1.04);
 }
 
 .nemo-gallery-item:hover .nemo-gallery-caption,
-.nemo-gallery-item:focus .nemo-gallery-caption,
-.nemo-gallery-item.is-open .nemo-gallery-caption {
+.nemo-gallery-item:focus .nemo-gallery-caption {
   opacity: 1;
+}
+
+html.nemo-lightbox-open {
+  overflow: hidden;
+}
+
+.nemo-gallery-lightbox {
+  position: fixed;
+  z-index: 10020;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding:
+    max(58px, calc(env(safe-area-inset-top) + 48px))
+    max(18px, env(safe-area-inset-right))
+    max(22px, env(safe-area-inset-bottom))
+    max(18px, env(safe-area-inset-left));
+  background: rgba(8, 16, 28, 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.nemo-gallery-lightbox[hidden] {
+  display: none;
+}
+
+.nemo-gallery-lightbox.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.nemo-gallery-lightbox-figure {
+  display: grid;
+  max-width: min(96vw, 1500px);
+  max-height: calc(100svh - 90px);
+  margin: 0;
+  place-items: center;
+  gap: 12px;
+}
+
+.nemo-gallery-lightbox-image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100svh - 138px);
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+}
+
+.nemo-gallery-lightbox-caption {
+  display: flex;
+  max-width: min(88vw, 760px);
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  color: rgba(247, 250, 255, 0.94);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.nemo-gallery-lightbox-caption time {
+  color: rgba(220, 231, 245, 0.68);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.nemo-gallery-lightbox-close {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  display: grid;
+  width: 42px;
+  height: 42px;
+  padding: 0 0 3px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  place-items: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  font: 300 1.9rem/1 sans-serif;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.nemo-gallery-lightbox-close:hover,
+.nemo-gallery-lightbox-close:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  transform: scale(1.06);
+}
+
+.nemo-friend-directory {
+  max-width: 920px;
+  margin: 28px auto 46px;
+}
+
+.nemo-friend-overview,
+.nemo-friend-empty {
+  margin: 0 0 16px;
+  color: rgba(82, 123, 168, 0.78);
+  font-size: 0.84rem;
+  letter-spacing: 0.03em;
+}
+
+.nemo-friend-group {
+  margin: 12px 0;
+  overflow: hidden;
+  border: 1px solid rgba(137, 165, 196, 0.24);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 7px 24px rgba(16, 32, 52, 0.045);
+}
+
+.nemo-friend-group summary {
+  display: grid;
+  min-height: 72px;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  align-items: center;
+  grid-template-columns: 42px minmax(0, 1fr) 28px;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  transition: background 160ms ease;
+}
+
+.nemo-friend-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.nemo-friend-group summary:hover {
+  background: var(--nemo-sky-soft);
+}
+
+.nemo-friend-group summary:focus-visible {
+  outline: 2px solid var(--nemo-sky);
+  outline-offset: -3px;
+}
+
+.nemo-friend-group-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  place-items: center;
+  color: var(--nemo-sky);
+  background: var(--nemo-sky-soft);
+  font: 700 0.78rem/1 sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.nemo-friend-group:nth-of-type(3n) .nemo-friend-group-icon {
+  color: var(--nemo-coral);
+  background: var(--nemo-coral-soft);
+}
+
+.nemo-friend-group-heading {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nemo-friend-group-heading strong {
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.nemo-friend-group-heading small {
+  color: rgba(82, 123, 168, 0.68);
+  font-size: 0.76rem;
+  font-weight: 400;
+}
+
+.nemo-friend-group-toggle {
+  color: var(--nemo-sky);
+  font-size: 1.35rem;
+  line-height: 1;
+  text-align: center;
+  transition: transform 180ms ease;
+}
+
+.nemo-friend-group[open] .nemo-friend-group-toggle {
+  transform: rotate(45deg);
+}
+
+.nemo-friend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 2px 14px 16px;
+}
+
+#main .nemo-friend-link {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 76px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 13px 42px 13px 15px;
+  border: 1px solid rgba(137, 165, 196, 0.2);
+  border-radius: 14px;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.52);
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+#main .nemo-friend-link::after {
+  content: none;
+}
+
+#main .nemo-friend-link strong {
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#main .nemo-friend-link > span:not(.nemo-friend-link-arrow) {
+  overflow: hidden;
+  color: rgba(82, 123, 168, 0.7);
+  font-size: 0.73rem;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nemo-friend-link-arrow {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  color: var(--nemo-sky);
+  font-size: 1rem;
+  transform: translateY(-50%);
+  transition: transform 160ms ease;
+}
+
+#main .nemo-friend-link:hover,
+#main .nemo-friend-link:focus-visible {
+  border-color: rgba(81, 163, 219, 0.5);
+  box-shadow: 0 9px 22px var(--nemo-sky-soft);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+#main .nemo-friend-link:hover .nemo-friend-link-arrow,
+#main .nemo-friend-link:focus-visible .nemo-friend-link-arrow {
+  transform: translate(2px, -2px);
 }
 
 [data-theme='dark'] .nemo-gallery-card {
   background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .nemo-friend-group,
+[data-theme='dark'] #main .nemo-friend-link {
+  border-color: rgba(189, 205, 224, 0.16);
+  background: rgba(255, 255, 255, 0.055);
 }
 
 [data-theme='dark'] .nemo-calibration-panel > div,
@@ -1437,6 +1690,55 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px 10px;
     padding: 12px 4px 36px;
+  }
+
+  .nemo-gallery-lightbox {
+    padding:
+      max(58px, calc(env(safe-area-inset-top) + 48px))
+      max(10px, env(safe-area-inset-right))
+      max(18px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .nemo-gallery-lightbox-figure {
+    max-width: 100%;
+  }
+
+  .nemo-gallery-lightbox-image {
+    max-height: calc(100svh - 126px);
+    border-radius: 7px;
+  }
+
+  .nemo-gallery-lightbox-caption {
+    max-width: 94vw;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+    font-size: 0.84rem;
+  }
+
+  .nemo-friend-directory {
+    margin: 22px auto 38px;
+  }
+
+  .nemo-friend-group {
+    border-radius: 16px;
+  }
+
+  .nemo-friend-group summary {
+    min-height: 66px;
+    padding: 11px 13px;
+    grid-template-columns: 40px minmax(0, 1fr) 24px;
+    gap: 10px;
+  }
+
+  .nemo-friend-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 2px 10px 12px;
+  }
+
+  #main .nemo-friend-link {
+    min-height: 68px;
   }
 
   #mobile-nav .sidebar-social {

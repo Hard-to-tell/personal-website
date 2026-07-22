@@ -148,8 +148,40 @@ content:
         options:
           maxlength: 180
 
+  - name: friend_links
+    label: 友链与书签清单
+    type: file
+    path: source/_data/friends.yml
+    format: yaml
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: category
+        label: 分类
+        type: string
+        required: true
+        description: 相同分类会自动放进同一个可展开分组，例如“超分辨率”或“工具与资料”。
+      - name: title
+        label: 显示名称
+        type: string
+        required: true
+        options:
+          maxlength: 100
+      - name: url
+        label: 网址
+        type: string
+        required: true
+        description: 请填写完整的 https:// 地址。
+      - name: note
+        label: 简短说明
+        type: string
+        description: 可留空；留空时会显示网站域名。
+        options:
+          maxlength: 120
+
   - name: friend
-    label: 友链页面
+    label: 友链页面文案
     type: file
     path: source/friend/index.md
     format: yaml-frontmatter

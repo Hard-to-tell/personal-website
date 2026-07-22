@@ -1,5 +1,7 @@
 (() => {
   let activeMonth = "all";
+  let lightbox = null;
+  let previousFocus = null;
 
   const entries = () =>
     (Array.isArray(window.__NEMO_GALLERY__) ? window.__NEMO_GALLERY__ : [])
@@ -10,17 +12,98 @@
   const formatDate = (date) => String(date).slice(0, 10).replaceAll("-", ".");
   const formatMonth = (month) => {
     const [year, value] = month.split("-");
-    return `${year}年${Number(value)}月`;
+    return `${year} 年 ${Number(value)} 月`;
   };
 
   function image(source, className, alt) {
     const element = document.createElement("img");
     element.className = className;
-    element.src = source;
+    if (source) element.src = source;
     element.alt = alt;
     element.decoding = "async";
     element.loading = "lazy";
     return element;
+  }
+
+  function createLightbox() {
+    if (lightbox?.overlay?.isConnected) return lightbox;
+
+    const overlay = document.createElement("div");
+    overlay.className = "nemo-gallery-lightbox";
+    overlay.hidden = true;
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", "照片大图");
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "nemo-gallery-lightbox-close";
+    closeButton.type = "button";
+    closeButton.setAttribute("aria-label", "关闭大图");
+    closeButton.textContent = "×";
+
+    const figure = document.createElement("figure");
+    figure.className = "nemo-gallery-lightbox-figure";
+    const fullImage = image("", "nemo-gallery-lightbox-image", "");
+    fullImage.loading = "eager";
+    const caption = document.createElement("figcaption");
+    caption.className = "nemo-gallery-lightbox-caption";
+    figure.append(fullImage, caption);
+    overlay.append(closeButton, figure);
+    document.body.append(overlay);
+
+    lightbox = { overlay, closeButton, fullImage, caption };
+    closeButton.addEventListener("click", closeLightbox);
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) closeLightbox();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (overlay.hidden) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "Tab") {
+        event.preventDefault();
+        closeButton.focus();
+      }
+    });
+    return lightbox;
+  }
+
+  function openLightbox(entry, trigger) {
+    const view = createLightbox();
+    previousFocus = trigger;
+    view.fullImage.src = entry.full;
+    view.fullImage.alt = entry.note || `记录于 ${formatDate(entry.date)}`;
+    view.caption.replaceChildren();
+
+    if (entry.note) {
+      const note = document.createElement("span");
+      note.textContent = entry.note;
+      view.caption.append(note);
+    }
+    const date = document.createElement("time");
+    date.dateTime = String(entry.date).slice(0, 10);
+    date.textContent = formatDate(entry.date);
+    view.caption.append(date);
+
+    view.overlay.hidden = false;
+    document.documentElement.classList.add("nemo-lightbox-open");
+    requestAnimationFrame(() => {
+      view.overlay.classList.add("is-visible");
+      view.closeButton.focus({ preventScroll: true });
+    });
+  }
+
+  function closeLightbox() {
+    if (!lightbox || lightbox.overlay.hidden) return;
+    const { overlay, fullImage } = lightbox;
+    overlay.classList.remove("is-visible");
+    document.documentElement.classList.remove("nemo-lightbox-open");
+    window.setTimeout(() => {
+      if (overlay.classList.contains("is-visible")) return;
+      overlay.hidden = true;
+      fullImage.removeAttribute("src");
+    }, 180);
+    previousFocus?.focus?.({ preventScroll: true });
+    previousFocus = null;
   }
 
   function createCard(entry) {
@@ -29,8 +112,8 @@
     item.className = "nemo-gallery-item";
     item.tabIndex = 0;
     item.setAttribute("role", "button");
-    item.setAttribute("aria-label", label);
-    item.setAttribute("aria-expanded", "false");
+    item.setAttribute("aria-label", `${label}，查看大图`);
+    item.setAttribute("aria-haspopup", "dialog");
 
     const card = document.createElement("figure");
     card.className = "nemo-gallery-card";
@@ -38,20 +121,6 @@
     frame.className = "nemo-gallery-image";
     const thumbnail = image(entry.thumbnail, "nemo-gallery-thumb", label);
     frame.append(thumbnail);
-
-    let full;
-    function ensureFull() {
-      if (full) return;
-      full = image(entry.full, "nemo-gallery-full", "");
-      full.fetchPriority = "low";
-      full.addEventListener("load", () => {
-        item.style.setProperty(
-          "--nemo-gallery-ratio",
-          `${full.naturalWidth} / ${full.naturalHeight}`
-        );
-      });
-      frame.append(full);
-    }
 
     const caption = document.createElement("figcaption");
     caption.className = "nemo-gallery-caption";
@@ -67,32 +136,14 @@
     card.append(frame, caption);
     item.append(card);
 
-    const toggle = () => {
-      const opening = !item.classList.contains("is-open");
-      if (opening) {
-        ensureFull();
-        item
-          .closest("[data-nemo-gallery]")
-          ?.querySelectorAll(".nemo-gallery-item.is-open")
-          .forEach((openItem) => {
-            if (openItem === item) return;
-            openItem.classList.remove("is-open");
-            openItem.setAttribute("aria-expanded", "false");
-          });
-      }
-      item.classList.toggle("is-open", opening);
-      item.setAttribute("aria-expanded", String(opening));
+    const open = () => {
+      openLightbox(entry, item);
     };
-    item.addEventListener("mouseenter", ensureFull, { once: true });
-    item.addEventListener("focus", ensureFull, { once: true });
-    item.addEventListener("click", toggle);
+    item.addEventListener("click", open);
     item.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        toggle();
-      } else if (event.key === "Escape" && item.classList.contains("is-open")) {
-        item.classList.remove("is-open");
-        item.setAttribute("aria-expanded", "false");
+        open();
       }
     });
     return item;
@@ -100,7 +151,10 @@
 
   function mount(restoreFocus = false) {
     const root = document.querySelector("[data-nemo-gallery]");
-    if (!root) return;
+    if (!root) {
+      closeLightbox();
+      return;
+    }
     const allEntries = entries();
     const months = [...new Set(allEntries.map((entry) => getMonth(entry.date)))].sort(
       (a, b) => b.localeCompare(a)
@@ -115,7 +169,7 @@
     if (!allEntries.length) {
       const empty = document.createElement("p");
       empty.className = "nemo-gallery-empty";
-      empty.textContent = "这里还没有照片。等下一段时间被留下来。";
+      empty.textContent = "这里还没有照片，等下一段时间被留下来。";
       root.append(empty);
       return;
     }

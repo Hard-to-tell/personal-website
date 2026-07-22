@@ -10,12 +10,14 @@ function createAssetVersion() {
     "source/js/ambient-player.js",
     "source/js/calibration-game.js",
     "source/js/comment-ux.js",
+    "source/js/friend-links.js",
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
     "source/js/nemo-fun.js",
     "source/js/site-ux.js",
     "source/js/wallpaper-rotator.js",
     "source/_data/gallery.yml",
+    "source/_data/friends.yml",
   ];
 
   files.forEach((filename) => {
@@ -88,7 +90,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}`,
+    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}${versionedScript("nemo-friend-links-data.js", false)}${versionedScript("friend-links.js")}`,
   "page"
 );
 
@@ -139,6 +141,25 @@ hexo.extend.generator.register("nemo_gallery_data", () => {
   return {
     path: "js/nemo-gallery-data.js",
     data: `window.__NEMO_GALLERY__=${payload};`,
+  };
+});
+
+hexo.extend.generator.register("nemo_friend_links_data", () => {
+  const data = hexo.locals.get("data") || {};
+  const links = Array.isArray(data.friends) ? data.friends : [];
+  const entries = links
+    .filter((entry) => entry && entry.category && entry.title && entry.url)
+    .map((entry) => ({
+      category: String(entry.category),
+      title: String(entry.title),
+      url: String(entry.url),
+      note: entry.note ? String(entry.note) : "",
+    }));
+  const payload = JSON.stringify(entries).replace(/</g, "\\u003c");
+
+  return {
+    path: "js/nemo-friend-links-data.js",
+    data: `window.__NEMO_FRIEND_LINKS__=${payload};`,
   };
 });
 

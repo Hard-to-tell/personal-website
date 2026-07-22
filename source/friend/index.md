@@ -4,7 +4,13 @@ date: 2026-07-07 12:00:00
 comments: false
 ---
 
-这里会收集朋友们的网站和仍在认真维护的个人主页。它们不按流量或更新频率排序，只保留我愿意再次点开的入口。
+这里分成两部分：朋友们仍在认真维护的个人主页，以及我会反复翻看的学习入口。收藏来自日常书签，已经去掉 GPT、公司内部地址和私人文档，并合并了重复链接。
+
+## 书签收藏
+
+<div class="nemo-friend-directory" data-nemo-friend-links aria-label="分类书签收藏">
+  <p class="nemo-friend-empty">正在整理收藏入口……</p>
+</div>
 
 ## 交换友链
 
