@@ -43,7 +43,7 @@
           source: `${root}live2d/models/asuna/asuna_04.json`,
         },
       ],
-      fit: { x: 0.5, y: 0.9, scale: 1.45, scaleY: 1.155 },
+      fit: { x: 0.5, y: 0.9, scale: 1.45, scaleY: 1.236 },
       motions: { head: "", body: "", lower: "" },
       dialogues: {
         head: [
