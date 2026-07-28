@@ -13,6 +13,7 @@ function createAssetVersion() {
     "source/js/friend-links.js",
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
+    "source/js/live2d-widget.js",
     "source/js/nemo-fun.js",
     "source/js/site-ux.js",
     "source/js/wallpaper-rotator.js",
@@ -83,7 +84,13 @@ hexo.extend.injector.register(
 
 hexo.extend.injector.register(
   "body_end",
-  () => `${versionedScript("nemo-fun.js")}${versionedScript("comment-ux.js")}`,
+  () => {
+    const live2dConfig = JSON.stringify({ root: hexo.config.root }).replace(
+      /</g,
+      "\\u003c"
+    );
+    return `${versionedScript("nemo-fun.js")}${versionedScript("comment-ux.js")}<script>window.__NEMO_LIVE2D__=${live2dConfig};</script>${versionedScript("live2d-widget.js")}`;
+  },
   "post"
 );
 

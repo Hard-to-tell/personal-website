@@ -1106,6 +1106,216 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Article-only Live2D companion. The canvas never blocks article links or text. */
+.nemo-live2d-widget {
+  position: fixed;
+  right: max(88px, calc(env(safe-area-inset-right) + 88px));
+  bottom: max(4px, env(safe-area-inset-bottom));
+  z-index: 998;
+  width: 270px;
+  height: min(370px, 56vh);
+  pointer-events: none;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.nemo-live2d-stage,
+.nemo-live2d-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.nemo-live2d-stage {
+  position: relative;
+}
+
+.nemo-live2d-canvas {
+  display: block;
+  pointer-events: none;
+}
+
+.nemo-live2d-tap-zones {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+
+.nemo-live2d-widget[data-model='asuna'] .nemo-live2d-tap-zones {
+  top: 12%;
+  right: 18%;
+  bottom: 0;
+  left: 18%;
+  display: grid;
+  grid-template-rows: 30fr 45fr 25fr;
+}
+
+.nemo-live2d-widget[data-model='hiyori'] .nemo-live2d-tap-zones {
+  top: 12%;
+  right: 36%;
+  bottom: 0;
+  left: 36%;
+  display: grid;
+  grid-template-rows: 22fr 36fr 30fr;
+}
+
+.nemo-live2d-widget[data-model='asuna'] .nemo-live2d-message {
+  right: calc(100% - 38px);
+}
+
+.nemo-live2d-widget[data-model='hiyori'] .nemo-live2d-message {
+  right: 66%;
+}
+
+.nemo-live2d-tap-zones button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.nemo-live2d-tap-zones button:focus-visible {
+  border-radius: 18px;
+  outline: 2px solid rgba(137, 165, 196, 0.72);
+  outline-offset: -3px;
+}
+
+.nemo-live2d-message {
+  position: absolute;
+  top: 30px;
+  right: calc(100% + 8px);
+  z-index: 2;
+  width: min(230px, calc(100vw - 32px));
+  border: 1px solid rgba(137, 165, 196, 0.34);
+  border-radius: 14px;
+  padding: 9px 12px;
+  color: var(--color-text);
+  background: rgba(250, 252, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(16, 32, 52, 0.16);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  text-align: center;
+  opacity: 0;
+  overflow-wrap: anywhere;
+  backdrop-filter: blur(12px);
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nemo-live2d-message.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nemo-live2d-tools {
+  position: absolute;
+  right: -42px;
+  bottom: 86px;
+  z-index: 3;
+  display: grid;
+  gap: 7px;
+  pointer-events: auto;
+}
+
+.nemo-live2d-tools button,
+.nemo-live2d-wake {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(137, 165, 196, 0.34);
+  border-radius: 50%;
+  padding: 0;
+  color: var(--color-text);
+  background: rgba(250, 252, 255, 0.88);
+  box-shadow: 0 8px 24px rgba(16, 32, 52, 0.16);
+  cursor: pointer;
+  font: 600 0.76rem/1 var(--font-family, inherit);
+  backdrop-filter: blur(10px);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.nemo-live2d-tools button:hover,
+.nemo-live2d-tools button:focus-visible,
+.nemo-live2d-wake:hover,
+.nemo-live2d-wake:focus-visible {
+  background: rgba(225, 232, 241, 0.96);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.nemo-live2d-tools button:disabled {
+  cursor: wait;
+  opacity: 0.52;
+}
+
+.nemo-live2d-wake {
+  position: absolute;
+  right: -42px;
+  bottom: 86px;
+  display: none;
+  width: 36px;
+  height: auto;
+  border-radius: 12px;
+  padding: 10px 7px;
+  line-height: 1.2;
+  pointer-events: auto;
+  writing-mode: vertical-rl;
+}
+
+.nemo-live2d-widget.is-loading {
+  opacity: 0.72;
+}
+
+.nemo-live2d-widget.is-hidden .nemo-live2d-stage,
+.nemo-live2d-widget.is-hidden .nemo-live2d-message,
+.nemo-live2d-widget.is-hidden .nemo-live2d-tools {
+  display: none;
+}
+
+.nemo-live2d-widget.is-hidden .nemo-live2d-wake {
+  display: grid;
+}
+
+[data-theme='dark'] .nemo-live2d-message,
+[data-theme='dark'] .nemo-live2d-tools button,
+[data-theme='dark'] .nemo-live2d-wake {
+  color: #edf2f7;
+  background: rgba(18, 27, 42, 0.84);
+}
+
+@media (max-width: 767px) {
+  .nemo-live2d-widget {
+    right: max(58px, calc(env(safe-area-inset-right) + 58px));
+    bottom: max(2px, env(safe-area-inset-bottom));
+    width: 138px;
+    height: min(205px, 34vh);
+  }
+
+  .nemo-live2d-message {
+    top: 12px;
+    right: calc(100% + 6px);
+    width: 148px;
+    padding: 7px 9px;
+    font-size: 0.7rem;
+  }
+
+  .nemo-live2d-tools {
+    right: -40px;
+    bottom: 60px;
+    gap: 6px;
+  }
+
+  .nemo-live2d-tools button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nemo-live2d-wake {
+    right: -40px;
+    bottom: 60px;
+  }
+}
+
 .nemo-gallery-wall {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
