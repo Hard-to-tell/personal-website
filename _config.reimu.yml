@@ -7,6 +7,9 @@ menu:
   - name: archives
     url: /archives
     icon: /images/icons/archive.svg
+  - name: 看板娘
+    url: /waifu/
+    icon: /images/icons/ouroboros.svg
   - name: 校准
     url: /games/calibration/
     icon: /images/icons/calibration.svg

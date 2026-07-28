@@ -46,6 +46,15 @@ function createAssetVersion() {
 const assetVersion = createAssetVersion();
 const versionedScript = (filename, defer = true) =>
   `<script${defer ? " defer" : ""} src="${hexo.config.root}js/${filename}?v=${assetVersion}"></script>`;
+const live2dConfig = (surface) =>
+  JSON.stringify({ root: hexo.config.root, surface }).replace(/</g, "\\u003c");
+const live2dScriptUrl = JSON.stringify(
+  `${hexo.config.root}js/live2d-widget.js?v=${assetVersion}`
+);
+const desktopLive2dLoader = () =>
+  `<script>(()=>{if(window.matchMedia("(max-width: 767px)").matches)return;window.__NEMO_LIVE2D__=${live2dConfig("article")};const script=document.createElement("script");script.src=${live2dScriptUrl};document.body.appendChild(script);})();</script>`;
+const mobileLive2dLink = () =>
+  `<a class="nemo-live2d-mobile-link" href="${hexo.config.root}waifu/" aria-label="打开看板娘页面">看板娘</a>`;
 
 hexo.extend.filter.register("before_generate", () => {
   const quietOptions = hexo.theme.config.quiet_firework_options;
@@ -84,13 +93,8 @@ hexo.extend.injector.register(
 
 hexo.extend.injector.register(
   "body_end",
-  () => {
-    const live2dConfig = JSON.stringify({ root: hexo.config.root }).replace(
-      /</g,
-      "\\u003c"
-    );
-    return `${versionedScript("nemo-fun.js")}${versionedScript("comment-ux.js")}<script>window.__NEMO_LIVE2D__=${live2dConfig};</script>${versionedScript("live2d-widget.js")}`;
-  },
+  () =>
+    `${versionedScript("nemo-fun.js")}${versionedScript("comment-ux.js")}${mobileLive2dLink()}${desktopLive2dLoader()}`,
   "post"
 );
 
@@ -120,6 +124,33 @@ hexo.extend.generator.register("nemo_music_data", () => {
   return {
     path: "js/nemo-music-data.js",
     data: `window.__NEMO_MUSIC__=${payload};`,
+  };
+});
+
+hexo.extend.generator.register("nemo_live2d_page", () => {
+  const root = hexo.config.root.endsWith("/")
+    ? hexo.config.root
+    : `${hexo.config.root}/`;
+  const homeUrl = JSON.stringify(root);
+
+  return {
+    path: "waifu/index.html",
+    data: `<!doctype html>
+<html lang="zh-CN" class="nemo-live2d-page" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111923">
+  <title>看板娘 | ${hexo.config.title}</title>
+  <link rel="stylesheet" href="${root}css/custom.css?v=${assetVersion}">
+</head>
+<body>
+  <a class="nemo-live2d-page-back" href=${homeUrl} aria-label="返回首页" title="返回首页">←</a>
+  <noscript>需要启用 JavaScript 才能显示看板娘。</noscript>
+  <script>window.__NEMO_LIVE2D__=${live2dConfig("page")};</script>
+  ${versionedScript("live2d-widget.js")}
+</body>
+</html>`,
   };
 });
 

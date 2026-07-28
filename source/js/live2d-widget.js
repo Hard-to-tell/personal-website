@@ -5,6 +5,7 @@
   if (!config || document.getElementById("nemo-live2d-widget")) return;
 
   const root = config.root.endsWith("/") ? config.root : `${config.root}/`;
+  const isPage = config.surface === "page";
   const isMobile = window.matchMedia("(max-width: 767px)").matches;
   const connection = navigator.connection;
   const lowPowerMobile =
@@ -14,9 +15,11 @@
       (navigator.deviceMemory && navigator.deviceMemory < 4) ||
       (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4));
 
-  if (lowPowerMobile || !supportsWebGL()) return;
+  if ((!isPage && lowPowerMobile) || !supportsWebGL()) return;
 
-  const hiddenKey = "nemo-live2d-hidden";
+  const hiddenKey = isPage
+    ? "nemo-live2d-page-hidden"
+    : "nemo-live2d-hidden";
   const modelKey = "nemo-live2d-model";
   const models = [
     {
@@ -103,7 +106,13 @@
       id: "hiyori",
       name: "桃濑日和",
       source: `${root}live2d/models/hiyori/hiyori_free_t08.model3.json`,
-      fit: { x: 0.5, y: 0.535, scale: 0.97 },
+      fit: {
+        x: 0.5,
+        y: 0.535,
+        scale: 0.97,
+        pageY: 0.8,
+        pageScale: 1.5,
+      },
       motions: { head: "Flick", body: "Tap@Body", lower: "FlickDown" },
       dialogues: {
         head: [
@@ -176,8 +185,8 @@
 
   const widget = document.createElement("aside");
   widget.id = "nemo-live2d-widget";
-  widget.className = "nemo-live2d-widget";
-  widget.setAttribute("aria-label", "文章看板娘");
+  widget.className = `nemo-live2d-widget${isPage ? " is-page" : ""}`;
+  widget.setAttribute("aria-label", isPage ? "看板娘" : "文章看板娘");
   widget.innerHTML = `
     <div class="nemo-live2d-message" role="status" aria-live="polite"></div>
     <div class="nemo-live2d-stage">
@@ -277,13 +286,12 @@
     widget.classList.add("is-loading");
     showMessage("正在赶来……", 0);
     const vendor = `${root}live2d/vendor/`;
-    loadingPromise = [
-      `${vendor}pixi-6.5.10.min.js`,
-      `${vendor}live2d-cubism2.min.js`,
-      `${vendor}live2dcubismcore.min.js`,
-      `${vendor}pixi-live2d-display-0.4.0.min.js`,
-    ]
-      .reduce((promise, src) => promise.then(() => loadScript(src)), Promise.resolve())
+    loadingPromise = Promise.all([
+      loadScript(`${vendor}pixi-6.5.10.min.js`),
+      loadScript(`${vendor}live2d-cubism2.min.js`),
+      loadScript(`${vendor}live2dcubismcore.min.js`),
+    ])
+      .then(() => loadScript(`${vendor}pixi-live2d-display-0.4.0.min.js`))
       .then(createRenderer)
       .then(() => loadModel(getSavedModel()))
       .then(() => {
@@ -384,12 +392,14 @@
     const widthScale = (app.screen.width * 0.98) / currentModel.width;
     const heightScale = (app.screen.height * 0.98) / currentModel.height;
     const fit = currentDefinition?.fit || {};
-    const scale = Math.min(widthScale, heightScale) * (fit.scale || 1);
+    const pageScale = isPage ? fit.pageScale || 1 : 1;
+    const scale =
+      Math.min(widthScale, heightScale) * (fit.scale || 1) * pageScale;
     currentModel.scale.set(scale, scale * (fit.scaleY || 1));
     currentModel.anchor.set(0.5, 0.5);
     currentModel.position.set(
-      app.screen.width * (fit.x ?? 0.5),
-      app.screen.height * (fit.y ?? 0.5)
+      app.screen.width * (isPage ? fit.pageX ?? fit.x ?? 0.5 : fit.x ?? 0.5),
+      app.screen.height * (isPage ? fit.pageY ?? fit.y ?? 0.5 : fit.y ?? 0.5)
     );
   }
 

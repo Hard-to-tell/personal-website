@@ -1158,11 +1158,11 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
 }
 
 .nemo-live2d-widget[data-model='asuna'] .nemo-live2d-message {
-  right: calc(100% - 38px);
+  right: calc(100% - 44px);
 }
 
 .nemo-live2d-widget[data-model='hiyori'] .nemo-live2d-message {
-  right: 66%;
+  right: 64%;
 }
 
 .nemo-live2d-tap-zones button {
@@ -1184,15 +1184,15 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
   top: 30px;
   right: calc(100% + 8px);
   z-index: 2;
-  width: min(230px, calc(100vw - 32px));
+  width: min(205px, calc(100vw - 32px));
   border: 1px solid rgba(137, 165, 196, 0.34);
-  border-radius: 14px;
-  padding: 9px 12px;
+  border-radius: 12px;
+  padding: 7px 10px;
   color: var(--color-text);
   background: rgba(250, 252, 255, 0.9);
   box-shadow: 0 10px 30px rgba(16, 32, 52, 0.16);
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: 0.75rem;
+  line-height: 1.45;
   text-align: center;
   opacity: 0;
   overflow-wrap: anywhere;
@@ -1284,6 +1284,10 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
 }
 
 @media (max-width: 767px) {
+  .nemo-live2d-tap-zones button:focus-visible {
+    outline: none;
+  }
+
   .nemo-live2d-widget {
     right: max(58px, calc(env(safe-area-inset-right) + 58px));
     bottom: max(2px, env(safe-area-inset-bottom));
@@ -1313,6 +1317,135 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
   .nemo-live2d-wake {
     right: -40px;
     bottom: 60px;
+  }
+}
+
+#main-nav .main-nav-link-wrap[href$='/waifu/'] {
+  display: none;
+}
+
+html.nemo-live2d-page,
+html.nemo-live2d-page body {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(69, 104, 142, 0.26), transparent 42%),
+    linear-gradient(165deg, #182330 0%, #0d141d 100%);
+}
+
+.nemo-live2d-page body {
+  margin: 0;
+}
+
+.nemo-live2d-page-back {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  z-index: 1000;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(137, 165, 196, 0.34);
+  border-radius: 50%;
+  color: #edf2f7;
+  background: rgba(18, 27, 42, 0.72);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.nemo-live2d-widget.is-page {
+  right: auto;
+  bottom: max(4px, env(safe-area-inset-bottom));
+  left: 50%;
+  width: min(360px, 76vw);
+  height: min(620px, 86vh);
+  transform: translateX(-50%);
+}
+
+.nemo-live2d-widget.is-page .nemo-live2d-message {
+  top: -68px;
+  right: auto;
+  left: 50%;
+  width: min(190px, calc(100vw - 32px));
+  transform: translate(-50%, -6px);
+}
+
+.nemo-live2d-widget.is-page .nemo-live2d-message.is-visible {
+  transform: translate(-50%, 0);
+}
+
+.nemo-live2d-widget.is-page[data-model='asuna'] .nemo-live2d-message {
+  top: 15%;
+}
+
+.nemo-live2d-widget.is-page[data-model='hiyori'] .nemo-live2d-message {
+  top: 4%;
+}
+
+.nemo-live2d-mobile-link {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .nemo-live2d-mobile-link {
+    position: fixed;
+    right: max(12px, calc(env(safe-area-inset-right) + 12px));
+    bottom: max(72px, calc(env(safe-area-inset-bottom) + 72px));
+    z-index: 997;
+    display: grid;
+    width: 34px;
+    place-items: center;
+    border: 1px solid rgba(137, 165, 196, 0.34);
+    border-radius: 12px;
+    padding: 9px 7px;
+    color: var(--color-text);
+    background: rgba(250, 252, 255, 0.88);
+    box-shadow: 0 8px 24px rgba(16, 32, 52, 0.16);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    text-decoration: none;
+    writing-mode: vertical-rl;
+    backdrop-filter: blur(10px);
+  }
+
+  [data-theme='dark'] .nemo-live2d-mobile-link {
+    color: #edf2f7;
+    background: rgba(18, 27, 42, 0.84);
+  }
+
+  .nemo-live2d-widget.is-page {
+    right: auto;
+    bottom: max(2px, env(safe-area-inset-bottom));
+    left: 50%;
+    width: min(280px, 72vw);
+    height: min(620px, 72vh);
+  }
+
+  .nemo-live2d-widget.is-page .nemo-live2d-message {
+    top: -64px;
+    right: auto;
+    left: 50%;
+    width: min(176px, calc(100vw - 32px));
+  }
+
+  .nemo-live2d-widget.is-page[data-model='asuna'] .nemo-live2d-message {
+    top: 26%;
+  }
+
+  .nemo-live2d-widget.is-page[data-model='hiyori'] .nemo-live2d-message {
+    top: 4%;
+  }
+
+  .nemo-live2d-widget.is-page .nemo-live2d-tools {
+    right: -40px;
+    bottom: 72px;
+  }
+
+  .nemo-live2d-widget.is-page .nemo-live2d-wake {
+    right: -40px;
+    bottom: 72px;
   }
 }
 
