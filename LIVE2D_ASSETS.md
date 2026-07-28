@@ -1,7 +1,7 @@
 # Live2D assets
 
-- Asuna runtime files: `weblive2d` 1.0.12, using the `asuna_01`,
-  `asuna_02`, `asuna_03`, and `asuna_04` outfits. Shared face, hair,
+- Asuna runtime files: `weblive2d` 1.0.12, using the `asuna_01` through
+  `asuna_06` outfits. Shared face, hair,
   expression, motion, and physics files are stored only once.
 - Hiyori Momose: Live2D official sample data, `hiyori_free` runtime files only.
 - Renderer: PixiJS 6.5.10 and `pixi-live2d-display` 0.4.0.

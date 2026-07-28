@@ -42,8 +42,16 @@
           name: "学院制服",
           source: `${root}live2d/models/asuna/asuna_04.json`,
         },
+        {
+          name: "夏日泳装",
+          source: `${root}live2d/models/asuna/asuna_05.json`,
+        },
+        {
+          name: "粉色洋装",
+          source: `${root}live2d/models/asuna/asuna_06.json`,
+        },
       ],
-      fit: { x: 0.5, y: 0.9, scale: 1.45, scaleY: 1.236 },
+      fit: { x: 0.5, y: 0.94, scale: 1.45, scaleY: 1.236 },
       motions: { head: "", body: "", lower: "" },
       dialogues: {
         head: [
