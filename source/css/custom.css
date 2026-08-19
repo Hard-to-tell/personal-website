@@ -1284,6 +1284,10 @@ html.nemo-home #main > .nemo-fun-panel .nemo-fun-actions button {
 }
 
 @media (max-width: 767px) {
+  .nemo-live2d-tap-zones button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .nemo-live2d-tap-zones button:focus-visible {
     outline: none;
   }
@@ -1431,7 +1435,7 @@ html.nemo-live2d-page body {
   }
 
   .nemo-live2d-widget.is-page[data-model='asuna'] .nemo-live2d-message {
-    top: 26%;
+    top: 10%;
   }
 
   .nemo-live2d-widget.is-page[data-model='hiyori'] .nemo-live2d-message {
