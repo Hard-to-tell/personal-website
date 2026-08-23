@@ -15,6 +15,8 @@ cover: /images/image-2.png
 
 我也在里面做了一点很小的合并，并另外写了一个让角色在空闲时主动开口的心跳插件。这篇就简单记一下它们。
 
+插件地址： [https://github.com/Hard-to-tell/shinsekai-heartbeat](https://github.com/Hard-to-tell/shinsekai-heartbeat)  最近还更新了番茄钟功能
+
 ![image.png](/images/image-2.png)
 
 *Chat Stage 的界面预览，截图来自 Shinsekai -heartbeat项目仓库。*
