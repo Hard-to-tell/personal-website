@@ -11,6 +11,7 @@ function createAssetVersion() {
     "source/js/calibration-game.js",
     "source/js/comment-ux.js",
     "source/js/friend-links.js",
+    "source/js/bookmark-model.js",
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
     "source/js/live2d-widget.js",
@@ -101,7 +102,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}${versionedScript("nemo-friend-links-data.js", false)}${versionedScript("friend-links.js")}`,
+    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}${versionedScript("nemo-friend-links-data.js", false)}${versionedScript("bookmark-model.js")}${versionedScript("friend-links.js")}`,
   "page"
 );
 
@@ -197,7 +198,7 @@ hexo.extend.generator.register("nemo_friend_links_data", () => {
 
   return {
     path: "js/nemo-friend-links-data.js",
-    data: `window.__NEMO_FRIEND_LINKS__=${payload};`,
+    data: `window.__NEMO_FRIEND_LINKS__=${payload};window.__NEMO_BOOKMARK_CONFIG__=${JSON.stringify({ apiOrigin: hexo.config.bookmarks?.api_origin || "" }).replace(/</g, "\\u003c")};`,
   };
 });
 

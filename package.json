@@ -3,6 +3,8 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
+    "test:bookmarks": "npm --prefix bookmark-service test",
+    "preview:bookmarks": "node bookmark-service/tools/preview.cjs",
     "dev": "npm run gallery:build && hexo server",
     "clean": "hexo clean",
     "build": "npm run gallery:build && hexo clean && hexo generate",

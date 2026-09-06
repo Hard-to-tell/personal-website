@@ -1,0 +1,12 @@
+{
+  "name": "nemo-bookmark-service",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/*.test.cjs",
+    "migrate": "node tools/migrate.cjs",
+    "backup": "node tools/backup.cjs"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": { "mongodb": "^6.21.0", "yaml": "^2.8.1" }
+}

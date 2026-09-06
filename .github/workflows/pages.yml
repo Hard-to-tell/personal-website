@@ -39,6 +39,9 @@ jobs:
       - name: Prepare gallery images
         run: python -m pip install --disable-pip-version-check Pillow && python tools/build-gallery-images.py
 
+      - name: Verify bookmark behavior and permissions
+        run: npm --prefix bookmark-service ci && npm run test:bookmarks
+
       - name: Build
         run: npx hexo generate --config _config.yml,_config.pages.yml
 

@@ -70,6 +70,8 @@ git status
 
 ## 继续阅读
 
+- [书签管理配置与验收](bookmark-service/README.md)：友链页管理、多层书签夹、GitHub 登录、数据库迁移及上线开关。
+
 - [CUSTOMIZATION.md](CUSTOMIZATION.md)：换头像、壁纸、颜色、光标，写文章
 - [OPERATIONS.md](OPERATIONS.md)：部署架构、免费额度、域名、安全、备份和排错
 - [REQUIREMENTS.md](REQUIREMENTS.md)：当前需求、设计偏好和暂不实现的功能

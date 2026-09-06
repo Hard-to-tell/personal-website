@@ -1,5 +1,7 @@
 node_modules/
 public/
+!bookmark-service/public/
+!bookmark-service/public/index.html
 .deploy_git/
 .cache/
 .temp/
@@ -14,3 +16,6 @@ design-assets/originals/
 design-assets/gallery-originals/
 source/images/gallery/thumbs/
 source/images/gallery/full/
+output/
+.playwright-cli/
+.netlify/

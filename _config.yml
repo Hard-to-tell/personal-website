@@ -73,3 +73,7 @@ search:
 
 # Deployment is configured after the hosting account is ready.
 deploy:
+
+# Enable after the independent bookmark API and database migration are ready.
+bookmarks:
+  api_origin: ""

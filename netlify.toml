@@ -1,0 +1,17 @@
+# Dedicated bookmark API site only. The blog continues to deploy to GitHub Pages.
+[build]
+  command = "npm --prefix bookmark-service ci"
+  publish = "bookmark-service/public"
+  functions = "bookmark-service/netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/bookmarks/:splat"
+  status = 200
+  force = true
