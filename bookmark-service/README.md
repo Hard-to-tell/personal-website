@@ -26,7 +26,7 @@ npm.cmd run preview:bookmarks
 
 1. 在现有 Netlify 账号内新建独立项目，从 `Hard-to-tell/personal-website` 导入。仓库根目录的 `netlify.toml` 已配置安装命令、发布目录、函数目录和 `/api/*` 路由。不要把 base directory 改为 `bookmark-service`。
 2. 将 API 自定义域名设为 `bookmarks-api.exileland.online`，在域名服务商为 `bookmarks-api` 创建指向这个**新项目实际 Netlify 域名**的 CNAME，并等待 HTTPS 证书就绪。不要改网站根域名或留言服务域名。
-3. 在 GitHub Settings → Developer settings → OAuth Apps 新建专用 OAuth 应用。主页填 `https://exileland.online/friend/`，回调填 `https://bookmarks-api.exileland.online/api/auth/callback`。应用只用于身份验证，不申请 repo、email 等权限。保存生成的 Client ID 和 Client Secret 到 Netlify 的私密环境配置。
+3. 在 GitHub Settings → Developer settings → OAuth Apps 新建专用 OAuth 应用。主页填 `https://exileland.online/friend/`，回调填 `https://bookmarks-api.exileland.online/auth/callback`。应用只用于身份验证，不申请 repo、email 等权限。保存生成的 Client ID 和 Client Secret 到 Netlify 的私密环境配置。
 4. 按 `.env.example` 配置下表变量，并重新部署 API。秘密不能写进前端配置、Git 或聊天。
 5. 在受保护的本地环境中配置 `MONGODB_URI` 和 `BOOKMARK_DB`，运行迁移写入。只有 `--apply` 才写数据库；初始化使用 `$setOnInsert`，重复执行不会覆盖在线修改。
 6. 访问 API 的 `/api/bookmarks`，确认 52 个书签和 6 个文件夹。再将 `_config.yml` 中 `bookmarks.api_origin` 改成 `https://bookmarks-api.exileland.online`，完成本地构建检查后发布 GitHub Pages。
@@ -56,7 +56,7 @@ node --env-file=bookmark-service/.env bookmark-service/tools/migrate.cjs --apply
 
 - `GET /api/bookmarks`：返回 `{ version, nodes }`，公开只读。节点含 `id/type/parentId/title`，书签另有 `url/note`；数组顺序即创建顺序。
 - `PUT /api/bookmarks`：提交 `{ version, operation }`；操作为 `create`（`node`）、`update`（`id/changes`）、`delete`（`id`）。不开放整树覆盖或任意数据库查询。
-- `GET /api/auth/login`、`GET /api/auth/callback`：GitHub OAuth state + PKCE；仅接受配置的用户数字编号。GitHub token 不发送给浏览器，也不保存在数据库或日志。
+- `GET /api/auth/login`、`GET /auth/callback`：GitHub OAuth state + PKCE；仅接受配置的用户数字编号。GitHub token 不发送给浏览器，也不保存在数据库或日志。
 - `GET /api/session`：返回登录状态，站长会话额外返回 CSRF token；`POST /api/auth/logout` 撤销服务端会话。
 - 会话为随机、不透明、7 天有效的 `__Host-` Cookie，设置 Secure、HttpOnly、SameSite=Lax。数据库只保存会话标识的哈希。OAuth 临时状态 10 分钟有效且只能消费一次。数据库 TTL 清理之外，每次读取也检查有效期。
 - 写入必须同时通过管理员会话、精确 Origin 和 CSRF 校验。CORS 不接受通配来源。API 必须部署在网站的 HTTPS 子域名，不能直接用 `*.netlify.app` 作为前端地址。

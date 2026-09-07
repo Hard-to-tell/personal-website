@@ -33,7 +33,9 @@ function createHandler({ store, config, fetchImpl = fetch, initialNodes = null }
     const error = (status, message, code) => reply(status, { error: message, code });
     const route = event.path.replace(/^\/\.netlify\/functions\/bookmarks/, "").replace(/^\/api/, "") || "/";
     const method = event.httpMethod;
-    const callback = `${config.apiOrigin}/api/auth/callback`;
+    // Keep the OAuth callback outside /api: some browser privacy extensions block
+    // top-level navigations to API-looking paths even though normal fetches work.
+    const callback = `${config.apiOrigin}/auth/callback`;
     try {
       if (origin && origin !== config.siteOrigin) return error(403, "不允许此来源访问。");
       if (method === "OPTIONS") {

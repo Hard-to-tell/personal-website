@@ -107,6 +107,7 @@ test("OAuth uses state and PKCE, accepts only configured numeric user ID, sets s
   const target = new URL(login.headers.Location);
   assert.equal(target.searchParams.get("scope"), "");
   assert.equal(target.searchParams.get("code_challenge_method"), "S256");
+  assert.equal(target.searchParams.get("redirect_uri"), `${config.apiOrigin}/auth/callback`);
   const state = target.searchParams.get("state");
   const callback = event("GET", "/auth/callback", undefined, { headers: { cookie: `${OAUTH_COOKIE}=${state}` }, queryStringParameters: { code: "temporary-code", state } });
   const result = await handler(callback);

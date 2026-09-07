@@ -11,6 +11,12 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "/auth/*"
+  to = "/.netlify/functions/bookmarks/auth/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/bookmarks/:splat"
   status = 200
