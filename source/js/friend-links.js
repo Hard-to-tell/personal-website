@@ -185,7 +185,7 @@
       const children = nodes.filter((node) => node.parentId === current);
       for (const node of children) {
         const row = element("li", "nemo-bookmark-row");
-        if (node.type === "folder") row.append(button(`▱ ${node.title}`, () => navigate(node.id), "nemo-bookmark-item"));
+        if (node.type === "folder") row.append(button(node.title, () => navigate(node.id), "nemo-bookmark-item"));
         else {
           const link = element("a", "nemo-bookmark-item");
           link.href = node.url;
