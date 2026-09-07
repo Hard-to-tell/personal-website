@@ -76,4 +76,4 @@ deploy:
 
 # Enable after the independent bookmark API and database migration are ready.
 bookmarks:
-  api_origin: ""
+  api_origin: "https://bookmarks-api.exileland.online"
