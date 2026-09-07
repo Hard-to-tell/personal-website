@@ -1,12 +1,12 @@
 # 友链书签管理
 
-友链页公开展示收藏；站长通过 GitHub 登录后，可新增多层书签夹、添加/编辑/移动/删除书签、改名或移动书签夹。只允许删除空书签夹。暂不包含拖拽、批量操作或 Chrome 同步。
+友链页公开展示收藏；站长通过 GitHub 登录后，可新增多层书签夹、添加/编辑/移动/删除书签、改名或移动书签夹。只允许删除空书签夹。页面可导出浏览器通用 HTML 和完整 JSON 备份。暂不包含拖拽、批量操作或 Chrome 同步。
 
 ## 当前代码与上线开关
 
 网站仍由 GitHub Pages 发布。此目录是**独立的 Netlify API 项目**，不要用它覆盖现有 Twikoo 项目 `keen-sopapillas-38639e`。API 使用 `bookmarks-api.exileland.online`，MongoDB 使用独立数据库 `nemo_bookmarks`，不写留言集合。
 
-`_config.yml` 的 `bookmarks.api_origin` 默认留空。在完成下面配置、迁移和联调前保持为空；页面仍展示旧收藏，点击管理会说明尚未启用。此时不能在线编辑。Pages CMS 的旧书签清单入口已移除，避免启用后产生两份不同数据；原始 `source/_data/friends.yml` 保留作迁移来源和明确标记的离线旧副本。
+`_config.yml` 的 `bookmarks.api_origin` 已指向正式书签服务。需要临时回退时可将它留空并重新发布；页面会展示旧收藏副本，但不能在线编辑。Pages CMS 的旧书签清单入口已移除，避免产生两份不同数据；原始 `source/_data/friends.yml` 保留作迁移来源和明确标记的离线旧副本。
 
 ## 本地检查与预览
 
@@ -78,6 +78,8 @@ node --env-file=bookmark-service/.env bookmark-service/tools/migrate.cjs --apply
 ```powershell
 node --env-file=bookmark-service/.env bookmark-service/tools/backup.cjs C:\Users\nemos\Documents\bookmarks-backup.json
 ```
+
+日常也可以直接在友链页点击“导出”：HTML 文件可导入 Chrome、Edge 或 Firefox，JSON 文件完整保留数据版本、书签夹层级、名称、网址、说明和顺序。
 
 回退界面时先备份数据库，再把 `bookmarks.api_origin` 留空并重新发布；会显示旧版收藏。不要删除书签数据库，也不要重新导入旧 YAML 覆盖在线数据。数据库故障恢复后可重新启用 API 地址。
 

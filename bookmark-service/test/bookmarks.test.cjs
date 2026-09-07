@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { parse } = require("yaml");
-const { validateTree, normalizeUrl, applyOperation, fromLegacy } = require("../../source/js/bookmark-model.js");
+const { validateTree, normalizeUrl, applyOperation, fromLegacy, toNetscapeHtml } = require("../../source/js/bookmark-model.js");
 const { fixture, seed, config } = require("./helpers.cjs");
 const { OAUTH_COOKIE, SESSION_COOKIE, readConfig } = require("../lib/api.cjs");
 
@@ -14,6 +14,15 @@ test("legacy migration preserves every bookmark, note, category and source order
   assert.equal(links.length, entries.length);
   assert.deepEqual(links.map(({ title, url, note, parentId }) => ({ title, url, note, category: nodes.find((n) => n.id === parentId).title })), entries.map((entry) => ({ ...entry, url: normalizeUrl(entry.url), note: entry.note || "" })));
   assert.deepEqual(fromLegacy(entries), nodes);
+});
+test("browser export preserves nesting and escapes bookmark content", () => {
+  const html = toNetscapeHtml([
+    { id: "folder", type: "folder", parentId: null, title: "研究 & 资料" },
+    { id: "link", type: "bookmark", parentId: "folder", title: "示例 <站点>", url: "https://example.com/?a=1&b=2", note: '说明 "一"' },
+  ]);
+  assert.match(html, /NETSCAPE-Bookmark-file-1/);
+  assert.match(html, /<H3>研究 &amp; 资料<\/H3>[\s\S]*<DL><p>[\s\S]*<A HREF="https:\/\/example\.com\/\?a=1&amp;b=2">示例 &lt;站点&gt;<\/A>/);
+  assert.match(html, /<DD>说明 &quot;一&quot;/);
 });
 test("URL validation accepts missing protocol and rejects scripts, credentials and whitespace", () => {
   assert.equal(normalizeUrl("example.com/path"), "https://example.com/path");

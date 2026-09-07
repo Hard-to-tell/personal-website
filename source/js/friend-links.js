@@ -152,6 +152,9 @@
         reload.disabled = loading || saving;
         actions.append(reload);
       }
+      const exportButton = button("导出", exportBookmarks);
+      exportButton.disabled = loading || saving || !nodes.length;
+      actions.append(exportButton);
       if (session.admin) {
         const add = button("＋ 添加书签", () => editNode("bookmark"));
         const folder = button("新建书签夹", () => editNode("folder"));
@@ -196,6 +199,27 @@
       }
       content.append(list);
       if (!children.length) content.append(element("p", "nemo-friend-empty", session.admin ? "这里还是空的，可以添加书签或新建书签夹。" : "这个书签夹还是空的。"));
+    }
+    function download(name, content, type) {
+      const url = URL.createObjectURL(new Blob([content], { type }));
+      const link = element("a");
+      link.href = url;
+      link.download = name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+    function exportBookmarks() {
+      const ui = openDialog("导出书签");
+      ui.form.append(element("p", "", "HTML 可导入 Chrome、Edge 或 Firefox；JSON 用于完整备份和以后恢复本站。"));
+      ui.submit.remove();
+      ui.cancel.textContent = "关闭";
+      const date = new Date().toISOString().slice(0, 10);
+      const html = button("浏览器书签 (.html)", () => download(`exileland-bookmarks-${date}.html`, model.toNetscapeHtml(nodes), "text/html;charset=utf-8"), "nemo-bookmark-primary");
+      const json = button("完整备份 (.json)", () => download(`exileland-bookmarks-${date}.json`, `${JSON.stringify({ format: "nemo-bookmarks", schemaVersion: 1, dataVersion: version, exportedAt: new Date().toISOString(), nodes: model.validateTree(nodes) }, null, 2)}\n`, "application/json;charset=utf-8"));
+      ui.buttons.prepend(html, json);
+      ui.show();
     }
     function menu(node) {
       const details = element("details", "nemo-bookmark-menu");
