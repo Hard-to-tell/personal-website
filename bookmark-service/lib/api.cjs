@@ -18,7 +18,7 @@ function readConfig(env = process.env) {
   return { siteOrigin: site.origin, apiOrigin: api.origin, clientId: env.GITHUB_CLIENT_ID, clientSecret: env.GITHUB_CLIENT_SECRET, adminId: env.GITHUB_ADMIN_ID };
 }
 
-function createHandler({ store, config, fetchImpl = fetch }) {
+function createHandler({ store, config, fetchImpl = fetch, initialNodes = null }) {
   return async function handler(event) {
     const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([key, value]) => [key.toLowerCase(), value]));
     const cookies = Object.fromEntries((headers.cookie || "").split(";").map((part) => part.trim().split("=")).filter((parts) => parts.length === 2));
@@ -71,7 +71,11 @@ function createHandler({ store, config, fetchImpl = fetch }) {
         return redirect(`${config.siteOrigin}/friend/`, [cookie(OAUTH_COOKIE, "", 0), cookie(SESSION_COOKIE, session, SESSION_SECONDS)]);
       }
       if (route === "/bookmarks" && method === "GET") {
-        const tree = await store.getTree();
+        let tree = await store.getTree();
+        if (!tree && initialNodes) {
+          await store.initialize(initialNodes);
+          tree = await store.getTree();
+        }
         return tree ? reply(200, tree) : error(503, "在线书签尚未初始化。", "UNINITIALIZED");
       }
       const session = await store.getAuth("session", cookies[SESSION_COOKIE]);

@@ -88,6 +88,15 @@ test("unavailable database reports an error without leaking credentials; uniniti
   assert.equal(response.statusCode, 503);
   assert.ok(!response.body.includes("SECRET"));
 });
+test("an empty database initializes once from the bundled public bookmark tree", async () => {
+  const { handler, event, store } = await fixture({ initialNodes: seed });
+  store.clearTree();
+  const first = await handler(event("GET", "/bookmarks", undefined, { headers: {} }));
+  assert.equal(first.statusCode, 200);
+  assert.deepEqual(JSON.parse(first.body), { version: 1, nodes: seed });
+  const second = await handler(event("GET", "/bookmarks", undefined, { headers: {} }));
+  assert.deepEqual(JSON.parse(second.body), { version: 1, nodes: seed });
+});
 test("OAuth uses state and PKCE, accepts only configured numeric user ID, sets secure cookie and prevents replay", async () => {
   const calls = [];
   const { handler, event } = await fixture({ fetchImpl: async (url, options) => {
