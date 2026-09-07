@@ -1,5 +1,11 @@
 (() => {
   "use strict";
+  const currentUrl = new URL(window.location.href);
+  const oauthParams = ["code", "state", "iss"];
+  if (oauthParams.some((name) => currentUrl.searchParams.has(name))) {
+    oauthParams.forEach((name) => currentUrl.searchParams.delete(name));
+    history.replaceState(history.state, "", `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`);
+  }
   const model = window.NemoBookmarks;
   if (!model) return;
   window.__NEMO_BOOKMARK_DISPOSE__?.();
