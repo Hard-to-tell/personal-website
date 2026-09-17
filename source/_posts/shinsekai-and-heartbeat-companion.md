@@ -10,6 +10,7 @@ tags:
   - 插件开发
 description: 简单认识 AI 角色桌面助手 Shinsekai，以及我为它补上的沉浸模式和 Heartbeat Companion 心跳插件。
 cover: /images/image-2.png
+featured: true
 ---
 最近接触了一个很有意思的项目：[Shinsekai（新世界）](https://github.com/RachelForster/Shinsekai)。它想做的并不只是一个套着角色立绘的聊天框，而是把大语言模型、角色设定、Galgame 式演出、语音与插件系统放进同一个桌面应用里。
 

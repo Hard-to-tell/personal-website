@@ -14,6 +14,8 @@ function createAssetVersion() {
     "source/js/bookmark-model.js",
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
+    "source/js/home-magazine.js",
+    "source/js/home-title-erosion.js",
     "source/js/live2d-widget.js",
     "source/js/nemo-fun.js",
     "source/js/site-ux.js",
@@ -28,6 +30,17 @@ function createAssetVersion() {
     hash.update(filename);
     hash.update(fs.readFileSync(absolute));
   });
+
+  const postsDir = path.join(hexo.source_dir, "_posts");
+  if (fs.existsSync(postsDir)) {
+    fs.readdirSync(postsDir, { withFileTypes: true })
+      .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
+      .sort((left, right) => left.name.localeCompare(right.name))
+      .forEach((entry) => {
+        hash.update(entry.name);
+        hash.update(fs.readFileSync(path.join(postsDir, entry.name)));
+      });
+  }
 
   const musicDir = path.join(hexo.source_dir, "music");
   if (fs.existsSync(musicDir)) {
@@ -88,9 +101,46 @@ hexo.extend.injector.register(
 
 hexo.extend.injector.register(
   "body_end",
-  () => `${versionedScript("home-hero.js")}${versionedScript("nemo-fun.js")}`,
+  () =>
+    `${versionedScript("nemo-home-data.js", false)}${versionedScript("home-hero.js")}${versionedScript("home-title-erosion.js")}${versionedScript("home-magazine.js")}`,
   "home"
 );
+
+hexo.extend.generator.register("nemo_home_data", () => {
+  const posts = hexo.locals.get("posts").sort("date", -1).toArray();
+  const featured = posts.find((post) => post.featured) || posts[0];
+  const data = hexo.locals.get("data") || {};
+  const gallery = Array.isArray(data.gallery) ? data.gallery : [];
+  const galleryItems = gallery
+    .filter((entry) => entry && entry.image && entry.date)
+    .map((entry) => {
+      const image = String(entry.image);
+      const filename = path.posix.basename(image);
+      const extension = path.posix.extname(filename);
+      const stem = filename.slice(0, -extension.length);
+      return {
+        thumbnail: image.startsWith("/images/gallery/originals/")
+          ? `/images/gallery/thumbs/${stem}.webp`
+          : image,
+        date:
+          entry.date instanceof Date
+            ? entry.date.toISOString().slice(0, 10)
+            : String(entry.date).slice(0, 10),
+        note: entry.note ? String(entry.note) : "",
+      };
+    })
+    .sort((left, right) => right.date.localeCompare(left.date))
+    .slice(0, 3);
+  const payload = JSON.stringify({
+    featuredPath: featured ? `/${featured.path}` : "",
+    gallery: galleryItems,
+  }).replace(/</g, "\\u003c");
+
+  return {
+    path: "js/nemo-home-data.js",
+    data: `window.__NEMO_HOME__=${payload};`,
+  };
+});
 
 hexo.extend.injector.register(
   "body_end",

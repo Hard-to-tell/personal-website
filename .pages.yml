@@ -74,6 +74,11 @@ content:
         description: 可选。选择已上传的图片，或上传到 source/images。没有合适图片就留空。
         options:
           media: images
+      - name: featured
+        label: 首页主推
+        type: boolean
+        default: false
+        description: 开启后，这篇文章会显示为首页的大幅主推内容。建议只开启一篇。
       - name: body
         label: 正文
         type: rich-text
