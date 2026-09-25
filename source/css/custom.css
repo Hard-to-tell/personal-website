@@ -179,7 +179,7 @@ html.nemo-home.nemo-erosion-ready #header-title h1 {
 
 /* A quiet editorial home: one lead story, a text-led list, then photographs. */
 html.nemo-home #content {
-  max-width: 1120px;
+  max-width: 1000px;
 }
 
 html.nemo-home #sidebar {
@@ -190,7 +190,7 @@ html.nemo-home #main {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 0 34px;
+  padding: 0 40px;
 }
 
 html.nemo-home .nemo-magazine {
