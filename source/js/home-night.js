@@ -28,9 +28,10 @@
   title.innerHTML =
     '<div class="nemo-night-title-mark"><svg viewBox="0 0 400 96"><text x="0" y="76">在流放地</text></svg><i></i></div>' +
     '<span class="nemo-night-rule"></span><span class="nemo-night-kicker">IN DER STRAFKOLONIE</span>';
-  const cue = document.createElement("div");
+  const cue = document.createElement("button");
+  cue.type = "button";
   cue.className = "nemo-night-cue";
-  cue.setAttribute("aria-hidden", "true");
+  cue.setAttribute("aria-label", "看文章");
   cue.textContent = "SCROLL";
   header.append(title, cue);
   const needle = title.querySelector("i");
@@ -158,6 +159,7 @@
     else if (e.key === "ArrowUp") { e.preventDefault(); nudge(-SCRUB * 0.34); }
     else if (["PageDown", "End"].includes(e.key)) { e.preventDefault(); nudge(SCRUB); }
   });
+  cue.addEventListener("click", () => nudge(SCRUB));
   // keyboard focus or the skip link heading for the posts lets the picture go at once
   content.addEventListener("focusin", () => weather(false));
   addEventListener("scroll", () => {
@@ -172,6 +174,7 @@
     title.style.transform = `translateY(${-(1 - vis) * 14}px)`;
     title.style.visibility = vis < 0.01 ? "hidden" : "visible";
     cue.style.opacity = 0.55 * (1 - clamp(p / 0.2, 0, 1));
+    cue.style.visibility = p > 0.2 ? "hidden" : "visible";
   }
 
   const COMMON = `

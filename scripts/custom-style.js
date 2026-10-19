@@ -82,7 +82,7 @@ hexo.extend.injector.register(
   "head_end",
   () => {
     const root = JSON.stringify(hexo.config.root);
-    return `<script>(()=>{const root=${root};const path=location.pathname.replace(/index\\.html$/,"");const base=root.endsWith("/")?root:root+"/";document.documentElement.classList.toggle("nemo-home",path===root);document.documentElement.classList.toggle("nemo-nocturne",path===root);document.documentElement.classList.toggle("nemo-message",path===base+"message/");})();</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
+    return `<script>(()=>{try{localStorage.removeItem("dark_mode")}catch(e){}document.documentElement.classList.add("nemo-ink");document.documentElement.setAttribute("data-theme","dark");const root=${root};const path=location.pathname.replace(/index\\.html$/,"");const base=root.endsWith("/")?root:root+"/";document.documentElement.classList.toggle("nemo-home",path===root);document.documentElement.classList.toggle("nemo-nocturne",path===root);document.documentElement.classList.toggle("nemo-message",path===base+"message/");})();</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
   },
   "default"
 );
@@ -279,6 +279,18 @@ hexo.extend.filter.register("after_render:html", (html) => {
     `src="${hexo.config.root}js/calibration-game.js"`,
     `src="${hexo.config.root}js/calibration-game.js?v=${assetVersion}"`
   );
+
+  // The home page draws its own hero (home-night.js): skip the theme banner download
+  // (an empty img stays, the theme's script looks it up) and fetch the hero photo early instead.
+  if (html.includes("js/nemo-home-data.js")) {
+    const banner = hexo.theme.config.banner;
+    html = html
+      .replace(new RegExp(`<img\\s+fetchpriority="high" src="${banner}" alt="">`), '<img alt="">')
+      .replace(
+        "</head>",
+        `<link rel="preload" as="image" href="${hexo.config.root}images/hero/isle-2560.webp" media="(min-width: 760px)" fetchpriority="high"><link rel="preload" as="image" href="${hexo.config.root}images/hero/isle-1600.webp" media="(max-width: 759.98px)" fetchpriority="high"></head>`
+      );
+  }
 
   return html.replace(
     /<img class="reimu-bg"(?![^>]*\balt=)([^>]*)>/g,

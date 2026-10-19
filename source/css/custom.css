@@ -2901,7 +2901,14 @@ html.nemo-night .nemo-night-title {
   font-size: 10.5px;
   letter-spacing: 0.42em;
   opacity: 0.55;
-  pointer-events: none;
+  padding: 10px 0 10px 10px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+html.nemo-night-static .nemo-night-cue {
+  display: none;
 }
 
 .nemo-night-cue::after {
@@ -3101,4 +3108,385 @@ html.nemo-nocturne #footer .footer-line {
   html.nemo-nocturne #main {
     padding-top: 10vh;
   }
+}
+
+/* ---------- Site: nocturne skin ----------
+   Every page shares the home page's night: ink background, quiet glass cards,
+   warm gold for links and accents, serif headings. */
+:root.nemo-ink,
+:root.nemo-ink[data-theme='dark'] {
+  --nn-ink: #070c16;
+  --nn-paper: #e6ebf2;
+  --nn-text: #c2cbd7;
+  --nn-muted: #8796ab;
+  --nn-faint: #5d6c82;
+  --nn-accent: #d9b98c;
+  --nn-line: rgba(135, 150, 171, 0.16);
+  --nn-glass: rgba(11, 18, 31, 0.62);
+  --nn-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+  --nn-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --red-0: #e4c9a0;
+  --red-1: #d9b98c;
+  --red-2: #c4a272;
+  --red-3: rgba(217, 185, 140, 0.5);
+  --red-4: rgba(217, 185, 140, 0.3);
+  --red-5: rgba(217, 185, 140, 0.12);
+  --red-5-5: rgba(217, 185, 140, 0.07);
+  --red-6: rgba(217, 185, 140, 0.04);
+  --color-red-6-shadow: rgba(0, 0, 0, 0.3);
+  --color-red-3-shadow: rgba(0, 0, 0, 0.25);
+  --color-default: var(--nn-text);
+  --grey-7: var(--nn-muted);
+  --grey-6: var(--nn-faint);
+  --color-archive-year: var(--nn-paper);
+  --color-border: var(--nn-line);
+  --color-link: var(--nn-accent);
+  --color-background: var(--nn-ink);
+  --color-wrap: var(--nn-glass);
+  --color-sticky: var(--nn-glass);
+  --color-header-background: rgba(7, 12, 22, 0.78);
+  --color-footer-background: transparent;
+  --color-mobile-nav-background: #0a111e;
+  --color-h2-border: var(--nn-line);
+  --color-h2-after: var(--nn-accent);
+  --color-meta-shadow: transparent;
+  --color-hover-shadow: rgba(0, 0, 0, 0.25);
+  --shadow-meta: none;
+  --shadow-meta-hover: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --nemo-ink: var(--nn-paper);
+  --nemo-paper: var(--nn-ink);
+  background: var(--nn-ink);
+  color-scheme: dark;
+}
+
+/* the theme dims every image in dark mode; photographs here are already chosen for the night */
+:root.nemo-ink[data-theme='dark'] img,
+:root.nemo-ink[data-theme='dark'] img.lazyloaded {
+  filter: none;
+  animation: none;
+}
+
+html.nemo-ink body {
+  background:
+    radial-gradient(120% 60% at 50% 108%, rgba(120, 140, 175, 0.12), transparent 60%),
+    linear-gradient(180deg, #09101d 0%, var(--nn-ink) 42%) fixed;
+  color: var(--nn-text);
+}
+
+html.nemo-ink #container {
+  position: relative;
+  z-index: 1;
+}
+
+.dark-mode-btn {
+  display: none !important;
+}
+
+/* inner banners: the picture recedes into the night, the title is set small and spaced */
+html.nemo-ink:not(.nemo-home) #header > img,
+html.nemo-ink:not(.nemo-home) #header > picture img {
+  height: 100%;
+  filter: brightness(0.46) saturate(0.6) contrast(1.05);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+html.nemo-ink:not(.nemo-home) #header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 12, 22, 0.55), rgba(7, 12, 22, 0.15) 35%, var(--nn-ink) 100%);
+}
+
+html.nemo-ink:not(.nemo-home) #header-title {
+  z-index: 1;
+}
+
+html.nemo-ink:not(.nemo-home) #header-title h1 {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  line-height: 1.5;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+html.nemo-ink:not(.nemo-home) #subtitle-wrap {
+  color: var(--nn-muted);
+  font-family: var(--nn-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+}
+
+/* navigation */
+html.nemo-ink #header-nav,
+html.nemo-ink #header-nav:hover {
+  background: rgba(7, 12, 22, 0.66);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--nn-line);
+}
+
+html.nemo-ink #header-nav .main-nav-link,
+html.nemo-ink #header-nav .main-nav-link-wrap,
+html.nemo-ink #header-nav .nav-icon {
+  color: rgba(230, 235, 242, 0.84);
+}
+
+html.nemo-ink #main-nav .main-nav-link {
+  font-weight: 400;
+  letter-spacing: 0.22em;
+}
+
+html.nemo-ink #main-nav .main-nav-link-wrap[aria-current='page'] .main-nav-link {
+  color: var(--nn-paper);
+}
+
+/* cards become quiet panes of glass */
+html.nemo-ink .article-inner,
+html.nemo-ink .archives-wrap,
+html.nemo-ink .archives-outer-wrap,
+html.nemo-ink .sidebar-wrap,
+html.nemo-ink .widget-wrap,
+html.nemo-ink .comment,
+html.nemo-ink .post-wrap {
+  border: 1px solid var(--nn-line);
+  border-radius: 6px;
+  background: var(--nn-glass);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: none;
+}
+
+/* the home list stays a list of rows, not a stack of cards */
+html.nemo-ink .nemo-recent-list .post-wrap {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html.nemo-ink .hr-line,
+html.nemo-ink .article-footer::before,
+html.nemo-ink .article-entry h2::before {
+  display: none;
+}
+
+html.nemo-ink .article-date-link {
+  padding: 0;
+  color: var(--nn-accent);
+  background: none;
+  font-family: var(--nn-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  box-shadow: none;
+}
+
+html.nemo-ink .article-date-link::before {
+  display: none;
+}
+
+html.nemo-ink .article-meta {
+  padding-bottom: 6px;
+}
+
+/* reading */
+html.nemo-ink .article-entry {
+  color: var(--nn-text);
+  font-size: 15.5px;
+  line-height: 1.95;
+}
+
+html.nemo-ink .article-entry p {
+  line-height: 1.95;
+}
+
+html.nemo-ink .article-entry h1,
+html.nemo-ink .article-entry h2,
+html.nemo-ink .article-entry h3,
+html.nemo-ink .article-entry h4 {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+html.nemo-ink .article-entry h2 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--nn-line);
+}
+
+html.nemo-ink .article-entry h2::after {
+  width: 28px;
+  height: 1px;
+  border-radius: 0;
+  background: var(--nn-accent);
+}
+
+html.nemo-ink .article-entry a {
+  color: var(--nn-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(217, 185, 140, 0.35);
+  text-underline-offset: 3px;
+}
+
+html.nemo-ink .article-entry a.headerlink,
+html.nemo-ink .article-entry h1 a,
+html.nemo-ink .article-entry h2 a,
+html.nemo-ink .article-entry h3 a {
+  text-decoration: none;
+}
+
+html.nemo-ink .article-entry a:hover {
+  text-decoration-color: currentColor;
+}
+
+html.nemo-ink .article-entry blockquote {
+  border-left: 2px solid rgba(217, 185, 140, 0.45);
+  background: rgba(217, 185, 140, 0.04);
+  color: var(--nn-muted);
+}
+
+html.nemo-ink .article-entry strong {
+  color: var(--nn-paper);
+}
+
+html.nemo-ink .article-tag-list-link,
+html.nemo-ink .archives-tag-list-link,
+html.nemo-ink .archives-category-list-link,
+html.nemo-ink .tag-list-link,
+html.nemo-ink .category-list-link {
+  color: var(--nn-muted);
+}
+
+html.nemo-ink .article-tag-list-item,
+html.nemo-ink .archives-tag-list-item,
+html.nemo-ink .archives-category-list-item {
+  border: 1px solid var(--nn-line);
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+}
+
+html.nemo-ink .article-tag-list-item:hover,
+html.nemo-ink .archives-tag-list-item:hover,
+html.nemo-ink .archives-category-list-item:hover {
+  border-color: rgba(217, 185, 140, 0.45);
+}
+
+html.nemo-ink .article-nav-caption {
+  color: var(--nn-faint);
+  font-family: var(--nn-mono);
+  letter-spacing: 0.2em;
+}
+
+html.nemo-ink .article-nav-title {
+  color: var(--nn-text);
+  font-family: var(--nn-serif);
+  text-shadow: none;
+}
+
+/* archives */
+html.nemo-ink .archive-year {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+}
+
+html.nemo-ink .archive-article-date {
+  color: var(--nn-accent);
+  font-family: var(--nn-mono);
+  font-size: 0.8rem;
+}
+
+html.nemo-ink .archive-article-title {
+  color: var(--nn-text);
+  font-family: var(--nn-serif);
+}
+
+html.nemo-ink .archive-article:hover .archive-article-title {
+  color: var(--nn-paper);
+}
+
+/* one column for everything except articles, which keep their table of contents */
+@media (min-width: 1025px) {
+  html.nemo-ink:not(.nemo-home) #content:not(:has(.sidebar-toc-wrapper)) #sidebar {
+    display: none;
+  }
+
+  html.nemo-ink:not(.nemo-home) #content:not(:has(.sidebar-toc-wrapper)) #main {
+    float: none;
+    width: auto;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+}
+
+html.nemo-ink .toc-link,
+html.nemo-ink .toc-text {
+  color: var(--nn-muted);
+}
+
+html.nemo-ink .toc-link.active .toc-text,
+html.nemo-ink .toc-link:hover .toc-text {
+  color: var(--nn-paper);
+}
+
+html.nemo-ink .widget-title,
+html.nemo-ink .toc-title {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  letter-spacing: 0.2em;
+}
+
+/* footer: just the facts, no decoration */
+html.nemo-ink #footer {
+  background: transparent;
+}
+
+html.nemo-ink #footer .footer-line {
+  display: none;
+}
+
+html.nemo-ink #footer,
+html.nemo-ink #footer-info {
+  color: var(--nn-faint);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+html.nemo-ink #footer a {
+  color: var(--nn-muted);
+}
+
+html.nemo-ink #mobile-nav {
+  background: #0a111e;
+}
+
+/* calibration game */
+html.nemo-ink .nemo-grid-cell {
+  border-color: var(--nn-line);
+  border-radius: 10px;
+  color: var(--nn-paper);
+  background: rgba(230, 235, 242, 0.05);
+  box-shadow: none;
+  font-family: var(--nn-mono);
+  font-weight: 500;
+}
+
+html.nemo-ink .nemo-grid-cell:hover {
+  border-color: rgba(217, 185, 140, 0.45);
+  background: rgba(217, 185, 140, 0.08);
+}
+
+html.nemo-ink .nemo-grid-cell.is-done {
+  color: var(--nn-faint);
+  background: transparent;
 }

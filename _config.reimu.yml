@@ -128,8 +128,9 @@ local_font:
     - Microsoft YaHei
     - monospace
 
+# The whole site is a night piece now (see "Site: nocturne skin" in custom.css).
 dark_mode:
-  enable: auto
+  enable: true
 
 # Theme accent palette. Despite Reimu's variable names using "red",
 # these values control the global accent color throughout the theme.
