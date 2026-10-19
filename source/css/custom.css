@@ -3274,7 +3274,8 @@ html.nemo-ink .nemo-recent-list .post-wrap {
 
 html.nemo-ink .hr-line,
 html.nemo-ink .article-footer::before,
-html.nemo-ink .article-entry h2::before {
+html.nemo-ink .article-entry h2::before,
+html.nemo-ink .article-entry h2::after {
   display: none;
 }
 
@@ -3318,15 +3319,9 @@ html.nemo-ink .article-entry h4 {
 }
 
 html.nemo-ink .article-entry h2 {
+  padding-left: 0;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--nn-line);
-}
-
-html.nemo-ink .article-entry h2::after {
-  width: 28px;
-  height: 1px;
-  border-radius: 0;
-  background: var(--nn-accent);
 }
 
 html.nemo-ink .article-entry a {
@@ -3489,4 +3484,47 @@ html.nemo-ink .nemo-grid-cell:hover {
 html.nemo-ink .nemo-grid-cell.is-done {
   color: var(--nn-faint);
   background: transparent;
+}
+
+/* On laptop-height screens the companion and the sidebar share one column: keep them apart.
+   The companion gets smaller, the quote card steps aside (she already offers quotes),
+   and a long table of contents scrolls inside its card instead of running under her. */
+@media (min-width: 1025px) and (max-height: 960px) {
+  .nemo-live2d-widget {
+    width: 220px;
+    height: min(300px, 40vh);
+  }
+
+  body:has(.nemo-live2d-widget:not(.is-hidden)) .nemo-fun-panel--sidebar {
+    display: none;
+  }
+
+  body:has(.nemo-live2d-widget:not(.is-hidden)) .sidebar-wrapper-container.sticky .toc {
+    max-height: calc(100vh - min(300px, 40vh) - 190px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+}
+
+
+/* heading anchors hang in the margin instead of indenting the heading */
+html.nemo-ink .article-entry :is(h1, h2, h3, h4) {
+  position: relative;
+}
+
+html.nemo-ink .article-entry .headerlink {
+  position: absolute;
+  top: 0;
+  left: -1.1em;
+  width: 1em;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+html.nemo-ink .article-entry :is(h1, h2, h3, h4):hover .headerlink,
+html.nemo-ink .article-entry .headerlink:focus-visible {
+  opacity: 0.6;
 }
