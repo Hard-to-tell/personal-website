@@ -15,6 +15,7 @@ function createAssetVersion() {
     "source/js/gallery-wall.js",
     "source/js/home-hero.js",
     "source/js/home-magazine.js",
+    "source/js/home-night.js",
     "source/js/home-title-erosion.js",
     "source/js/live2d-widget.js",
     "source/js/nemo-fun.js",
@@ -81,7 +82,7 @@ hexo.extend.injector.register(
   "head_end",
   () => {
     const root = JSON.stringify(hexo.config.root);
-    return `<script>(()=>{const root=${root};const path=location.pathname.replace(/index\\.html$/,"");const base=root.endsWith("/")?root:root+"/";document.documentElement.classList.toggle("nemo-home",path===root);document.documentElement.classList.toggle("nemo-message",path===base+"message/");})();</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
+    return `<script>(()=>{const root=${root};const path=location.pathname.replace(/index\\.html$/,"");const base=root.endsWith("/")?root:root+"/";document.documentElement.classList.toggle("nemo-home",path===root);document.documentElement.classList.toggle("nemo-nocturne",path===root);document.documentElement.classList.toggle("nemo-message",path===base+"message/");})();</script><link rel="stylesheet" href="${hexo.config.root}css/custom.css?v=${assetVersion}">`;
   },
   "default"
 );
@@ -102,7 +103,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `${versionedScript("nemo-home-data.js", false)}${versionedScript("home-hero.js")}${versionedScript("home-title-erosion.js")}${versionedScript("home-magazine.js")}`,
+    `${versionedScript("nemo-home-data.js", false)}${versionedScript("home-hero.js")}${versionedScript("home-magazine.js")}${versionedScript("home-night.js")}`,
   "home"
 );
 
@@ -251,50 +252,6 @@ hexo.extend.generator.register("nemo_friend_links_data", () => {
     data: `window.__NEMO_FRIEND_LINKS__=${payload};window.__NEMO_BOOKMARK_CONFIG__=${JSON.stringify({ apiOrigin: hexo.config.bookmarks?.api_origin || "" }).replace(/</g, "\\u003c")};`,
   };
 });
-
-hexo.extend.injector.register(
-  "body_end",
-  () => {
-    const photosDir = path.join(hexo.source_dir, "images", "photos");
-    const supported = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
-    const maxBytes = 2 * 1024 * 1024;
-    const entries = fs.existsSync(photosDir)
-      ? fs.readdirSync(photosDir, { withFileTypes: true })
-      : [];
-    const optimizedStems = new Set(
-      entries
-        .filter((entry) =>
-          [".webp", ".avif"].includes(path.extname(entry.name).toLowerCase())
-        )
-        .map((entry) => path.basename(entry.name, path.extname(entry.name)))
-    );
-    const wallpapers = entries
-      .filter((entry) => entry.isFile())
-      .filter((entry) => supported.has(path.extname(entry.name).toLowerCase()))
-      .filter((entry) => {
-        const extension = path.extname(entry.name);
-        const stem = path.basename(entry.name, extension);
-        return (
-          [".webp", ".avif"].includes(extension.toLowerCase()) ||
-          !optimizedStems.has(stem)
-        );
-      })
-      .filter(
-        (entry) => fs.statSync(path.join(photosDir, entry.name)).size <= maxBytes
-      )
-      .map(
-        (entry) =>
-          `${hexo.config.root}images/photos/${encodeURIComponent(entry.name)}`
-      )
-      .sort();
-
-    if (wallpapers.length < 2) return "";
-
-    const data = JSON.stringify(wallpapers).replace(/</g, "\\u003c");
-    return `<script>window.__NEMO_WALLPAPERS__=${data};</script>${versionedScript("wallpaper-rotator.js")}`;
-  },
-  "home"
-);
 
 hexo.extend.filter.register("after_render:html", (html) => {
   const labels = [
