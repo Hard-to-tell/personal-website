@@ -184,14 +184,11 @@ hexo.extend.generator.register("nemo_music_data", () => {
 hexo.extend.generator.register("nemo_shelf_data", () => {
   const data = hexo.locals.get("data") || {};
   const shelf = data.shelf || {};
-  // js-yaml turns full dates into Date objects; month-only dates stay strings
-  const day = (value) =>
-    value instanceof Date ? value.toISOString().slice(0, 10) : String(value ?? "");
-  const payload = JSON.stringify({
-    ...shelf,
-    updated: day(shelf.updated),
-    recent: (shelf.recent || []).map((entry) => ({ ...entry, date: day(entry.date) })),
-  }).replace(/</g, "\\u003c");
+  // the YAML date can come back as a Date or as an ISO string; keep the day
+  const updated = (
+    typeof shelf.updated?.toISOString === "function" ? shelf.updated.toISOString() : String(shelf.updated ?? "")
+  ).slice(0, 10);
+  const payload = JSON.stringify({ ...shelf, updated }).replace(/</g, "\\u003c");
 
   return {
     path: "js/nemo-shelf-data.js",

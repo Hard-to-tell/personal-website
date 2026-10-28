@@ -16,6 +16,9 @@ menu:
   - name: 记录
     url: /about
     icon: /images/icons/about.svg
+  - name: 书影音
+    url: /shelf/
+    icon: /images/icons/shelf.svg
   - name: friend
     url: /friend
     icon: /images/icons/friend.svg
