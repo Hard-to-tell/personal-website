@@ -3984,6 +3984,11 @@ html.nemo-ink .article-entry .nemo-records {
   transition: filter 0.4s ease;
 }
 
+/* the theme hides article images until its own lazyloader tags them */
+html.nemo-ink .article-entry .nemo-record-sleeve img {
+  opacity: 1;
+}
+
 .nemo-record-sleeve.is-missing img {
   visibility: hidden;
 }
