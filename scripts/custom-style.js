@@ -19,10 +19,12 @@ function createAssetVersion() {
     "source/js/home-title-erosion.js",
     "source/js/live2d-widget.js",
     "source/js/nemo-fun.js",
+    "source/js/shelf.js",
     "source/js/site-ux.js",
     "source/js/wallpaper-rotator.js",
     "source/_data/gallery.yml",
     "source/_data/friends.yml",
+    "source/_data/shelf.yml",
   ];
 
   files.forEach((filename) => {
@@ -153,7 +155,7 @@ hexo.extend.injector.register(
 hexo.extend.injector.register(
   "body_end",
   () =>
-    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}${versionedScript("nemo-friend-links-data.js", false)}${versionedScript("bookmark-model.js")}${versionedScript("friend-links.js")}`,
+    `${versionedScript("comment-ux.js")}${versionedScript("nemo-gallery-data.js", false)}${versionedScript("gallery-wall.js")}${versionedScript("nemo-friend-links-data.js", false)}${versionedScript("bookmark-model.js")}${versionedScript("friend-links.js")}${versionedScript("shelf.js")}`,
   "page"
 );
 
@@ -176,6 +178,24 @@ hexo.extend.generator.register("nemo_music_data", () => {
   return {
     path: "js/nemo-music-data.js",
     data: `window.__NEMO_MUSIC__=${payload};`,
+  };
+});
+
+hexo.extend.generator.register("nemo_shelf_data", () => {
+  const data = hexo.locals.get("data") || {};
+  const shelf = data.shelf || {};
+  // js-yaml turns full dates into Date objects; month-only dates stay strings
+  const day = (value) =>
+    value instanceof Date ? value.toISOString().slice(0, 10) : String(value ?? "");
+  const payload = JSON.stringify({
+    ...shelf,
+    updated: day(shelf.updated),
+    recent: (shelf.recent || []).map((entry) => ({ ...entry, date: day(entry.date) })),
+  }).replace(/</g, "\\u003c");
+
+  return {
+    path: "js/nemo-shelf-data.js",
+    data: `window.__NEMO_SHELF__=${payload};`,
   };
 });
 

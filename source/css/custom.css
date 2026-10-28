@@ -3528,3 +3528,646 @@ html.nemo-ink .article-entry :is(h1, h2, h3, h4):hover .headerlink,
 html.nemo-ink .article-entry .headerlink:focus-visible {
   opacity: 0.6;
 }
+
+/* ---------- Page: 书影音 (/shelf/) ----------
+   Films as a constellation, books as spines, songs as sleeves. Douban images
+   refuse other sites, so films and books are set in type instead of posters. */
+html.nemo-ink .article-entry [data-nemo-shelf] ol,
+html.nemo-ink .article-entry [data-nemo-shelf] li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+html.nemo-ink .article-entry [data-nemo-shelf] a {
+  text-decoration: none;
+}
+
+html.nemo-ink .article-entry [data-nemo-shelf] a:not(.nemo-spine)::after {
+  content: none;
+}
+
+.nemo-shelf-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 28px 0 8px;
+  border: 1px solid var(--nn-line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--nn-line);
+}
+
+.nemo-shelf-stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px 8px 16px;
+  background: rgba(9, 15, 27, 0.92);
+  color: var(--nn-muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.nemo-shelf-stat strong {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* 十部 */
+.nemo-sky {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  margin: 20px 0 0;
+  border: 1px solid var(--nn-line);
+  border-radius: 6px;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 90% at 50% 120%, rgba(110, 132, 170, 0.16), transparent 70%),
+    linear-gradient(180deg, #050912, #0a1220);
+}
+
+.nemo-sky.is-narrow {
+  aspect-ratio: 4 / 5;
+}
+
+.nemo-sky-canvas,
+html.nemo-ink .article-entry .nemo-sky-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+html.nemo-ink .article-entry .nemo-sky-stars li {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.nemo-star {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: var(--nn-muted);
+  cursor: pointer;
+  transform: translate(-50%, -13px);
+  opacity: 0;
+  transition: opacity 0.9s ease, color 0.3s ease;
+}
+
+.nemo-sky.is-lit .nemo-star {
+  opacity: 1;
+}
+
+.nemo-sky.is-lit li:nth-child(2) .nemo-star { transition-delay: 0.12s; }
+.nemo-sky.is-lit li:nth-child(3) .nemo-star { transition-delay: 0.24s; }
+.nemo-sky.is-lit li:nth-child(4) .nemo-star { transition-delay: 0.36s; }
+.nemo-sky.is-lit li:nth-child(5) .nemo-star { transition-delay: 0.48s; }
+.nemo-sky.is-lit li:nth-child(6) .nemo-star { transition-delay: 0.6s; }
+.nemo-sky.is-lit li:nth-child(7) .nemo-star { transition-delay: 0.72s; }
+.nemo-sky.is-lit li:nth-child(8) .nemo-star { transition-delay: 0.84s; }
+.nemo-sky.is-lit li:nth-child(9) .nemo-star { transition-delay: 0.96s; }
+.nemo-sky.is-lit li:nth-child(10) .nemo-star { transition-delay: 1.08s; }
+
+.nemo-star i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f3ead9;
+  box-shadow: 0 0 6px 1px rgba(243, 226, 196, 0.55), 0 0 18px 3px rgba(217, 185, 140, 0.18);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.nemo-star-name,
+.nemo-star-num {
+  font-family: var(--nn-serif);
+  font-size: 12.5px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  max-width: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nemo-star-num {
+  display: none;
+}
+
+.nemo-sky.is-narrow .nemo-star-name {
+  display: none;
+}
+
+.nemo-sky.is-narrow .nemo-star-num {
+  display: block;
+}
+
+.nemo-star:hover,
+.nemo-star:focus-visible,
+.nemo-star[aria-pressed="true"] {
+  color: var(--nn-paper);
+}
+
+.nemo-star:focus-visible {
+  outline: 1px solid rgba(217, 185, 140, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.nemo-star[aria-pressed="true"] i {
+  transform: scale(1.5);
+  box-shadow: 0 0 8px 2px rgba(255, 238, 205, 0.8), 0 0 28px 8px rgba(217, 185, 140, 0.28);
+}
+
+.nemo-sky-card {
+  min-height: 168px;
+  margin-top: 14px;
+  padding: 20px 24px;
+  border: 1px solid var(--nn-line);
+  border-radius: 6px;
+  background: var(--nn-glass);
+}
+
+.nemo-sky-card-inner {
+  animation: nemo-shelf-rise 0.45s ease both;
+}
+
+.nemo-sky-card-num {
+  color: var(--nn-accent);
+  font-family: var(--nn-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+html.nemo-ink .article-entry .nemo-sky-card h3 {
+  margin: 6px 0 2px;
+  padding: 0;
+  border: 0;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+html.nemo-ink .article-entry .nemo-sky-card p {
+  margin: 0;
+}
+
+.nemo-sky-card-meta {
+  color: var(--nn-faint);
+  font-size: 13px;
+}
+
+html.nemo-ink .article-entry .nemo-sky-card .nemo-sky-card-note {
+  margin: 12px 0 10px;
+  color: var(--nn-text);
+  font-family: var(--nn-serif);
+  line-height: 1.85;
+}
+
+.nemo-sky-card-note::before {
+  content: "“";
+  color: var(--nn-accent);
+}
+
+.nemo-sky-card-note::after {
+  content: "”";
+  color: var(--nn-accent);
+}
+
+html.nemo-ink .article-entry .nemo-sky-card-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--nn-muted);
+  font-size: 13px;
+}
+
+html.nemo-ink .article-entry .nemo-sky-card-link:hover {
+  color: var(--nn-accent);
+}
+
+@keyframes nemo-shelf-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 最近 */
+html.nemo-ink .article-entry .nemo-recent {
+  position: relative;
+  margin: 18px 0 0;
+}
+
+html.nemo-ink .article-entry .nemo-recent::before {
+  content: "";
+  position: absolute;
+  left: 104px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(217, 185, 140, 0.4), var(--nn-line) 30%, transparent);
+}
+
+html.nemo-ink .article-entry .nemo-recent-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  padding: 9px 0;
+}
+
+html.nemo-ink .article-entry .nemo-recent-item::before {
+  content: "";
+  position: absolute;
+  left: 101px;
+  top: 19px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nn-ink);
+  border: 1px solid rgba(217, 185, 140, 0.6);
+}
+
+html.nemo-ink .article-entry .nemo-recent-item[data-kind="看过"]::before {
+  background: rgba(217, 185, 140, 0.75);
+}
+
+.nemo-recent-head {
+  padding-right: 16px;
+  text-align: right;
+}
+
+.nemo-recent-date {
+  color: var(--nn-accent);
+  font-family: var(--nn-mono);
+  font-size: 12px;
+  line-height: 26px;
+}
+
+.nemo-recent-kind {
+  color: var(--nn-faint);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.nemo-recent-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+  padding-left: 22px;
+  line-height: 26px;
+}
+
+html.nemo-ink .article-entry .nemo-recent-title {
+  color: var(--nn-paper);
+  font-family: var(--nn-serif);
+  font-size: 16px;
+}
+
+html.nemo-ink .article-entry a.nemo-recent-title:hover {
+  color: var(--nn-accent);
+}
+
+.nemo-recent-by {
+  color: var(--nn-muted);
+  font-size: 13px;
+}
+
+.nemo-recent-rating {
+  color: var(--nn-accent);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+html.nemo-ink .article-entry .nemo-recent-note {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--nn-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* 书架 */
+.nemo-books-shelf {
+  margin-top: 22px;
+}
+
+html.nemo-ink .article-entry .nemo-books-label {
+  margin: 0 0 8px;
+  color: var(--nn-faint);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  white-space: pre;
+}
+
+.nemo-books-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 14px 10px 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(135, 150, 171, 0.3) transparent;
+  border-bottom: 3px solid rgba(78, 62, 44, 0.9);
+  box-shadow: 0 10px 18px -12px rgba(0, 0, 0, 0.9), inset 0 -14px 22px -18px rgba(217, 185, 140, 0.25);
+}
+
+html.nemo-ink .article-entry .nemo-spine {
+  position: relative;
+  flex: 0 0 var(--w);
+  height: var(--h);
+  display: flex;
+  justify-content: center;
+  padding: 18px 0 14px;
+  border-radius: 2px 2px 0 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.35)),
+    var(--tone);
+  color: #dcd3c2;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.3s ease;
+}
+
+.nemo-spine::before,
+.nemo-spine::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  height: 1px;
+  background: rgba(217, 185, 140, 0.45);
+}
+
+.nemo-spine::before {
+  top: 8px;
+}
+
+.nemo-spine::after {
+  bottom: 7px;
+}
+
+.nemo-spine-title {
+  writing-mode: vertical-rl;
+  font-family: var(--nn-serif);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+html.nemo-ink .article-entry .nemo-spine:hover,
+html.nemo-ink .article-entry .nemo-spine:focus-visible {
+  transform: translateY(-10px);
+  color: #f7e9cf;
+}
+
+html.nemo-ink .article-entry .nemo-spine:focus-visible {
+  outline: 1px solid rgba(217, 185, 140, 0.6);
+  outline-offset: 2px;
+}
+
+html.nemo-ink .article-entry .is-wish .nemo-spine {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(135, 150, 171, 0.32);
+  color: var(--nn-muted);
+}
+
+.is-wish .nemo-spine::before,
+.is-wish .nemo-spine::after {
+  background: rgba(135, 150, 171, 0.3);
+}
+
+html.nemo-ink .article-entry .nemo-books-caption {
+  min-height: 1.9em;
+  margin: 14px 0 0;
+  color: var(--nn-muted);
+  font-family: var(--nn-serif);
+  font-size: 14px;
+}
+
+/* 在听 */
+html.nemo-ink .article-entry .nemo-records {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 26px 18px;
+  margin: 22px 0 0;
+}
+
+.nemo-record-link {
+  display: grid;
+  gap: 10px;
+}
+
+.nemo-record-sleeve {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+}
+
+.nemo-record-sleeve img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  object-fit: cover;
+  box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.8);
+  filter: saturate(0.8) brightness(0.86);
+  transition: filter 0.4s ease;
+}
+
+.nemo-record-sleeve.is-missing img {
+  visibility: hidden;
+}
+
+.nemo-record-sleeve.is-missing {
+  border-radius: 3px;
+  background: linear-gradient(135deg, #1c2a3e, #0b121f);
+}
+
+.nemo-record-disc {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #d9b98c 0 9%, #111 9.5% 12%, transparent 12.5%),
+    repeating-radial-gradient(circle, #0c0c0e 0 1.5px, #18181c 1.5px 3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.nemo-record-link:hover .nemo-record-disc,
+.nemo-record-link:focus-visible .nemo-record-disc {
+  transform: translateX(34%) rotate(90deg);
+}
+
+.nemo-record-link:hover img,
+.nemo-record-link:focus-visible img {
+  filter: none;
+}
+
+.nemo-record-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nemo-record-title,
+.nemo-record-by {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nemo-record-title {
+  color: var(--nn-paper);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.nemo-record-by {
+  color: var(--nn-faint);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nemo-record-link:hover .nemo-record-title {
+  color: var(--nn-accent);
+}
+
+.nemo-artists {
+  margin-top: 34px;
+  padding: 20px 24px;
+  border: 1px solid var(--nn-line);
+  border-radius: 6px;
+  background: var(--nn-glass);
+}
+
+html.nemo-ink .article-entry .nemo-artists-label {
+  margin: 0 0 12px;
+  color: var(--nn-faint);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+
+html.nemo-ink .article-entry .nemo-artist-bars li {
+  display: grid;
+  grid-template-columns: 9em minmax(0, 1fr) 2.4em;
+  align-items: center;
+  gap: 14px;
+  padding: 3px 0;
+}
+
+.nemo-artist-name {
+  overflow: hidden;
+  color: var(--nn-text);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nemo-artist-bar {
+  position: relative;
+  height: 1px;
+  background: var(--nn-line);
+}
+
+.nemo-artist-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: var(--share);
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(217, 185, 140, 0.25), var(--nn-accent));
+}
+
+.nemo-artist-count {
+  color: var(--nn-accent);
+  font-family: var(--nn-mono);
+  font-size: 12px;
+  text-align: right;
+}
+
+html.nemo-ink .article-entry .nemo-artists-more {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--nn-muted);
+  font-size: 13px;
+}
+
+html.nemo-ink .article-entry .nemo-artists-more:hover {
+  color: var(--nn-accent);
+}
+
+html.nemo-ink .article-entry .nemo-shelf-source {
+  margin-top: 40px;
+  color: var(--nn-faint);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .nemo-shelf-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nemo-sky-card {
+    padding: 18px;
+  }
+
+  html.nemo-ink .article-entry .nemo-recent::before {
+    left: 78px;
+  }
+
+  html.nemo-ink .article-entry .nemo-recent-item {
+    grid-template-columns: 78px minmax(0, 1fr);
+  }
+
+  html.nemo-ink .article-entry .nemo-recent-item::before {
+    left: 75px;
+  }
+
+  .nemo-recent-body {
+    padding-left: 18px;
+  }
+
+  html.nemo-ink .article-entry .nemo-records {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .nemo-record-link {
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nemo-record-disc {
+    display: none;
+  }
+
+  html.nemo-ink .article-entry .nemo-artist-bars li {
+    grid-template-columns: 7.5em minmax(0, 1fr) 2em;
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nemo-star,
+  .nemo-sky-card-inner,
+  .nemo-spine,
+  .nemo-record-disc {
+    transition: none;
+    animation: none;
+  }
+}

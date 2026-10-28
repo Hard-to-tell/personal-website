@@ -1,0 +1,100 @@
+# 书影音页面的数据（/shelf/）。手动维护：想更新时直接改这里，或让 Claude 重新从豆瓣、网易云抓一遍。
+# 豆瓣图片有防盗链，所以影视和书都用文字排版；网易云封面可以直接引用。
+updated: 2026-10-28
+douban: https://www.douban.com/people/239723063/
+stats:
+  films: 185
+  books: 47
+  wish: 100
+  songs: 978
+
+# 十部：从五星和写过短评的片子里挑的，顺序就是星座连线的顺序。short 是星星旁边的短名。
+films:
+  - { id: 10512661, title: 银翼杀手2049, year: 2017, by: 丹尼斯·维伦纽瓦, note: 太喜欢了。 }
+  - { id: 35426925, title: 机器人之梦, year: 2023, by: 巴勃罗·贝格尔, note: 这是用孩子都可以看懂的方式去讲大人的故事。只要音乐响起，我很难忍住眼泪。 }
+  - { id: 37291780, title: 链锯人 剧场版：蕾塞篇, short: 链锯人·蕾塞篇, year: 2025, by: 吉原达矢, note: 太神了。好像没有可以挑剔的地方，最喜欢海滩的那段。 }
+  - { id: 35131346, title: 隐入尘烟, year: 2022, by: 李睿珺, note: 把土地拍得这么柔软静谧。最后我的眼泪就是止不住地往下掉。 }
+  - { id: 1300299, title: 杀人回忆, year: 2003, by: 奉俊昊, note: 最爱的悬疑片吧。 }
+  - { id: 25934014, title: 爱乐之城, year: 2016, by: 达米恩·查泽雷, note: 如果把跳舞唱歌都当成人的心理活动，会很好理解很多。结局已经足够美好。 }
+  - { id: 1292215, title: 天使爱美丽, year: 2001, by: 让-皮埃尔·热内, note: 跟她一起看的。 }
+  - { id: 36025639, title: 瑞克和莫蒂 第七季, short: 瑞克和莫蒂 S7, year: 2023, by: 丹·哈蒙, note: 浑身是血的 Rick 独自站在车库，明明和“组装家人”在一起，却显得孑然一身。 }
+  - { id: 26935251, title: 春宵苦短，少女前进吧！, short: 春宵苦短, year: 2017, by: 汤浅政明, note: 先别急。 }
+  - { id: 25980443, title: 海边的曼彻斯特, year: 2016, by: 肯尼思·罗纳根 }
+
+# 最近：豆瓣标记和网易云红心，新的在前。
+recent:
+  - { date: 2026-10-24, kind: 听, title: Moon, by: Daniel Caesar / Bon Iver, url: "https://music.163.com/#/song?id=2758268700" }
+  - { date: 2026-10, kind: 想读, title: 偷书贼, note: 感觉想看, url: "https://book.douban.com/subject/30225784/" }
+  - { date: 2026-10, kind: 想读, title: 爱药, url: "https://book.douban.com/subject/3197582/" }
+  - { date: 2026-08-25, kind: 看过, title: 挽救计划, rating: 3, url: "https://movie.douban.com/subject/35010610/" }
+  - { date: 2026-08, kind: 想读, title: 栖居于可能性, note: 素晴日, url: "https://book.douban.com/subject/27600569/" }
+  - { date: 2026-08, kind: 想读, title: 狄金森诗选, url: "https://book.douban.com/subject/10561256/" }
+  - { date: 2026-06-28, kind: 看过, title: 链锯人 剧场版：蕾塞篇, rating: 5, url: "https://movie.douban.com/subject/37291780/" }
+  - { date: 2026-05-26, kind: 看过, title: 我们仍未知道那天所看见的花的名字, rating: 5, url: "https://movie.douban.com/subject/5397537/" }
+  - { date: 2026-05-26, kind: 看过, title: 缘之空, rating: 5, url: "https://movie.douban.com/subject/4848114/" }
+  - { date: 2026-04-05, kind: 看过, title: 赎罪, rating: 5, url: "https://movie.douban.com/subject/1950148/" }
+  - { date: 2026-03-07, kind: 看过, title: 爱乐之城, rating: 5, url: "https://movie.douban.com/subject/25934014/" }
+  - { date: 2026-01-11, kind: 在读, title: 了不起的盖茨比, note: 我想了想，再读的时候它会变成 5 星的。, url: "https://book.douban.com/subject/10738023/" }
+  - { date: 2026-01-10, kind: 看过, title: F1：狂飙飞车, rating: 4, note: 得去电影院看, url: "https://movie.douban.com/subject/35689244/" }
+
+# 书架：read 是读过的五星，reading 在读，wish 想读。
+books:
+  read:
+    - { id: 27200257, title: 挪威的森林, by: 村上春树 }
+    - { id: 35989392, title: 献给阿尔吉侬的花束, by: 丹尼尔·凯斯, note: 神书 }
+    - { id: 6781808, title: 杀死一只知更鸟, by: 哈珀·李 }
+    - { id: 1060068, title: 撒哈拉的故事, by: 三毛 }
+    - { id: 1084336, title: 小王子, by: 圣-埃克苏佩里 }
+    - { id: 24531956, title: 哈利·波特, by: J·K·罗琳 }
+    - { id: 6082808, title: 百年孤独, by: 加西亚·马尔克斯 }
+    - { id: 4913064, title: 活着, by: 余华 }
+    - { id: 24163576, title: 漫长的告别, by: 雷蒙德·钱德勒 }
+    - { id: 26877752, title: 恶意, by: 东野圭吾 }
+    - { id: 25924253, title: 嫌疑人X的献身, by: 东野圭吾 }
+    - { id: 10554308, title: 白夜行, by: 东野圭吾 }
+    - { id: 33440205, title: 你当像鸟飞往你的山, by: 塔拉·韦斯特弗 }
+    - { id: 1050566, title: 一地鸡毛, by: 刘震云 }
+    - { id: 1088418, title: 死屋手记, by: 陀思妥耶夫斯基 }
+    - { id: 1858568, title: 罪与罚, by: 陀思妥耶夫斯基 }
+    - { id: 10759466, title: 地下室手记, by: 陀思妥耶夫斯基 }
+    - { id: 1187842, title: 你一生的故事, by: 特德·姜 }
+  reading:
+    - { id: 10738023, title: 了不起的盖茨比, by: 菲茨杰拉德 }
+    - { id: 1003986, title: 病隙碎笔, by: 史铁生 }
+    - { id: 1040211, title: 福尔摩斯探案全集, by: 柯南·道尔 }
+  wish:
+    - { id: 30225784, title: 偷书贼, by: 马克斯·苏萨克 }
+    - { id: 10561256, title: 狄金森诗选, by: 艾米莉·狄金森 }
+    - { id: 35049755, title: 索拉里斯星, by: 斯坦尼斯瓦夫·莱姆 }
+    - { id: 1209899, title: 我与地坛, by: 史铁生 }
+    - { id: 34437694, title: 惶然录, by: 佩索阿 }
+    - { id: 4908872, title: 都柏林人, by: 乔伊斯 }
+    - { id: 30394154, title: 山月记, by: 中岛敦 }
+    - { id: 25885021, title: 砂女, by: 安部公房 }
+    - { id: 37016658, title: 小城与不确定性的墙, by: 村上春树 }
+    - { id: 1060117, title: 不朽, by: 米兰·昆德拉 }
+
+# 在听：网易云「喜欢的音乐」最近的红心，封面来自网易云。
+music:
+  playlist: https://music.163.com/#/playlist?id=7096824241
+  name: 忧郁的农夫喜欢的音乐
+  tracks:
+    - { id: 2758268700, title: Moon, by: Daniel Caesar / Bon Iver, cover: PAaYT5hSx6OlKjTsOYYT2w==/109951172185882237.jpg }
+    - { id: 3495718, title: Bird of Paradise, by: Snowy White, cover: wsKcrd4rwtFFnbSZjqnTkQ==/684995744145492.jpg }
+    - { id: 28531849, title: Stay With Me, by: Sam Smith, cover: EM1Zwk6-NUUiLIBL0aXltQ==/109951166630334850.jpg }
+    - { id: 31738245, title: The Dark Side of the Moon, by: Pink Floyd, cover: QeEqfYkapGTGgdoM1MV7Nw==/109951172402348987.jpg }
+    - { id: 4916064, title: Verdurous Mountains, by: 渡辺雅二, cover: F-_xH1ZcyVF9dEMolJWvpw==/109951167940648706.jpg }
+    - { id: 26720842, title: What You Won't Do For Love, by: Bobby Caldwell, cover: s7clvUPOSA2QORs2_5nITg==/2137450604399302.jpg }
+    - { id: 2118794415, title: 正解, by: RADWIMPS, cover: Yiv_wCQaPUZIPStBqzh5Ow==/109951169270987731.jpg }
+    - { id: 1378491298, title: 愛にできることはまだあるかい, by: RADWIMPS, cover: dRwInA9PpkiKkmNWeUvi0w==/109951164220136544.jpg }
+    - { id: 426881480, title: 夢灯籠, by: RADWIMPS, cover: UoHin_i29CVJr4gKPEY1kQ==/109951171836647530.jpg }
+    - { id: 406300340, title: Morning glow, by: Heavenstamp / Tomoya.S, cover: GNyPvAOsuKuGFcYz_8Yt_Q==/109951167230916769.jpg }
+  artists:
+    - [Radiohead, 23]
+    - [陈奕迅, 22]
+    - [RADWIMPS, 15]
+    - [Oasis, 14]
+    - [Pink Floyd, 12]
+    - [NF, 12]
+    - [宇多田ヒカル, 10]
+    - [ヨルシカ, 9]
