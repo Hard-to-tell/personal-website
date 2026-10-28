@@ -24,12 +24,12 @@ def fetch(urls, referer):
     for url in urls:
         request = urllib.request.Request(url, headers={"User-Agent": AGENT, "Referer": referer})
         try:
-            with urllib.request.urlopen(request, timeout=20) as response:
+            with urllib.request.urlopen(request, timeout=8) as response:
                 body = response.read()
             Image.open(io.BytesIO(body)).verify()
             return body
         except Exception as error:  # try the next size or host
-            print(f"  skip {url}: {error}")
+            print(f"  skip {url}: {error}", flush=True)
     return None
 
 
@@ -78,15 +78,19 @@ def main():
     for target, urls, referer, width in jobs:
         if target.exists():
             continue
-        body = fetch(urls, referer)
+        body = fetch(urls[:2], referer)
         if body is None:
             failed += 1
-            print(f"FAILED {target.relative_to(ROOT)}")
+            print(f"FAILED {target.relative_to(ROOT)}", flush=True)
+            if failed >= 5 and not fetched:
+                print("::warning::Giving up: the image hosts refuse this machine.", flush=True)
+                break
             continue
         save(body, target, width)
         fetched += 1
         time.sleep(0.4)
-    print(f"covers: {fetched} fetched, {failed} failed, {len(jobs)} total")
+        print(f"saved {target.relative_to(ROOT)}", flush=True)
+    print(f"::notice::covers: {fetched} fetched, {failed} failed, {len(jobs)} total")
     return 1 if failed and not fetched and not any(t.exists() for t in wanted) else 0
 
 
