@@ -6,10 +6,11 @@
 
   const IMAGE = innerWidth < 760 ? "/images/hero/isle-1600.webp" : "/images/hero/isle-2560.webp";
   const ANCHOR_Y = 0.62;
-  const SCRUB = 0.25;
+  const SCRUB = 0.5;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
 
   const header = document.querySelector("#header");
   const content = document.querySelector("#content");
@@ -65,7 +66,7 @@
   root.classList.add("nemo-night");
 
   // ---------- weathering ----------
-  // p: 0 = photo intact, 1 = fully weathered. The first quarter follows the wheel or finger
+  // p: 0 = photo intact, 1 = fully weathered. The first half follows the wheel or finger
   // and can be undone; crossing it lets the rest go in one take and glides down to the posts.
   let p = 0;
   let target = 0;
@@ -90,7 +91,8 @@
     const t0 = performance.now();
     (function step(now) {
       const k = clamp((now - t0) / dur, 0, 1);
-      scrollTo(0, y0 + (y - y0) * easeInOut(k));
+      // "instant": the theme sets scroll-behavior: smooth, which would turn every frame into its own lagging animation
+      scrollTo({ top: y0 + (y - y0) * easeInOutSine(k), behavior: "instant" });
       if (k < 1) requestAnimationFrame(step);
     })(t0);
   }
@@ -98,15 +100,16 @@
     if (state !== "scrub") return;
     state = "weathering";
     // finish from wherever the scrub left it, already moving
-    play(p, 1, 2600, (k) => 1 - Math.pow(1 - k, 2.4), () => {
+    play(p, 1, 3400, (k) => 1 - Math.pow(1 - k, 2), () => {
       state = "gone";
     });
-    // the page has to be scrollable again for the glide; wheel and touch stay held until the dust settles
+    // the page has to be scrollable again for the glide; wheel and touch stay held until the dust settles.
+    // The posts start fading in before they move, so they surface out of the dust instead of arriving from below.
+    setTimeout(() => root.classList.add("nemo-night-in"), 350);
     setTimeout(() => {
       lock(false);
-      if (glide) scrollToY(contentTop(), 2200);
-    }, 250);
-    setTimeout(() => root.classList.add("nemo-night-in"), 700);
+      if (glide) scrollToY(contentTop(), 3000);
+    }, 500);
   }
   function reform() {
     if (state !== "gone") return;
@@ -119,8 +122,21 @@
       inscribe();
     });
   }
+  // the posts' images load before they are needed, so nothing pops in while they surface
+  let warmed = false;
+  function warm() {
+    if (warmed) return;
+    warmed = true;
+    content.querySelectorAll("img.lazyload").forEach((img) => {
+      if (window.lazySizes) window.lazySizes.loader.unveil(img);
+      else if (img.dataset.src) img.src = img.dataset.src;
+    });
+  }
+  addEventListener("load", () => setTimeout(warm, 1200), { once: true });
+
   function nudge(dp) {
     if (state !== "scrub") return;
+    warm();
     target = clamp(target + dp, 0, SCRUB);
     if (target >= SCRUB) weather();
   }
@@ -136,7 +152,7 @@
     const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
     if (state === "scrub") {
       e.preventDefault();
-      nudge((dy / 480) * SCRUB);
+      nudge((dy / 720) * SCRUB);
     } else if (state === "weathering" || state === "forming") e.preventDefault();
     else if (state === "gone" && scrollY <= 1 && dy < 0) reform();
   }, { passive: false });
@@ -149,14 +165,14 @@
     touchY = y;
     if (state === "scrub") {
       e.preventDefault();
-      nudge((dy / (innerHeight * 0.45)) * SCRUB);
+      nudge((dy / (innerHeight * 0.6)) * SCRUB);
     } else if (state === "weathering" || state === "forming") e.preventDefault();
     else if (state === "gone" && scrollY <= 1 && dy < -6) reform();
   }, { passive: false });
   addEventListener("keydown", (e) => {
     if (state !== "scrub" || e.target.closest?.("input, textarea, [contenteditable]")) return;
-    if (["ArrowDown", " "].includes(e.key)) { e.preventDefault(); nudge(SCRUB * 0.34); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); nudge(-SCRUB * 0.34); }
+    if (["ArrowDown", " "].includes(e.key)) { e.preventDefault(); nudge(SCRUB * 0.25); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); nudge(-SCRUB * 0.25); }
     else if (["PageDown", "End"].includes(e.key)) { e.preventDefault(); nudge(SCRUB); }
   });
   cue.addEventListener("click", () => nudge(SCRUB));

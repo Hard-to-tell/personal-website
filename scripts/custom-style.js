@@ -196,6 +196,15 @@ hexo.extend.generator.register("nemo_shelf_data", () => {
   };
 });
 
+// 书影音 now lives inside 记录; keep the old address working
+hexo.extend.generator.register("nemo_shelf_redirect", () => {
+  const target = `${hexo.config.root}about/#films`;
+  return {
+    path: "shelf/index.html",
+    data: `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>书影音 | ${hexo.config.title}</title><meta name="robots" content="noindex"><link rel="canonical" href="${target}"><meta http-equiv="refresh" content="0; url=${target}"></head><body><a href="${target}">书影音搬到了「记录」里</a></body></html>`,
+  };
+});
+
 hexo.extend.generator.register("nemo_live2d_page", () => {
   const root = hexo.config.root.endsWith("/")
     ? hexo.config.root

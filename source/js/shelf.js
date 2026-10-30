@@ -360,23 +360,96 @@
 
   const renderers = { films: renderFilms, books: renderBooks, music: renderMusic, source: renderSource };
 
+  // stages measure themselves, so a shelf inside a closed panel waits until the panel opens
   function mount() {
     const data = window.__NEMO_SHELF__;
     if (!data) return;
     mounts().forEach((root) => {
       const render = renderers[root.dataset.nemoShelf];
-      if (!render || root.dataset.mounted) return;
+      if (!render || root.dataset.mounted || root.closest("[hidden]")) return;
       root.dataset.mounted = "true";
       render(root, data);
     });
   }
 
-  if (window.__NEMO_SHELF__) {
-    mount();
-    return;
+  /* 记录: photos, films, books and music folded into one switcher */
+  function setupRecord(record) {
+    const panels = [...record.querySelectorAll(":scope > [data-panel]")];
+    if (!panels.length) return;
+    const bar = el("div", "nemo-record-tabs");
+    bar.setAttribute("role", "tablist");
+    bar.setAttribute("aria-label", "记录的种类");
+    const glow = el("span", "nemo-record-tabs-glow");
+    glow.setAttribute("aria-hidden", "true");
+    const tabs = panels.map((panel, index) => {
+      const tab = el("button", "nemo-record-tab", panel.dataset.label);
+      tab.type = "button";
+      tab.id = `nemo-record-tab-${panel.dataset.panel}`;
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-controls", `nemo-record-panel-${panel.dataset.panel}`);
+      panel.id = `nemo-record-panel-${panel.dataset.panel}`;
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tab.id);
+      tab.addEventListener("click", () => open(index, true));
+      tab.addEventListener("keydown", (event) => {
+        const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+        if (!step) return;
+        event.preventDefault();
+        const next = (index + step + tabs.length) % tabs.length;
+        tabs[next].focus();
+        open(next, true);
+      });
+      return tab;
+    });
+    bar.append(glow, ...tabs);
+    record.prepend(bar);
+
+    let current = -1;
+    function place() {
+      const tab = tabs[current];
+      if (!tab) return;
+      glow.style.width = `${tab.offsetWidth}px`;
+      glow.style.transform = `translateX(${tab.offsetLeft}px)`;
+    }
+    function open(index, remember) {
+      if (index === current) return;
+      current = index;
+      tabs.forEach((tab, i) => {
+        tab.setAttribute("aria-selected", String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+      });
+      panels[index].classList.remove("is-shown");
+      requestAnimationFrame(() => panels[index].classList.add("is-shown"));
+      place();
+      if (remember) {
+        const hash = index ? `#${panels[index].dataset.panel}` : location.pathname + location.search;
+        history.replaceState(null, "", hash);
+      }
+      if (window.__NEMO_SHELF__) mount();
+      else loadData();
+    }
+
+    const fromHash = panels.findIndex((panel) => `#${panel.dataset.panel}` === location.hash);
+    open(Math.max(fromHash, 0), false);
+    window.addEventListener("resize", place);
+    if (document.fonts?.ready) document.fonts.ready.then(place);
   }
-  const script = document.createElement("script");
-  script.src = self.replace(/shelf\.js/, "nemo-shelf-data.js");
-  script.addEventListener("load", mount);
-  document.body.append(script);
+
+  let loading = false;
+  function loadData() {
+    if (window.__NEMO_SHELF__) return mount();
+    if (loading) return;
+    loading = true;
+    const script = document.createElement("script");
+    script.src = self.replace(/shelf\.js/, "nemo-shelf-data.js");
+    script.addEventListener("load", mount);
+    document.body.append(script);
+  }
+
+  const record = document.querySelector("[data-nemo-record]");
+  if (record) setupRecord(record);
+  else loadData();
 })();
