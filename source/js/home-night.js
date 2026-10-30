@@ -6,7 +6,11 @@
 
   const IMAGE = innerWidth < 760 ? "/images/hero/isle-1600.webp" : "/images/hero/isle-2560.webp";
   const ANCHOR_Y = 0.62;
-  const SCRUB = 0.5;
+  // the scroll walks the picture from just before the first grains lift (FROM) to about half of it gone (TO),
+  // measured against releaseAt below; past TO the rest lets go by itself. Portrait screens show the whole sky, so it starts earlier.
+  const FROM = innerWidth / innerHeight < 1.1 ? 0.08 : 0.15;
+  const TO = 0.28;
+  const GLIDE = innerWidth < 760 ? 1300 : 1600;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -66,11 +70,13 @@
   root.classList.add("nemo-night");
 
   // ---------- weathering ----------
-  // p: 0 = photo intact, 1 = fully weathered. The first half follows the wheel or finger
+  // p: 0 = photo intact, 1 = fully weathered. Up to TO it follows the wheel or finger (s: 0..1 of that stretch)
   // and can be undone; crossing it lets the rest go in one take and glides down to the posts.
   let p = 0;
   let target = 0;
+  let s = 0;
   let state = "scrub";
+  let held = false;
   let anim = null;
   const lock = (on) => root.classList.toggle("nemo-night-locked", on);
   const contentTop = () => content.getBoundingClientRect().top + scrollY - 72;
@@ -86,7 +92,7 @@
       }
     };
   }
-  function scrollToY(y, dur) {
+  function scrollToY(y, dur, done) {
     const y0 = scrollY;
     const t0 = performance.now();
     (function step(now) {
@@ -94,22 +100,25 @@
       // "instant": the theme sets scroll-behavior: smooth, which would turn every frame into its own lagging animation
       scrollTo({ top: y0 + (y - y0) * easeInOutSine(k), behavior: "instant" });
       if (k < 1) requestAnimationFrame(step);
+      else done && done();
     })(t0);
   }
   function weather(glide = true) {
     if (state !== "scrub") return;
     state = "weathering";
     // finish from wherever the scrub left it, already moving
-    play(p, 1, 3400, (k) => 1 - Math.pow(1 - k, 2), () => {
+    play(p, 1, 3000, (k) => 1 - Math.pow(1 - k, 2), () => {
       state = "gone";
     });
-    // the page has to be scrollable again for the glide; wheel and touch stay held until the dust settles.
+    // the page has to be scrollable again for the glide; wheel and touch stay held only while it glides.
     // The posts start fading in before they move, so they surface out of the dust instead of arriving from below.
-    setTimeout(() => root.classList.add("nemo-night-in"), 350);
+    held = true;
+    setTimeout(() => root.classList.add("nemo-night-in"), 150);
     setTimeout(() => {
       lock(false);
-      if (glide) scrollToY(contentTop(), 3000);
-    }, 500);
+      if (glide) scrollToY(contentTop(), GLIDE, () => { held = false; });
+      else held = false;
+    }, 250);
   }
   function reform() {
     if (state !== "gone") return;
@@ -118,7 +127,7 @@
     root.classList.remove("nemo-night-in");
     play(p, 0, 1900, easeInOut, () => {
       state = "scrub";
-      target = 0;
+      target = s = 0;
       inscribe();
     });
   }
@@ -129,16 +138,20 @@
     warmed = true;
     content.querySelectorAll("img.lazyload").forEach((img) => {
       if (window.lazySizes) window.lazySizes.loader.unveil(img);
-      else if (img.dataset.src) img.src = img.dataset.src;
+      else if (img.dataset.src) {
+        img.src = img.dataset.src;
+        img.classList.replace("lazyload", "lazyloaded");
+      }
     });
   }
   addEventListener("load", () => setTimeout(warm, 1200), { once: true });
 
-  function nudge(dp) {
+  function nudge(ds) {
     if (state !== "scrub") return;
     warm();
-    target = clamp(target + dp, 0, SCRUB);
-    if (target >= SCRUB) weather();
+    s = clamp(s + ds, 0, 1);
+    target = s > 0 ? FROM + (TO - FROM) * s : 0;
+    if (s >= 1) weather();
   }
 
   // arriving part-way down the page (reload, back button, anchor): skip straight to the night
@@ -152,8 +165,8 @@
     const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
     if (state === "scrub") {
       e.preventDefault();
-      nudge((dy / 720) * SCRUB);
-    } else if (state === "weathering" || state === "forming") e.preventDefault();
+      nudge(dy / 520);
+    } else if (held || state === "forming") e.preventDefault();
     else if (state === "gone" && scrollY <= 1 && dy < 0) reform();
   }, { passive: false });
   let touchY = null;
@@ -165,17 +178,17 @@
     touchY = y;
     if (state === "scrub") {
       e.preventDefault();
-      nudge((dy / (innerHeight * 0.6)) * SCRUB);
-    } else if (state === "weathering" || state === "forming") e.preventDefault();
+      nudge(dy / (innerHeight * 0.25));
+    } else if (held || state === "forming") e.preventDefault();
     else if (state === "gone" && scrollY <= 1 && dy < -6) reform();
   }, { passive: false });
   addEventListener("keydown", (e) => {
     if (state !== "scrub" || e.target.closest?.("input, textarea, [contenteditable]")) return;
-    if (["ArrowDown", " "].includes(e.key)) { e.preventDefault(); nudge(SCRUB * 0.25); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); nudge(-SCRUB * 0.25); }
-    else if (["PageDown", "End"].includes(e.key)) { e.preventDefault(); nudge(SCRUB); }
+    if (["ArrowDown", " "].includes(e.key)) { e.preventDefault(); nudge(0.34); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); nudge(-0.34); }
+    else if (["PageDown", "End"].includes(e.key)) { e.preventDefault(); nudge(1); }
   });
-  cue.addEventListener("click", () => nudge(SCRUB));
+  cue.addEventListener("click", () => nudge(1));
   // keyboard focus or the skip link heading for the posts lets the picture go at once
   content.addEventListener("focusin", () => weather(false));
   addEventListener("scroll", () => {

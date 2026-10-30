@@ -2943,8 +2943,8 @@ html.nemo-nocturne #header-nav .nav-icon {
 html.nemo-night #main > *,
 html.nemo-night #footer {
   opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 1.8s ease, transform 2.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(22px);
+  transition: opacity 1s ease, transform 1.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 html.nemo-night.nemo-night-in #main > *,
@@ -2953,9 +2953,9 @@ html.nemo-night.nemo-night-in #footer {
   transform: none;
 }
 
-html.nemo-night.nemo-night-in #main > :nth-child(2) { transition-delay: 0.25s; }
-html.nemo-night.nemo-night-in #main > :nth-child(3) { transition-delay: 0.5s; }
-html.nemo-night.nemo-night-in #footer { transition-delay: 0.7s; }
+html.nemo-night.nemo-night-in #main > :nth-child(2) { transition-delay: 0.12s; }
+html.nemo-night.nemo-night-in #main > :nth-child(3) { transition-delay: 0.24s; }
+html.nemo-night.nemo-night-in #footer { transition-delay: 0.36s; }
 
 html.nemo-nocturne #main {
   padding-top: 14vh;
@@ -4263,7 +4263,7 @@ html.nemo-ink .article-entry .nemo-shelf-source {
   }
 }
 
-/* back to top: an ouroboros turning slowly instead of the theme's taichi */
+/* back to top: the loader's ouroboros turning slowly instead of the theme's taichi */
 html.nemo-ink .sidebar-top {
   border: 1px solid var(--nn-line);
   background: rgba(9, 15, 27, 0.72);
@@ -4273,9 +4273,9 @@ html.nemo-ink .sidebar-top {
 }
 
 html.nemo-ink .sidebar-top .sidebar-top-taichi {
-  background: var(--nn-accent);
-  -webkit-mask: url("../images/icons/ouroboros-mask.svg") no-repeat center / 62%;
-  mask: url("../images/icons/ouroboros-mask.svg") no-repeat center / 62%;
+  background: url("../images/icons/ouroboros-loader.webp") no-repeat center / 74%;
+  -webkit-mask: none;
+  mask: none;
   animation-duration: 24s;
 }
 
