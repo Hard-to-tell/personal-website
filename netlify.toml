@@ -1,5 +1,9 @@
 # Dedicated bookmark API site only. The blog continues to deploy to GitHub Pages.
 [build]
+  # Every push to main (Pages CMS posts, site styling) used to rebuild this API, and each
+  # production deploy costs 15 of the free plan's 300 monthly credits. Only rebuild when
+  # bookmark-service changes (exit 0 = skip). After editing this file alone, trigger a deploy by hand.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- bookmark-service"
   command = "npm --prefix bookmark-service ci"
   publish = "bookmark-service/public"
   functions = "bookmark-service/netlify/functions"
