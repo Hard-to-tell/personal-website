@@ -3037,6 +3037,16 @@ html.nemo-nocturne .nemo-featured-post .post-meta span:first-child {
   color: var(--nn-accent);
 }
 
+/* the date, word count and reading time used to squeeze each other into "2026-07-…" */
+html.nemo-nocturne .nemo-featured-post .post-meta {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+html.nemo-nocturne .nemo-featured-post .post-meta > span {
+  flex-shrink: 0;
+}
+
 /* the list of notes */
 html.nemo-nocturne .nemo-recent-list,
 html.nemo-nocturne .nemo-recent-list .post-wrap,
