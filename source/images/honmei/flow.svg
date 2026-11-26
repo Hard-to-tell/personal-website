@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" role="img" aria-labelledby="t d">
+  <title id="t">本命 HONMEI 推荐流程</title>
+  <desc id="d">收藏，经过读懂口味、找候选、打分、排成一卷，得到推荐；你对推荐的反馈再回到读懂口味。</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a7f72"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c96f4a"/>
+    </marker>
+    <style>
+      text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;fill:#2f2a24}
+      .n{font-size:13px;fill:#b0892a;font-weight:700}
+      .h{font-size:17px;font-weight:700}
+      .s{font-size:12.5px;fill:#6b6157}
+      .box{fill:#fffaf2;stroke:#d9cbb8;stroke-width:1.5}
+      .end{fill:#fff3d1;stroke:#e0b84a;stroke-width:1.5}
+      .ln{stroke:#8a7f72;stroke-width:1.6;fill:none}
+    </style>
+  </defs>
+  <rect width="760" height="250" rx="14" fill="#f6f1ea"/>
+
+  <rect class="end" x="16" y="40" width="100" height="80" rx="10"/>
+  <text class="h" x="66" y="76" text-anchor="middle">你的收藏</text>
+  <text class="s" x="66" y="98" text-anchor="middle">哔咔 + 禁漫</text>
+
+  <rect class="box" x="140" y="40" width="112" height="80" rx="10"/>
+  <text class="n" x="196" y="62" text-anchor="middle">①</text>
+  <text class="h" x="196" y="84" text-anchor="middle">读懂口味</text>
+  <text class="s" x="196" y="104" text-anchor="middle">偏爱哪些标签</text>
+
+  <rect class="box" x="276" y="40" width="112" height="80" rx="10"/>
+  <text class="n" x="332" y="62" text-anchor="middle">②</text>
+  <text class="h" x="332" y="84" text-anchor="middle">找候选</text>
+  <text class="s" x="332" y="104" text-anchor="middle">去禁漫里搜</text>
+
+  <rect class="box" x="412" y="40" width="112" height="80" rx="10"/>
+  <text class="n" x="468" y="62" text-anchor="middle">③</text>
+  <text class="h" x="468" y="84" text-anchor="middle">打分</text>
+  <text class="s" x="468" y="104" text-anchor="middle">像不像你</text>
+
+  <rect class="box" x="548" y="40" width="112" height="80" rx="10"/>
+  <text class="n" x="604" y="62" text-anchor="middle">④</text>
+  <text class="h" x="604" y="84" text-anchor="middle">排成一卷</text>
+  <text class="s" x="604" y="104" text-anchor="middle">不扎堆</text>
+
+  <rect class="end" x="684" y="40" width="60" height="80" rx="10"/>
+  <text class="h" x="714" y="76" text-anchor="middle">推荐</text>
+  <text class="s" x="714" y="98" text-anchor="middle">一卷</text>
+
+  <path class="ln" d="M116 80 H136" marker-end="url(#a)"/>
+  <path class="ln" d="M252 80 H272" marker-end="url(#a)"/>
+  <path class="ln" d="M388 80 H408" marker-end="url(#a)"/>
+  <path class="ln" d="M524 80 H544" marker-end="url(#a)"/>
+  <path class="ln" d="M660 80 H680" marker-end="url(#a)"/>
+
+  <path d="M714 120 V190 H196 V124" fill="none" stroke="#c96f4a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#b)"/>
+  <text x="455" y="180" text-anchor="middle" style="font-size:14px;fill:#c96f4a;font-weight:700">⑤ 你点 心动 / 略过 / 调音，它回头修正口味</text>
+  <text class="s" x="16" y="232">全部在你自己的电脑上完成，不靠大模型。</text>
+</svg>
